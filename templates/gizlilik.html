@@ -1,0 +1,432 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+<!-- Meta Tag Başlangıç -->
+{% block MetaTag %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <meta name="author" content="Erkek Bebek isimleri">
+    <!-- Canonical Link -->
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/{{ Post_Kategorisi.slug }}/">
+{% endblock MetaTag %}
+<!-- Meta Tag Bitiş -->
+
+<!--  Open Graph / Facebook Tag Başlangıç -->
+{% block OgTag %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ Post_Kategorisi.resim }}">
+    <meta property="og:image:width" content="800"/>
+    <meta property="og:image:height" content="400"/>
+{% endblock OgTag %}
+<!--  Open Graph / Facebook Tag Bitiş -->
+
+
+<!--  tt Tag Başlangıç -->
+{% block ttTag %}
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:url" content="https://x.com/erkekbebekisimleri">
+    <meta name="twitter:image" content="{{ Post_Kategorisi.resim }}">
+{% endblock ttTag %}
+<!--  tt Tag Bitiş -->
+
+
+
+{% block extra_css %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-dark {
+            background-color: #333333;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #333 !important;
+        }
+
+        .navbar-dark .navbar-brand,
+        .navbar-dark .nav-link {
+            color: #f8f9fa !important;
+        }
+
+        .hero-section {
+            background: url('{% static "media/images/aile.webp" %}') no-repeat center center;
+            background-size: cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+
+        .hero-section h1 {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-section h2 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .category-content .card {
+            transition: transform 0.2s;
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            color: #333333;
+        }
+
+        .category-content .card:hover {
+            transform: scale(1.05);
+        }
+
+        .category-content .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+
+        .dark-mode {
+            background-color: #1c1c1c;
+            color: #ffffff;
+        }
+
+        .dark-mode .navbar {
+            background-color: #333333;
+        }
+
+        .dark-mode footer {
+            background-color: #333333;
+            border-top: 1px solid #555555;
+        }
+
+        .dark-mode .category-content .card {
+            background-color: #2a2a2a;
+            border: 1px solid #444444;
+            color: #ffffff;
+        }
+
+        .toggle-mode {
+            cursor: pointer;
+        }
+
+        .toggle-mode img {
+            width: 24px;
+        }
+
+        .letter-select {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            line-height: 40px;
+            text-align: center;
+            background-color: rgb(55, 141, 5);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .letter-select:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .search-form .letter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+            .letter-select {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 0.875rem;
+            }
+        }
+
+        .navbar-nav {
+            margin: 0 auto;
+        }
+
+        .toggle-mode {
+            margin-right: 20px;
+        }
+
+
+        .category-section h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .category-section .btn-link {
+            padding: 0;
+            font-size: 1rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .category-section .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        .category-section .d-flex {
+            margin-bottom: 1rem;
+        }
+
+
+        .footer {
+            background-color: #2A2A2C;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            color: #F1F6FA;
+        }
+
+        .footer h5 {
+            font-weight: bold;
+        }
+
+        .footer a {
+            color: #eff4f8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #6fa8dc;
+        }
+
+        .footer .list-unstyled {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .footer .row > div {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .footer .row > div {
+                text-align: center;
+            }
+        }
+
+        .gender-card {
+            width: 100%;
+            border: 8px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gender-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .gender-card:hover {
+            transform: scale(1.05);
+        }
+
+        .gender-card .form-check-input {
+            display: none;
+        }
+
+        .gender-card.active {
+            border-color: green;
+            /*border-color: #da8a21;*/
+        }
+
+        .gender-card.active .card-body {
+            background-color: #047f0c;
+            color: white;
+        }
+
+        .checkmark {
+            display: none;
+        }
+
+        .gender-card.active .checkmark {
+            display: block;
+            color: green;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+    </style>
+{% endblock %}
+
+
+
+{% block icerik %}
+    <div class="hero-section">
+        <h1>Gizlilik Politikası | Erkek Bebek İsimleri</h1>
+    </div>
+
+    <div class="container my-5">
+        <h2>Gizlilik Politikası</h2>
+        <p>Son güncellenme: 25/06/2024</p>
+        <p>
+            Güvenliğiniz bizim için önemli. Bu sebeple bizimle paylaşacağınız kişisel verileriz hassasiyetle
+            korunmaktadır.
+        </p>
+        <p>
+            Biz, erkekbebekisimleri.net, veri sorumlusu olarak, bu gizlilik ve kişisel verilerin korunması politikası
+            ile,
+            hangi kişisel verilerinizin hangi amaçla işleneceği, işlenen verilerin kimlerle ve neden paylaşılabileceği,
+            veri işleme yöntemimiz ve hukuki sebeplerimiz ile; işlenen verilerinize ilişkin haklarınızın neler olduğu
+            hususunda sizleri aydınlatmayı amaçlıyoruz.
+        </p>
+        <h2>Toplanan Kişisel Verileriniz, Toplanma Yöntemi ve Hukuki Sebebi</h2>
+        <p>
+            IP adresiniz ve kullanıcı aracısı bilgileriniz, sadece analiz yapmak amacıyla ve çerezler (cookies) vb.
+            teknolojiler vasıtasıyla, otomatik veya otomatik olmayan yöntemlerle ve bazen de analitik sağlayıcılar,
+            reklam ağları, arama bilgi sağlayıcıları, teknoloji sağlayıcıları gibi üçüncü taraflardan elde edilerek,
+            kaydedilerek, depolanarak ve güncellenerek, aramızdaki hizmet ve sözleşme ilişkisi çerçevesinde ve
+            süresince,
+            meşru menfaat işleme şartına dayanılarak işlenecektir.
+        </p>
+        <h2>Kişisel Verilerinizin İşlenme Amacı</h2>
+        <p>
+            Bizimle paylaştığınız kişisel verileriniz sadece analiz yapmak suretiyle; sunduğumuz hizmetlerin
+            gerekliliklerini en iyi şekilde yerine getirebilmek, bu hizmetlere sizin tarafınızdan ulaşılabilmesini
+            ve maksimum düzeyde faydalanılabilmesini sağlamak, hizmetlerimizi, ihtiyaçlarınız doğrultusunda
+            geliştirebilmek ve sizleri daha geniş kapsamlı hizmet sağlayıcıları ile yasal çerçeveler içerisinde
+            buluşturabilmek ve kanundan doğan zorunlulukların (kişisel verilerin talep halinde adli ve idari makamlarla
+            paylaşılması)
+            yerine getirilebilmesi amacıyla, sözleşme ve hizmet süresince, amacına uygun ve ölçülü bir şekilde
+            işlenecek ve güncellenecektir.
+        </p>
+        <h2>Toplanan Kişisel Verilerin Kimlere ve Hangi Amaçlarla Aktarılabileceği</h2>
+        <p>
+            Bizimle paylaştığınız kişisel verileriniz; faaliyetlerimizi yürütmek üzere hizmet aldığımız ve/veya
+            verdiğimiz, sözleşmesel ilişki içerisinde bulunduğumuz, iş birliği yaptığımız, yurt içi ve yurt dışındaki
+            3. şahıslar ile kurum ve kuruluşlara ve talep halinde adli ve idari makamlara, gerekli teknik ve idari
+            önlemler alınması koşulu ile aktarılabilecektir.
+        </p>
+        <h2>Kişisel Verileri İşlenen Kişi Olarak Haklarınız</h2>
+        <p>KVKK madde 11 uyarınca herkes, veri sorumlusuna başvurarak aşağıdaki haklarını kullanabilir:</p>
+        <ol type="a">
+            <li>Kişisel veri işlenip işlenmediğini öğrenme,</li>
+            <li>Kişisel verileri işlenmişse buna ilişkin bilgi talep etme,</li>
+            <li>Kişisel verilerin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,</li>
+            <li>Yurt içinde veya yurt dışında kişisel verilerin aktarıldığı üçüncü kişileri bilme,</li>
+            <li>Kişisel verilerin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme,</li>
+            <li>Kişisel verilerin silinmesini veya yok edilmesini isteme,</li>
+            <li>(e) ve (f) bentleri uyarınca yapılan işlemlerin, kişisel verilerin aktarıldığı üçüncü kişilere
+                bildirilmesini isteme,
+            </li>
+            <li>İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle kişinin kendisi
+                aleyhine bir sonucun ortaya çıkmasına itiraz etme,
+            </li>
+            <li>Kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğraması hâlinde zararın giderilmesini
+                talep etme, haklarına sahiptir.
+            </li>
+        </ol>
+        <p>Yukarıda sayılan haklarınızı kullanmak üzere erkekbebekisimleri@gmail.com üzerinden bizimle iletişime
+            geçebilirsiniz.</p>
+        <h2>İletişim</h2>
+        <p>
+            Sizlere hizmet sunabilmek amaçlı analizler yapabilmek için, sadece gerekli olan kişisel verilerinizin,
+            işbu gizlilik ve kişisel verilerin işlenmesi politikası uyarınca işlenmesini, kabul edip etmemek hususunda
+            tamamen özgürsünüz. Siteyi kullanmaya devam ettiğiniz takdirde kabul etmiş olduğunuz tarafımızca
+            varsayılacak olup, daha ayrıntılı bilgi için bizimle erkekbebekisimleri@gmail.com e-mail adresi üzerinden
+            iletişime
+            geçmekten lütfen çekinmeyiniz.
+        </p>
+
+
+        <p>Bu Politika hakkında herhangi bir sorunuz varsa lütfen <a href="{% url 'iletisim' %}"
+                                                                     style="color: red;">iletişime
+            geçin</a>.</p>
+
+        <p> Not: Bu Gizlilik Politikası, Google Adsense tarafından sağlanan reklamların performansını ölçmek ve
+            geliştirmek için kullanılan anonim kullanım verilerini kapsar. Hizmetimiz aracılığıyla başka herhangi bir
+            kişisel bilgi toplamıyoruz.
+        </p>
+        <p>Google AdSense'in çerezleri nasıl kullandığı hakkında daha fazla bilgi edinmek için <a
+                href="https://policies.google.com/technologies/ads" style="color: red;">Google Gizlilik
+            Politikası</a>'nı ziyaret
+            edebilirsiniz.</p>
+
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        function selectGender(genderId) {
+            document.querySelectorAll('.gender-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(genderId).closest('.gender-card').classList.add('active');
+            document.getElementById(genderId).checked = true;
+        }
+
+        // Sayfa yüklendiğinde koyu modun durumunu kontrol et ve 'genderAll' seçili olacak şekilde ayarla
+        window.onload = function () {
+            var isDarkMode = localStorage.getItem('dark-mode') === 'true';
+
+            if (isDarkMode) {
+                document.body.classList.add("dark-mode");
+                document.querySelector('.navbar').classList.add('navbar-dark');
+                document.getElementById('darkModeIcon').src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
+            }
+
+            selectGender('genderAll');
+        };
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const letterSelectElements = document.querySelectorAll('.letter-select');
+            const namePartInput = document.getElementById('namePart');
+
+            letterSelectElements.forEach(function (element) {
+                element.addEventListener('click', function (event) {
+                    const letterValue = event.target.getAttribute('data-value');
+                    namePartInput.value = letterValue; // input alanını temizleyip yeni değeri yazar
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

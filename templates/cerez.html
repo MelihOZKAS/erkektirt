@@ -1,0 +1,438 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+<!-- Meta Tag Başlangıç -->
+{% block MetaTag %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <meta name="author" content="Erkek Bebek isimleri">
+    <!-- Canonical Link -->
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/{{ Post_Kategorisi.slug }}/">
+{% endblock MetaTag %}
+<!-- Meta Tag Bitiş -->
+
+<!--  Open Graph / Facebook Tag Başlangıç -->
+{% block OgTag %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ Post_Kategorisi.resim }}">
+    <meta property="og:image:width" content="800"/>
+    <meta property="og:image:height" content="400"/>
+{% endblock OgTag %}
+<!--  Open Graph / Facebook Tag Bitiş -->
+
+
+<!--  tt Tag Başlangıç -->
+{% block ttTag %}
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:url" content="https://x.com/erkekbebekisimleri">
+    <meta name="twitter:image" content="{{ Post_Kategorisi.resim }}">
+{% endblock ttTag %}
+<!--  tt Tag Bitiş -->
+
+
+
+{% block extra_css %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-dark {
+            background-color: #333333;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #333 !important;
+        }
+
+        .navbar-dark .navbar-brand,
+        .navbar-dark .nav-link {
+            color: #f8f9fa !important;
+        }
+
+        .hero-section {
+            background: url('{% static "media/images/aile.webp" %}') no-repeat center center;
+            background-size: cover;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+        }
+
+
+        .hero-section h1 {
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-section h2 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .category-content .card {
+            transition: transform 0.2s;
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            color: #333333;
+        }
+
+        .category-content .card:hover {
+            transform: scale(1.05);
+        }
+
+        .category-content .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            padding: 20px 0;
+        }
+
+        .dark-mode {
+            background-color: #1c1c1c;
+            color: #ffffff;
+        }
+
+        .dark-mode .navbar {
+            background-color: #333333;
+        }
+
+        .dark-mode footer {
+            background-color: #333333;
+            border-top: 1px solid #555555;
+        }
+
+        .dark-mode .category-content .card {
+            background-color: #2a2a2a;
+            border: 1px solid #444444;
+            color: #ffffff;
+        }
+
+        .toggle-mode {
+            cursor: pointer;
+        }
+
+        .toggle-mode img {
+            width: 24px;
+        }
+
+        .letter-select {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            margin: 5px;
+            line-height: 40px;
+            text-align: center;
+            background-color: rgb(55, 141, 5);
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .letter-select:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .search-form .letter-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 576px) {
+            .letter-select {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                font-size: 0.875rem;
+            }
+        }
+
+        .navbar-nav {
+            margin: 0 auto;
+        }
+
+        .toggle-mode {
+            margin-right: 20px;
+        }
+
+
+        .category-section h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .category-section .btn-link {
+            padding: 0;
+            font-size: 1rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .category-section .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        .category-section .d-flex {
+            margin-bottom: 1rem;
+        }
+
+
+        .footer {
+            background-color: #2A2A2C;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            color: #F1F6FA;
+        }
+
+        .footer h5 {
+            font-weight: bold;
+        }
+
+        .footer a {
+            color: #eff4f8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #6fa8dc;
+        }
+
+        .footer .list-unstyled {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .footer .row > div {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .footer .row > div {
+                text-align: center;
+            }
+        }
+
+        .gender-card {
+            width: 100%;
+            border: 8px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 15px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gender-card img {
+            width: 100%;
+            height: auto;
+        }
+
+        .gender-card:hover {
+            transform: scale(1.05);
+        }
+
+        .gender-card .form-check-input {
+            display: none;
+        }
+
+        .gender-card.active {
+            border-color: green;
+            /*border-color: #da8a21;*/
+        }
+
+        .gender-card.active .card-body {
+            background-color: #047f0c;
+            color: white;
+        }
+
+        .checkmark {
+            display: none;
+        }
+
+        .gender-card.active .checkmark {
+            display: block;
+            color: green;
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+    </style>
+{% endblock %}
+
+
+
+{% block icerik %}
+    <div class="hero-section">
+        <h1>Çerez Politikası | Erkek Bebek İsimleri</h1>
+    </div>
+
+    <div class="container my-5">
+        <h2>Çerez Politikası</h2>
+        <p>Son güncellenme: 25/06/2024</p>
+        <p>
+            Biz, erkekbebekisimleri.net, olarak güvenliğinize önem veriyor ve bu Çerez Politikası ile siz
+            sevgili ziyaretçilerimizi, web sitemizde hangi çerezleri, hangi amaçla kullandığımız
+            ve çerez ayarlarınızı nasıl değiştireceğiniz konularında kısaca bilgilendirmeyi hedefliyoruz.
+        </p>
+        <p>
+            Sizlere daha iyi hizmet verebilmek adına, çerezler vasıtasıyla, ne tür kişisel verilerinizin
+            hangi amaçla toplandığı ve nasıl işlendiği konularında, kısaca bilgi sahibi olmak için lütfen
+            bu Çerez Politikasını okuyunuz. Daha fazla bilgi için Gizlilik Politikamıza göz atabilir ya da
+            bizlerle çekinmeden iletişime geçebilirsiniz.
+        </p>
+        <h2>Çerez Nedir?</h2>
+        <p>
+            Çerezler, kullanıcıların web sitelerini daha verimli bir şekilde kullanabilmeleri adına,
+            cihazlarına kaydedilen küçük dosyacıklardır. Çerezler vasıtasıyla kullanıcıların bilgilerinin
+            işleniyor olması sebebiyle, 6698 sayılı <a href="https://sartlar.com/kvkk-nedir">Kişisel Verilerin Korunması
+            Kanunu</a> gereğince,
+            kullanıcıların bilgilendirilmeleri ve onaylarının alınması gerekmektedir.
+        </p>
+        <p>
+            Bizler de siz sevgili ziyaretçilerimizin, web sitemizden en verimli şekilde yararlanabilmelerini
+            ve siz sevgili ziyaretçilerimizin kullanıcı deneyimlerinin geliştirilebilmesini sağlamak adına,
+            çeşitli çerezler kullanmaktayız.
+        </p>
+        <h3>1. Zorunlu Çerezler</h3>
+        <p>
+            Zorunlu çerezler, web sitesine ilişkin temel işlevleri etkinleştirerek
+            web sitesinin kullanılabilir hale gelmesini sağlayan çerezlerdir. Web sitesi
+            bu çerezler olmadan düzgün çalışmaz.
+        </p>
+        <h3>2. Performans Çerezleri</h3>
+        <p>
+            Performans çerezleri, ziyaretçilerin web sitesine ilişkin kullanım bilgilerini
+            ve tercihlerini anonim olarak toplayan ve bu sayede web sitesinin performansının
+            geliştirilmesine olanak sağlayan çerezlerdir.
+        </p>
+        <h3>3. Fonksiyonel Çerezler</h3>
+        <p>
+            Fonksiyonel çerezler, kullanıcıların web sitesine ilişkin geçmiş kullanımlarından
+            yola çıkılarak gelecekteki ziyaretlerinde tanınmalarını ve hatırlanmalarını sağlayan
+            ve bu sayede web sitelerinin kullanıcılara dil, bölge vb. gibi kişiselleştirilmiş bir
+            hizmet sunmasına olanak tanıyan çerezlerdir.
+        </p>
+        <h3>4. Reklam Çerezleri</h3>
+        <p>
+            Reklam çerezleri, üçüncü taraflara ait çerezlerdir ve web sitelerinde ziyaretçilerin
+            davranışlarını izlemek için kullanılırlar. Bu çerezlerin amaçları, ziyaretçilerin
+            ihtiyaçlarına yönelik ilgilerini çekecek reklamların gösterilmesine yardımcı olmaktır
+            ve sorumluluğu çerez sahibi üçüncü taraflara aittir.
+        </p>
+        <h2>Çerezler İle İşlenen Kişisel Veriler Nelerdir?</h2>
+        <p>
+            Kimlik (isim, soy isim, doğum tarihi vb.) ve iletişim (adres, e-posta adresi, telefon, IP, konum vb.)
+            bilgileriniz tarafımızca, çerezler (cookies) vasıtasıyla, otomatik veya otomatik olmayan
+            yöntemlerle ve bazen de analitik sağlayıcılar, reklam ağları, arama bilgi sağlayıcıları,
+            teknoloji sağlayıcıları gibi üçüncü taraflardan elde edilerek, kaydedilerek, depolanarak
+            ve güncellenerek, aramızdaki hizmet ve sözleşme ilişkisi çerçevesinde ve süresince, meşru
+            menfaat işleme şartına dayanılarak işlenecektir.
+        </p>
+        <h2>Çerezler Hangi Amaçla Kullanılmaktadır?</h2>
+        <p>
+            Web sitemizde, şüpheli eylemlerin tespiti yoluyla güvenliğin sağlanması, kullanıcıların
+            tercihleri doğrultusunda işlevsellik ve performansın artırılması, ürünlerin ve hizmetlerin
+            geliştirilmesi ve kişiselleştirilmesi ile bu hizmetlere ulaşımın kolaylaştırılması,
+            sözleşmesel ve hukuki sorumlulukların yerine getirilmesi amaçlı çerezler kullanmaktadır.
+            Ayrıca kullanıcıların daha geniş kapsamlı hizmet sağlayıcılar ile buluşturulabilmesi
+            amacıyla reklam çerezleri ve üçüncü taraflarla bilgi paylaşımı da söz konusudur.
+        </p>
+        <h2>Çerezler Nasıl Yönetilmektedir?</h2>
+        <p>
+            Tüm bu açıklamalardan sonra, hangi çerezlerin kullanılacağı konusu, tamamen kullanıcılarımızın
+            özgür iradelerine bırakılmıştır. Çerez tercihlerinizi, tarayıcınızın ayarlarından silerek
+            ya da engelleyerek, web sitemize adım attığınız anda yönetebilir ya da gelecekte,
+            istediğiniz zaman bu ayarları değiştirebilirsiniz. Daha ayrıntılı bilgi için Gizlilik Politikamıza
+            göz atabilir ya da bizlerle erkekbebekisimleri@gmail.com e-mail adresi üzerinden iletişime geçebilirsiniz.
+        </p>
+
+
+        <p> Not: Bu Gizlilik Politikası, Google Adsense tarafından sağlanan reklamların performansını ölçmek ve
+            geliştirmek için kullanılan anonim kullanım verilerini kapsar. Hizmetimiz aracılığıyla başka herhangi bir
+            kişisel bilgi toplamıyoruz.
+        </p>
+        <p>Google AdSense'in çerezleri nasıl kullandığı hakkında daha fazla bilgi edinmek için <a
+                href="https://policies.google.com/technologies/ads" style="color: red;">Google Gizlilik
+            Politikası</a>'nı ziyaret
+            edebilirsiniz.</p>
+        <p>Çerez Politikamız hakkında herhangi bir sorunuz varsa, lütfen bizimle <a href="{% url 'iletisim' %}"
+                                                                                    style="color: red;">iletişime
+            geçin</a>.</p>
+
+    </div>
+
+
+{% endblock %}
+
+
+{% block extra_js %}
+    <script>
+        function selectGender(genderId) {
+            document.querySelectorAll('.gender-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(genderId).closest('.gender-card').classList.add('active');
+            document.getElementById(genderId).checked = true;
+        }
+
+        // Sayfa yüklendiğinde koyu modun durumunu kontrol et ve 'genderAll' seçili olacak şekilde ayarla
+        window.onload = function () {
+            var isDarkMode = localStorage.getItem('dark-mode') === 'true';
+
+            if (isDarkMode) {
+                document.body.classList.add("dark-mode");
+                document.querySelector('.navbar').classList.add('navbar-dark');
+                document.getElementById('darkModeIcon').src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
+            }
+
+            selectGender('genderAll');
+        };
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const letterSelectElements = document.querySelectorAll('.letter-select');
+            const namePartInput = document.getElementById('namePart');
+
+            letterSelectElements.forEach(function (element) {
+                element.addEventListener('click', function (event) {
+                    const letterValue = event.target.getAttribute('data-value');
+                    namePartInput.value = letterValue; // input alanını temizleyip yeni değeri yazar
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

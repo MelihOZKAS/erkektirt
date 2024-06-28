@@ -1,0 +1,106 @@
+body {
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s, color 0.3s;
+}
+/* DarkMode için CSS */
+
+.dark-mode {
+    background-color: #1c1c1c;
+    color: #ffffff;
+}
+
+.dark-mode .navbar {
+    background-color: #333333;
+}
+
+.dark-mode footer {
+    background-color: #333333;
+    border-top: 1px solid #555555;
+}
+
+/* DarkMode için CSS */
+
+/* Navbar için CSS */
+
+.navbar {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-dark {
+    background-color: #333333;
+}
+
+.navbar-brand,
+.nav-link {
+    color: #333 !important;
+}
+
+.navbar-dark .navbar-brand,
+.navbar-dark .nav-link {
+    color: #f8f9fa !important;
+}
+
+/* Navbar için CSS */
+
+
+
+
+/* Sidebar bağlantıları için CSS */
+.list-group-item a {
+    color: #333; /* Varsayılan metin rengi */
+    text-decoration: none; /* Alt çizgi */
+}
+
+.list-group-item a:hover {
+    color: #ffc107; /* Hover rengi sarı */
+}
+
+/* Dark mode için aynı kurallar */
+.dark-mode .list-group-item a {
+    color: #f8f9fa; /* Varsayılan metin rengi */
+}
+
+.dark-mode .list-group-item a:hover {
+    color: #ffc107; /* Hover rengi sarı */
+}
+
+/* Sidebar bağlantıları için CSS */
+
+/* footer genel bağlantıları için CSS */
+.footer {
+    background-color: #2A2A2C;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    color: #F1F6FA;
+}
+
+.footer h5 {
+    font-weight: bold;
+}
+
+.footer a {
+    color: #eff4f8;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    color: #6fa8dc;
+}
+
+.footer .list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.footer .row > div {
+    margin-bottom: 1rem;
+}
+
+@media (max-width: 767.98px) {
+    .footer .row > div {
+        text-align: center;
+    }
+}
+
+/* footer genel bağlantıları için CSS */

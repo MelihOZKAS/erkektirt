@@ -1,0 +1,42 @@
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Erkek İsimleri</a>
+
+        <div class="toggle-mode ms-auto" onclick="toggleDarkMode()">
+            <img src="https://img.icons8.com/?size=100&id=45475&format=png&color=000000" alt="Toggle Mode"
+                 id="darkModeIcon">
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'erkek' %}">Erkek Bebek İsimleri</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'kiz' %}">Kız Bebek İsimleri</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'unisex' %}">Unisex İsimler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'kadin' %}">Kadın</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'saglik' %}">Sağlık</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cocuk' %}">Çocuk</a>
+                </li>
+            </ul>
+
+            <form class="d-flex me-2" role="search">
+                <input class="form-control me-2" type="search" placeholder="Ara" aria-label="Ara">
+                <button class="btn btn-outline-success" type="submit">Ara</button>
+            </form>
+        </div>
+    </div>
+</nav>

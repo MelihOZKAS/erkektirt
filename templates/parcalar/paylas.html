@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-center mt-4 flex-wrap">
+    <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}"
+       target="_blank" class="btn btn-primary me-2 mb-2" style="background-color: #3b5998;">
+        <i class="bi bi-facebook me-1"></i> Facebook
+    </a>
+    <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}" target="_blank"
+       class="btn btn-info me-2 mb-2" style="background-color: #1da1f2;">
+        <i class="bi bi-twitter me-1"></i> Twitter
+    </a>
+    <a href="https://www.pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}"
+       target="_blank" class="btn btn-danger me-2 mb-2" style="background-color: #e60023;">
+        <i class="bi bi-pinterest me-1"></i> Pinterest
+    </a>
+    <a href="https://api.whatsapp.com/send?text={{ request.build_absolute_uri }}" target="_blank"
+       class="btn btn-success me-2 mb-2" style="background-color: #25d366;">
+        <i class="bi bi-whatsapp me-1"></i> WhatsApp
+    </a>
+    <a href="https://t.me/share/url?url={{ request.build_absolute_uri }}" target="_blank"
+       class="btn btn-primary me-2 mb-2" style="background-color: #0088cc;">
+        <i class="bi bi-telegram me-1"></i> Telegram
+    </a>
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}"
+       target="_blank" class="btn btn-secondary me-2 mb-2" style="background-color: #0077b5;">
+        <i class="bi bi-linkedin me-1"></i> LinkedIn
+    </a>
+</div>

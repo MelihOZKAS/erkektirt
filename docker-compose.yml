@@ -1,0 +1,44 @@
+version: "3.8"
+services:
+  postgresserkek:
+    container_name: postgresserkek
+    hostname: postgresserkek
+    image: postgres:latest
+    env_file:
+      - erkek/docker.env
+    ports:
+      - "5446:5432"
+    volumes:
+      - "postgresql-data-erkek:/var/lib/postgresql/data"
+    networks:
+      - main_erkek
+    command: -p 5446
+  app_erkek:
+    container_name: app_erkek
+    hostname: app_erkek
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - erkek/docker.env
+    volumes:
+      - static-data-erkek
+      - .:/srv/app_erkek
+    expose:
+      - 8013
+    depends_on:
+      - postgresserkek
+    command: gunicorn erkek.wsgi:application --bind 0.0.0.0:8013
+    networks:
+      - main_erkek
+      - bridge_network
+
+networks:
+  main_erkek:
+  bridge_network:
+    name: nginx_network
+    driver: bridge
+
+volumes:
+  postgresql-data-erkek:
+  static-data-erkek:

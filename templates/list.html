@@ -1,0 +1,349 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+<!-- Meta Tag Başlangıç -->
+{% block MetaTag %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <meta name="author" content="Erkek Bebek isimleri">
+        <!-- Canonical Link -->
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/{{ Post_Kategorisi.slug }}/">
+{% endblock MetaTag %}
+<!-- Meta Tag Bitiş -->
+
+<!--  Open Graph / Facebook Tag Başlangıç -->
+{% block OgTag %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ Post_Kategorisi.resim }}">
+    <meta property="og:image:width" content="800"/>
+    <meta property="og:image:height" content="400"/>
+{% endblock OgTag %}
+<!--  Open Graph / Facebook Tag Bitiş -->
+
+<!--  tt Tag Başlangıç -->
+{% block ttTag %}
+    <meta name="twitter:title" content="{{ title }}">
+    <meta name="twitter:description" content="{{ description }}">
+    <meta name="twitter:url" content="https://x.com/erkekbebekisimleri">
+    <meta name="twitter:image" content="{{ Post_Kategorisi.resim }}">
+{% endblock ttTag %}
+<!--  tt Tag Bitiş -->
+
+<!-- Schema itemList Başlangıç -->
+{% block SchemaitemList %}
+
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ Post_Kategorisi.h1 }}",
+  "description": "{{ Post_Kategorisi.description }}",
+  "keywords": "{{ Post_Kategorisi.keywords }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for post in TumPost %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.counter }},
+        "url": "https://www.erkekbebekisimleri.net{% url 'post-getir' post.slug %}",
+        "name": "{{ post.title }}",
+        "description": "{{ post.description }}",
+        "keywords": "{{ post.keywords }}",
+        "datePublished": "{{ post.olusturma_tarihi.isoformat }}",
+        "dateModified": "{{ post.guncelleme_tarihi.isoformat }}",
+        "author": {
+          "@type": "Person",
+          "name": "{{ post.yazar }}"
+        },
+        "image": "{% if post.resim %}{{ post.resim.url }}{% endif %}"
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+
+{% endblock SchemaitemList %}
+<!-- Schema itemList Bitiş -->
+
+<!-- Schema BreadcrumbList Başlangıç -->
+{% block SchemaBreadcrumbList %}
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Erkek isimleri, Kadın isimleri ve unisex isimler ve anlamları",
+      "item": "https://www.erkekbebekisimleri.net/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "{{ Post_Kategorisi.h1 }}",
+      "item": "https://www.erkekbebekisimleri.net/{{ Post_Kategorisi.slug }}/"
+    }
+  ]
+
+}
+</script>
+{% endblock SchemaBreadcrumbList %}
+<!-- Schema BreadcrumbList Bitiş -->
+
+
+
+{% block extra_css %}
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .navbar {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-dark {
+            background-color: #333333;
+        }
+
+        .navbar-brand,
+        .nav-link {
+            color: #333 !important;
+        }
+
+        .navbar-dark .navbar-brand,
+        .navbar-dark .nav-link {
+            color: #f8f9fa !important;
+        }
+
+        .dark-mode {
+            background-color: #1c1c1c;
+            color: #ffffff;
+        }
+
+        .dark-mode .navbar {
+            background-color: #333333;
+        }
+
+        .dark-mode footer {
+            background-color: #333333;
+            border-top: 1px solid #555555;
+        }
+
+        .dark-mode .category-content .card {
+            background-color: #2a2a2a;
+            border: 1px solid #444444;
+            color: #ffffff;
+        }
+
+        .toggle-mode {
+            cursor: pointer;
+        }
+
+        .toggle-mode img {
+            width: 24px;
+        }
+
+        .category-section {
+            margin-bottom: 40px;
+        }
+
+        .category-section h2 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .category-content .card {
+            transition: transform 0.2s;
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            color: #333333;
+        }
+
+        .category-content .card:hover {
+            transform: scale(1.05);
+        }
+
+        .category-content .card img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+
+        .navbar-nav {
+            margin: 0 auto;
+        }
+
+        .toggle-mode {
+            margin-right: 20px;
+        }
+
+        /* Dark mode için eklemeler */
+        .dark-mode .list-group-item {
+            background-color: #2a2a2a;
+            color: #ffffff;
+        }
+
+        .dark-mode .list-group-item a {
+            color: #ffffff;
+        }
+
+        .dark-mode .sticky-top {
+            background-color: #1c1c1c;
+        }
+
+
+        /* Sidebar bağlantıları için CSS */
+        .list-group-item a {
+            color: #333; /* Varsayılan metin rengi */
+            text-decoration: none; /* Alt çizgi */
+        }
+
+        .list-group-item a:hover {
+            color: #ffc107; /* Hover rengi sarı */
+        }
+
+        /* Dark mode için aynı kurallar */
+        .dark-mode .list-group-item a {
+            color: #f8f9fa; /* Varsayılan metin rengi */
+        }
+
+        .dark-mode .list-group-item a:hover {
+            color: #ffc107; /* Hover rengi sarı */
+        }
+
+        /* Sidebar bağlantıları için CSS */
+
+        /* footer genel bağlantıları için CSS */
+        .footer {
+            background-color: #2A2A2C;
+            padding-top: 3rem;
+            padding-bottom: 3rem;
+            color: #F1F6FA;
+        }
+
+        .footer h5 {
+            font-weight: bold;
+        }
+
+        .footer a {
+            color: #eff4f8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #6fa8dc;
+        }
+
+        .footer .list-unstyled {
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .footer .row > div {
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 767.98px) {
+            .footer .row > div {
+                text-align: center;
+            }
+        }
+
+        /* footer genel bağlantıları için CSS */
+
+
+        .card-title a {
+            color: inherit; /* Metnin orijinal rengini kullan */
+            text-decoration: none; /* Alt çizgiyi kaldır */
+        }
+
+
+    </style>
+{% endblock %}
+
+
+{% block icerik %}
+    <div class="container my-5">
+        <div class="row">
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <section class="category-section" id="kadın">
+                    <h1>{{ H1 }}</h1>
+                    <div class="row category-content mt-5">
+                        {% for post in TumPost %}
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <a href="{% url 'post-getir' post_slug=post.slug %}">
+                                        <img src="{{ post.resim.url }}" class="card-img-top" alt="{{ post.title }}"
+                                             height="960" width="640">
+                                    </a>
+                                    <div class="card-body">
+                                        <h2 class="card-title" style="font-size: 16px;"><a
+                                                href="{% url 'post-getir' post_slug=post.slug %}">{{ post.h1 }}</a>
+                                        </h2>
+                                        <p class="card-text">{{ post.kisaanlam }}</p>
+                                        <a href="{% url 'post-getir' post_slug=post.slug %}" class="btn btn-warning">Devamını
+                                            Oku</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            {% include "parcalar/sidebar.html" %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        function toggleDarkMode() {
+            var body = document.body;
+            body.classList.toggle("dark-mode");
+            const navBar = document.querySelector('.navbar');
+            navBar.classList.toggle('navbar-dark');
+
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            if (body.classList.contains('dark-mode')) {
+                darkModeIcon.src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
+                localStorage.setItem('dark-mode', 'true');
+            } else {
+                darkModeIcon.src = "https://img.icons8.com/?size=100&id=45475&format=png&color=000000";
+                localStorage.setItem('dark-mode', 'false');
+            }
+        }
+
+        // Sayfa yüklendiğinde koyu modun durumunu kontrol et
+        window.onload = function () {
+            var isDarkMode = localStorage.getItem('dark-mode') === 'true';
+
+            if (isDarkMode) {
+                document.body.classList.add("dark-mode");
+                document.querySelector('.navbar').classList.add('navbar-dark');
+                document.getElementById('darkModeIcon').src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
+            }
+        };
+    </script>
+{% endblock %}
+
