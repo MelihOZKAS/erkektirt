@@ -22,7 +22,7 @@ services:
     env_file:
       - erkek/docker.env
     volumes:
-      - static-data-erkek
+      - static-data-erkek:/srv/public
       - .:/srv/app_erkek
     expose:
       - 8013
