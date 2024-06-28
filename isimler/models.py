@@ -1,5 +1,7 @@
 from django.db import models
 from tinymce.models import HTMLField
+from erkek.custom_storages import ImageSettingStorage
+
 status_cho = (
     ("Taslak", "Taslak"),
     ("Hazir", "Hazir"),
@@ -32,6 +34,14 @@ HELP_TEXTS = {
 }
 
 
+def kapak_resmi_upload_to(instance, filename):
+    # Dosya adını değiştir
+    yeni_ad = f"{instance.slug}"
+    # Dosya uzantısını koru
+    uzanti = filename.split('.')[-1]
+    # Yeni dosya adını döndür
+    return f"kapak_resimleri/{yeni_ad}.{uzanti}"
+
 class PostKategori(models.Model):
     Title = models.CharField(max_length=255, blank=True)
     slug = models.SlugField(max_length=255, blank=True)
@@ -39,7 +49,9 @@ class PostKategori(models.Model):
     description = models.TextField( blank=True, null=True, help_text=HELP_TEXTS["meta_description"])
     keywords = models.CharField(max_length=255,blank=True,null=True,help_text=HELP_TEXTS["keywords"])
     short_title = models.CharField(max_length=255, blank=True)
-    resim = models.ImageField(upload_to='images/', blank=True, null=True)
+    resim1 = models.ImageField(upload_to=kapak_resmi_upload_to,
+                               storage=ImageSettingStorage(),
+                               help_text=HELP_TEXTS["resim"], null=True, blank=True)
     aktif = models.BooleanField(default=False)
     olusturma_tarihi = models.DateTimeField(auto_now_add=True)
     guncelleme_tarihi = models.DateTimeField(auto_now=True)
@@ -55,13 +67,6 @@ class Post(models.Model):
         ('Ebru GÜNEŞ', 'Ebru GÜNEŞ'),
     ]
 
-
-    Sosyal = [
-        ('Bilgi Bekleniyor', 'Bilgi Bekleniyor'),
-        ('Yapma', 'Yapma'),
-        ('Hazirla', 'Hazirla'),
-        ('Tamamlandi', 'Tamamlandi'),
-    ]
 
     Tur = [
         ('isim', 'isim'),
@@ -89,7 +94,6 @@ class Post(models.Model):
     Post_Turu = models.ForeignKey(PostKategori, null=True, on_delete=models.SET_NULL)
     Post_type = models.CharField(max_length=255, choices=Jsonu, null=True, default="Article")
     yazar = models.CharField(max_length=255, choices=YAZARLAR, null=True,blank=True)
-    #Cinsiyet = models.CharField(max_length=255, choices=Cinsiyetler, null=True, default="Bekleniyor")
     Kuran = models.BooleanField(default=False, help_text=HELP_TEXTS["aktif"])
     Caiz = models.BooleanField(default=False, help_text=HELP_TEXTS["aktif"])
     kisaanlam = models.TextField(blank=True, null=True)
@@ -104,22 +108,30 @@ class Post(models.Model):
     sss = models.TextField(blank=True, null=True)
     ozet = models.TextField(blank=True, null=True)
 
-    resim = models.ImageField(upload_to='images/', blank=True, null=True)
-    resim2 = models.ImageField(upload_to='images/', blank=True, null=True)
-    resim3 = models.ImageField(upload_to='images/', blank=True, null=True)
+    #resim = models.ImageField(upload_to='images/', blank=True, null=True)
+    #resim2 = models.ImageField(upload_to='images/', blank=True, null=True)
+    #resim3 = models.ImageField(upload_to='images/', blank=True, null=True)
 
-    #resim = models.ImageField(upload_to=kapak_resmi_upload_to,
-    #                                storage=ImageSettingStorage(),
-    #                                help_text=HELP_TEXTS["resim"], null=True, blank=True)
-    #resim2 = models.ImageField(upload_to=kapak_resmi_upload_to,
-    #                                storage=ImageSettingStorage(),
-    #                                help_text=HELP_TEXTS["resim"], null=True, blank=True)
-    #resim3 = models.ImageField(upload_to=kapak_resmi_upload_to,
-    #                                storage=ImageSettingStorage(),
-    #                                help_text=HELP_TEXTS["resim"], null=True, blank=True)
-    #resim4 = models.ImageField(upload_to=kapak_resmi_upload_to,
-    #                                storage=ImageSettingStorage(),
-    #                                help_text=HELP_TEXTS["resim"], null=True, blank=True)
+    resim = models.ImageField(upload_to=kapak_resmi_upload_to,
+                                    storage=ImageSettingStorage(),
+                                    help_text=HELP_TEXTS["resim"], null=True, blank=True)
+    resim2 = models.ImageField(upload_to=kapak_resmi_upload_to,
+                                    storage=ImageSettingStorage(),
+                                    help_text=HELP_TEXTS["resim"], null=True, blank=True)
+    resim3 = models.ImageField(upload_to=kapak_resmi_upload_to,
+                                    storage=ImageSettingStorage(),
+                                    help_text=HELP_TEXTS["resim"], null=True, blank=True)
+    resim4 = models.ImageField(upload_to=kapak_resmi_upload_to,
+                                    storage=ImageSettingStorage(),
+                                    help_text=HELP_TEXTS["resim"], null=True, blank=True)
+    resim5 = models.ImageField(upload_to=kapak_resmi_upload_to,
+                                    storage=ImageSettingStorage(),
+                                    help_text=HELP_TEXTS["resim"], null=True, blank=True)
+    resim6 = models.ImageField(upload_to=kapak_resmi_upload_to,
+                                    storage=ImageSettingStorage(),
+                                    help_text=HELP_TEXTS["resim"], null=True, blank=True)
+
+
     youtube = models.URLField(blank=True)
     youtube2 = models.URLField(blank=True)
     youtube3 = models.URLField(blank=True)
@@ -129,9 +141,6 @@ class Post(models.Model):
     keywords = models.CharField(max_length=255,blank=True,verbose_name="Anahtar Kelimeler",help_text=HELP_TEXTS["keywords"])
     yayin_tarihi = models.DateTimeField(null=True, blank=True, help_text="Postanın yayınlanacağı tarih ve saat")
     status = models.CharField(max_length=10, choices=status_cho, default="Taslak", help_text=HELP_TEXTS["status"])
-    gonder = models.BooleanField(default=False, help_text=HELP_TEXTS["Wp-TG"])
-    SosyalKare = models.CharField(max_length=255, choices=Sosyal, default="Bilgi Bekleniyor")
-
     Trend = models.BooleanField(default=False, help_text="Ana Sayfada Popülerde Çıkar!")
     aktif = models.BooleanField(default=False, help_text=HELP_TEXTS["aktif"])
     indexing = models.BooleanField(default=True, help_text="Indexlensin mi?")
