@@ -3,6 +3,12 @@ from .models import *
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.text import slugify
 from django.core.paginator import Paginator
+import environ
+import json
+import requests
+
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env()
 
 
 def turkce_to_ingilizce(kelime):
@@ -178,7 +184,6 @@ def kategori(request):
         description = "En popüler kız içeriklerini burada bulabilirsiniz."
         keywords = "popüler kız, trend kız, kız haberleri"
 
-
     paginator = Paginator(TumPost, 9)  # 9 içerik göstermek için
     page_number = request.GET.get('sayfa')
     TumPost = paginator.get_page(page_number)
@@ -335,24 +340,30 @@ def gizlilik(request):
 
 
 def iletisim(request):
-    title = "Gizlilik erkekbebekisimleri.net | Bilgilerinizin Korunması"
-    description = "erkekbebekisimleri.net gizlilik politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
-    keywords = "Gizlilik Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
+    title = "iletişim erkekbebekisimleri.net | Bilgilerinizin Korunması"
+    description = "erkekbebekisimleri.net iletişim politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
+    keywords = "iletişim Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
     h1 = "erkekbebekisimleri.net Gizlilik Politikası: Kişisel Bilgileriniz Güvende"
 
     if request.method == 'POST':
-        name = request.POST.get('name')
-        email = request.POST.get('email')
-        icerik = request.POST.get('message')
+        recaptcha_response = request.POST.get('g-recaptcha-response')
+        data = {
+            'secret': f"{env('RECAPTCHA_PRIVATE_KEY')}",
+            'response': recaptcha_response
+        }
+        r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
+        result = r.json()
+        if result['success']:
+            name = request.POST.get('name')
+            email = request.POST.get('email')
+            icerik = request.POST.get('message')
 
-        iletisim_obj = iletisimmodel(name=name, email=email, icerik=icerik)
-        iletisim_obj.save()
+            iletisim_obj = iletisimmodel(name=name, email=email, icerik=icerik)
+            iletisim_obj.save()
 
-        return HttpResponse(
-            'İletişim istediğinizi Kaydettik. <a href="{}" class="btn btn-primary">Ana Sayfaya Dönmek için Tıklayın.</a>'.format(
-                reverse('home')))
-
-
+            return HttpResponse(
+                'İletişim istediğinizi Kaydettik. <a href="{}" class="btn btn-primary">Ana Sayfaya Dönmek için Tıklayın.</a>'.format(
+                    reverse('home')))
 
     context = {
         'title': title,
