@@ -414,3 +414,22 @@ def kullanim(request):
         'h1': h1,
     }
     return render(request, 'kullanim.html', context)
+
+
+@csrf_exempt
+def kisaisimekle(request):
+    if request.method == 'POST':
+        # Gelen POST isteğindeki değerleri alın
+        isim = request.POST.get('isim')
+        aciklama = request.POST.get('aciklama')
+        Durum = request.POST.get('Durum')
+        Cinsiyet = request.POST.get('Cinsiyet')
+
+
+
+        isimsonuc = allname(isim=isim,  aciklama=aciklama, Durum=Durum, Cinsiyet=Cinsiyet)
+        isimsonuc.save()
+        if isimsonuc.id is None:
+            return HttpResponse("Post kaydedilemedi.")
+        else:
+            return HttpResponse("Post başarıyla kaydedildi. ID: " + str(isimsonuc.id))

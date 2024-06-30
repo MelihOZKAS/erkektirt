@@ -182,6 +182,7 @@ class allname(models.Model):
     ]
 
     isim = models.CharField(max_length=255, unique=True, help_text=HELP_TEXTS["title"])
+    aciklama = models.TextField(null=True)
     Durum = models.CharField(max_length=255, choices=Durumlar, null=True, default="Beklemede")
     Cinsiyet = models.CharField(max_length=255, choices=Cinsiyetler, null=True, default="B")
 
