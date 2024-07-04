@@ -438,7 +438,7 @@ def kisaisimekle(request):
 @csrf_exempt
 def aicek(request):
     if request.method == 'POST':
-        mahsul_cek = allname.objects.filter(Durum="Hazirla").order_by('-olusturma_tarihi').first()
+        mahsul_cek = allname.objects.filter(Durum="Hazirla").first()
         if mahsul_cek is not None:
             mahsul_cek.Akibeti = "Yolda"
             mahsul_cek.save()
