@@ -440,7 +440,7 @@ def aicek(request):
     if request.method == 'POST':
         mahsul_cek = allname.objects.filter(Durum="Hazirla").first()
         if mahsul_cek is not None:
-            mahsul_cek.Akibeti = "Yolda"
+            mahsul_cek.Durum = "Yolda"
             mahsul_cek.save()
             Sonucu = f"{mahsul_cek.isim}"
             return HttpResponse(Sonucu)
