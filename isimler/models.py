@@ -167,9 +167,10 @@ class Post(models.Model):
 
 
 class allname(models.Model):
-
     Durumlar = [
+        ('Salla', 'Salla'),
         ('Beklemede', 'Beklemede'),
+        ('Hazirla', 'Hazirla'),
         ('Yolda', 'Yolda'),
         ('Tamamlandı', 'Tamamlandı'),
     ]

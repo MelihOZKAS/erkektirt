@@ -433,3 +433,18 @@ def kisaisimekle(request):
             return HttpResponse("Post kaydedilemedi.")
         else:
             return HttpResponse("Post başarıyla kaydedildi. ID: " + str(isimsonuc.id))
+
+
+@csrf_exempt
+def aicek(request):
+    if request.method == 'POST':
+        mahsul_cek = allname.objects.filter(Durum="Hazirla").order_by('-olusturma_tarihi').first()
+        if mahsul_cek is not None:
+            mahsul_cek.Akibeti = "Yolda"
+            mahsul_cek.save()
+            Sonucu = f"{mahsul_cek.isim}"
+            return HttpResponse(Sonucu)
+        else:
+            return HttpResponse("Mahsul bulunamadı")
+    else:
+        return HttpResponse("Geçersiz istek", status=400)
