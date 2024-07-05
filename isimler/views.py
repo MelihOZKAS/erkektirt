@@ -479,7 +479,7 @@ def aiadd(request):
         Post_Turu_Gelen = PostKategori.objects.get(short_title=Post_Turu)
 
         yeni_Slug = create_unique_title_slug(slug)
-        isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, Benzerisimler=benzer, kisaanlam=kisaaciklama, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2, icerik3=icerik3)
+        isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, Benzerisimler=benzer, kisaanlam=kisaaciklama, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2, icerik3=unlu)
         isimekle.save()
 
         allname.objects.filter(id=GelenID).update(Durum="Tamamlandı")
