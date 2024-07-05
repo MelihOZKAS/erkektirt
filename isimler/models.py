@@ -176,9 +176,9 @@ class allname(models.Model):
     ]
 
     Cinsiyetler = [
-        ('Kız', 'Kız'),
-        ('Erkek', 'Erkek'),
-        ('Unisex', 'Unisex'),
+        ('kiz', 'kiz'),
+        ('erkek', 'erkek'),
+        ('unisex', 'unisex'),
         ('B', 'B'),
     ]
 

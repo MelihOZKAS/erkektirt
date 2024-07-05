@@ -465,7 +465,7 @@ def aiadd(request):
         GelenID = request.POST.get('GelenID')
         icerik1 = request.POST.get('icerik1')
         icerik2 = request.POST.get('icerik2')
-        kisaaciklama = request.POST.get('icerik2')
+        kisaaciklama = request.POST.get('kisaaciklama')
         isim = request.POST.get('isim')
         Post_Turu = request.POST.get('Post_Turu')
         title = f"{isim.capitalize()} İsminin Anlamı Nedir? {isim.capitalize()} Adının Özellikleri Nelerdir?"
