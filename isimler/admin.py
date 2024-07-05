@@ -68,6 +68,8 @@ admin.site.register(Post, PostAdmin)
 
 class allNamesAdmin(admin.ModelAdmin):
     list_display = ("isim", "Durum", )
+    search_fields = ("isim",)
+    list_filter = ("Durum", "Cinsiyet",)
 
 admin.site.register(allname, allNamesAdmin)
 
