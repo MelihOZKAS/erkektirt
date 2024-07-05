@@ -470,7 +470,7 @@ def aiadd(request):
         Post_Turu = request.POST.get('Post_Turu')
         title = f"{isim.capitalize()} İsminin Anlamı Nedir? {isim.capitalize()} Adının Özellikleri Nelerdir?"
         h1 = f"{isim.capitalize()} İsminin Anlamı Ve Tüm Kişilik Özellikleri Nelerdir ?"
-        slug = f"{isim.lower} İsminin Anlamı nedir ?"
+        slug = f"{isim.lower()} İsminin Anlami nedir ?"
 
 
 
@@ -480,7 +480,7 @@ def aiadd(request):
         isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim,kisaanlam=kisaaciklama, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2)
         isimekle.save()
 
-        allname.objects.filter(id=GelenID).update(Akibeti="Tamamlandi")
+        allname.objects.filter(id=GelenID).update(Durum="Tamamlandi")
 
         if isimekle.id is None:
             return HttpResponse("Post kaydedilemedi.")
