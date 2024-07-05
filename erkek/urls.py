@@ -52,6 +52,7 @@ urlpatterns = [
                   path("en-cok-goruntulenen-unisex-isimler/", kategori, name="ecgui"),
                   path("kisaisimekle/", kisaisimekle, name="kisaisimekle"),
                   path("ai-cek/", aicek, name="aicek"),
+                  path("ai-add/", aiadd, name="aiadd"),
                   path("iletisim/", iletisim, name="iletisim"),
                   path("hakkimizda/", hakkinda, name="hakkimizda"),
                   path("cerez-politikasi/", cerez, name="cerez"),
