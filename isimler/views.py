@@ -35,6 +35,15 @@ def turkce_to_ingilizce(kelime):
 # print(ingilizce_metin)  # Çıktı: "Calisma Ornegi"
 
 
+def create_unique_title_slug(title):
+    slug = slugify(title)
+    unique_slug = slug
+    num = 1
+    while Post.objects.filter(slug=unique_slug).exists():
+        unique_slug = '{}-{}'.format(slug, num)
+        num += 1
+    return unique_slug
+
 # Create your views here.
 def home(request):
     Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kadin")
@@ -442,9 +451,38 @@ def aicek(request):
         if mahsul_cek is not None:
             mahsul_cek.Durum = "Yolda"
             mahsul_cek.save()
-            Sonucu = f"{mahsul_cek.isim}"
+            Sonucu = f"{mahsul_cek.pk}|={mahsul_cek.isim}|={mahsul_cek.aciklama}|={mahsul_cek.Cinsiyet}"
             return HttpResponse(Sonucu)
         else:
             return HttpResponse("Mahsul bulunamadı")
     else:
         return HttpResponse("Geçersiz istek", status=400)
+
+@csrf_exempt
+def aiadd(request):
+    if request.method == 'POST':
+        # Gelen POST isteğindeki değerleri alın
+        GelenID = request.POST.get('GelenID')
+        icerik1 = request.POST.get('icerik1')
+        icerik2 = request.POST.get('icerik2')
+        kisaaciklama = request.POST.get('icerik2')
+        isim = request.POST.get('isim')
+        Post_Turu = request.POST.get('Post_Turu')
+        title = f"{isim.capitalize()} İsminin Anlamı Nedir? {isim.capitalize()} Adının Özellikleri Nelerdir?"
+        h1 = f"{isim.capitalize()} İsminin Anlamı Ve Tüm Kişilik Özellikleri Nelerdir ?"
+        slug = f"{isim.lower} İsminin Anlamı nedir ?"
+
+
+
+        Post_Turu_Gelen = PostKategori.objects.get(short_title=Post_Turu)
+
+        yeni_Slug = create_unique_title_slug(slug)
+        isimekle = Post(title=title, slug=yeni_Slug, h1=h1,isim=isim,kisaanlam=kisaaciklama, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2)
+        isimekle.save()
+
+        allname.objects.filter(id=GelenID).update(Akibeti="Tamamlandi")
+
+        if isimekle.id is None:
+            return HttpResponse("Post kaydedilemedi.")
+        else:
+            return HttpResponse("Şükürler Olsun Post başarıyla kaydedildi. ID: " + str(isimekle.id))
