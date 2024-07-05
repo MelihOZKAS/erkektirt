@@ -467,6 +467,8 @@ def aiadd(request):
         icerik2 = request.POST.get('icerik2')
         kisaaciklama = request.POST.get('kisaaciklama')
         isim = request.POST.get('isim')
+        benzer = request.POST.get('benzer')
+        unlu = request.POST.get('unlu')
         Post_Turu = request.POST.get('Post_Turu')
         title = f"{isim.capitalize()} İsminin Anlamı Nedir? {isim.capitalize()} Adının Özellikleri Nelerdir?"
         h1 = f"{isim.capitalize()} İsminin Anlamı Ve Tüm Kişilik Özellikleri Nelerdir ?"
@@ -477,7 +479,7 @@ def aiadd(request):
         Post_Turu_Gelen = PostKategori.objects.get(short_title=Post_Turu)
 
         yeni_Slug = create_unique_title_slug(slug)
-        isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, kisaanlam=kisaaciklama, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2)
+        isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, Benzerisimler=benzer, kisaanlam=kisaaciklama, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2, icerik3=icerik3)
         isimekle.save()
 
         allname.objects.filter(id=GelenID).update(Durum="Tamamlandı")
