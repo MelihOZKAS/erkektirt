@@ -111,7 +111,11 @@
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
   ],
-  "readCount": "{{ icerik.okunma_sayisi }}",
+   "interactionStatistic": {
+    "@type": "InteractionCounter",
+    "interactionType": "https://schema.org/ReadAction",
+    "userInteractionCount": "{{ icerik.okunma_sayisi }}"
+  },
   "isAccessibleForFree": true
 }
 </script>
