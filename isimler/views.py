@@ -494,7 +494,7 @@ def aiadd(request):
         else:
             return HttpResponse("Şükürler Olsun Post başarıyla kaydedildi. ID: " + str(isimekle.id))
 
-def Oto_Paylas(request):
+def oto_Paylas(request):
     post = Post.objects.filter(
         Q(status="oto") & (Q(yayin_tarihi__lte=timezone.now()) | Q(yayin_tarihi=None))).first()
     if post is not None:
