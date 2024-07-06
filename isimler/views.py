@@ -44,6 +44,7 @@ def create_unique_title_slug(title):
         num += 1
     return unique_slug
 
+
 # Create your views here.
 def home(request):
     Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kadin")
@@ -434,9 +435,7 @@ def kisaisimekle(request):
         Durum = request.POST.get('Durum')
         Cinsiyet = request.POST.get('Cinsiyet')
 
-
-
-        isimsonuc = allname(isim=isim,  aciklama=aciklama, Durum=Durum, Cinsiyet=Cinsiyet)
+        isimsonuc = allname(isim=isim, aciklama=aciklama, Durum=Durum, Cinsiyet=Cinsiyet)
         isimsonuc.save()
         if isimsonuc.id is None:
             return HttpResponse("Post kaydedilemedi.")
@@ -458,6 +457,7 @@ def aicek(request):
     else:
         return HttpResponse("Geçersiz istek", status=400)
 
+
 @csrf_exempt
 def aiadd(request):
     if request.method == 'POST':
@@ -474,13 +474,13 @@ def aiadd(request):
         h1 = f"{isim.capitalize()} İsminin Anlamı Ve Tüm Kişilik Özellikleri Nelerdir ?"
         slug = f"{isim.lower()} İsminin Anlami nedir ?"
         desc = f"{isim.lower()} isminin anlamı ve özellikleri, {isim.lower()} kuranda geçiyor mu, {isim.lower()} caiz mi, tüm modern bebek isimleri, anlamları ve kişilik özellikleri"
-
-
+        keys = f"{isim.lower()} ismi anlamı,{isim.lower()} isminin anlamı,{isim.lower()} isminin özellikleri,{isim.lower()} isminin kökeni,{isim.lower()} ismi Kuranda geçiyor mu,{isim.lower()} ismi meşhur olanlar,{isim.lower()} ne demek,{isim.lower()} ismi caiz mi,bebek isimleri,modern isimler,erkek isimleri,kız isimleri,erkek bebek isimleri,kız bebek isimleri"
 
         Post_Turu_Gelen = PostKategori.objects.get(short_title=Post_Turu)
 
         yeni_Slug = create_unique_title_slug(slug)
-        isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, Benzerisimler=benzer, kisaanlam=kisaaciklama, description=desc, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2, icerik3=unlu)
+        isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, Benzerisimler=benzer, kisaanlam=kisaaciklama,
+                        description=desc, keywords=keys, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2, icerik3=unlu)
         isimekle.save()
 
         allname.objects.filter(id=GelenID).update(Durum="Tamamlandı")
