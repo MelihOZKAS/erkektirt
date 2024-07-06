@@ -6,6 +6,10 @@ from django.core.paginator import Paginator
 import environ
 import json
 import requests
+from django.db.models import Q
+from django.utils import timezone
+
+
 
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
@@ -489,3 +493,28 @@ def aiadd(request):
             return HttpResponse("Post kaydedilemedi.")
         else:
             return HttpResponse("Şükürler Olsun Post başarıyla kaydedildi. ID: " + str(isimekle.id))
+
+def Oto_Paylas(request):
+    post = Post.objects.filter(
+        Q(status="oto") & (Q(yayin_tarihi__lte=timezone.now()) | Q(yayin_tarihi=None))).first()
+    if post is not None:
+
+        if post.Kuran:
+            kuransonuc =f"Evet { post.isim.capitalize() } İsmi Kuranı Kerimde Geçer."
+        else:
+            kuransonuc = f"Maalesef { post.isim.capitalize() } İsmi Kuranı Kerimde Geçmemektedir."
+        if post.Caiz:
+            caizsonuc = f"Evet { post.isim.capitalize() } İsmi Caizdir."
+        else:
+            caizsonuc = f"Maalesef { post.isim.capitalize() } İsmi Caiz Değildir."
+
+
+        sssSonuc = f"{ post.isim.capitalize() } isminin anlamı nedir ?={ post.kisaanlam.capitalize() }|{ post.isim.capitalize() } ismi kuranda geçiyor mu ?={kuransonuc}|{ post.kisaanlam.capitalize() } ismi caiz mi ?={caizsonucs}"
+        post.status = "Yayinda"
+        post.sss = sssSonuc
+        post.aktif = True
+        post.olusturma_tarihi = timezone.now()  # eklenme tarihini güncelle
+        post.save()
+        return HttpResponse(f'Şükürler Olsun "{post.title}" Paylaşıldı.')
+    else:
+        return HttpResponse('Paylaşılacak Post Bulunamadı.')
