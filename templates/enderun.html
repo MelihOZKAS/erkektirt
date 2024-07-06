@@ -415,7 +415,7 @@
                                                                           style="color: green; font-size: x-large;"></i></strong>
                         </div>
                         <hr>
-                    {% elif icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" and icerik.Kuran == False %}
+                    {% elif (icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex") and icerik.Kuran == False %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu?</h2>
                         <hr>
                         <div class="text-center">
@@ -432,7 +432,7 @@
 
 
                     <!-- Caiz Mi? Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" and icerik.Caiz == True %}
+                    {% if icerik.Caiz == True and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Dinimizce Caiz Mi?</h2>
                         <hr>
                         <div class="text-center">
@@ -445,7 +445,7 @@
                                             style="color: green; font-size: x-large;"></i>
                         </div>
                         <hr>
-                    {% elif icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" and icerik.Caiz == False %}
+                    {% elif icerik.Caiz == False and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Dinimizce Caiz Mi?</h2>
                         <hr>
                         <div class="text-center">
