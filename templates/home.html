@@ -453,7 +453,7 @@
                     <div class="card mb-4">
                         <a href="{% url 'pki' %}">
                             <img src="{% static 'media/images/populer-kiz-isimleri.webp' %}" class="card-img-top"
-                                 alt="Popüler Kız İsimleri"></a>
+                                 alt="Popüler Kız İsimleri" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">Popüler Kız İsimleri</h3>
                             <p class="card-text">Kız bebekler için popüler isimler.</p>
@@ -465,7 +465,8 @@
                     <div class="card mb-4">
                         <a href="{% url 'ecgki' %}">
                             <img src="{% static 'media/images/en-cok-goruntulenen-kiz-isimleri.webp' %}"
-                                 class="card-img-top" alt="En Çok Görüntülenenler Kız İsimleri"></a>
+                                 class="card-img-top" alt="En Çok Görüntülenenler Kız İsimleri" width="960"
+                                 height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">En Çok Görüntülenenler Kız İsimleri</h3>
                             <p class="card-text">Sitemizde En Çok Bakılan Kız Bebek İsimleri</p>
@@ -477,7 +478,7 @@
                     <div class="card mb-4">
                         <a href="{% url 'kiz' %}">
                             <img src="{% static 'media/images/en-son-eklenen-kiz-isimleri.webp' %}" class="card-img-top"
-                                 alt="En Son Eklenen Kız İsimleri"></a>
+                                 alt="En Son Eklenen Kız İsimleri" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">En Son Eklenen Kız İsimleri</h3>
                             <p class="card-text">Kız bebekler için farklı ve benzersiz isimler.</p>
@@ -499,7 +500,7 @@
                     <div class="card mb-4">
                         <a href="{% url 'pui' %}">
                             <img src="{% static 'media/images/populer-unisex-isimler.webp' %}" class="card-img-top"
-                                 alt="Popüler Unisex İsimler"></a>
+                                 alt="Popüler Unisex İsimler" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">Popüler Unisex İsimler</h3>
                             <p class="card-text">Unisex bebekler için popüler isimler.</p>
@@ -511,7 +512,8 @@
                     <div class="card mb-4">
                         <a href="{% url 'ecgui' %}">
                             <img src="{% static 'media/images/en-cok-goruntulenen-unisek-isimler.webp' %}"
-                                 class="card-img-top" alt="En Çok Görüntülenenler Unisex İsimler"></a>
+                                 class="card-img-top" alt="En Çok Görüntülenenler Unisex İsimler" width="960"
+                                 height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">En Çok Görüntülenenler Unisex İsimler</h3>
                             <p class="card-text">Sitemizde En Çok Bakılan Unisex Bebek İsimleri</p>
@@ -524,7 +526,7 @@
                         <a href="{% url 'unisex' %}">
                             <img src="{% static 'media/images/en-son-eklenen-unisex-isimler.webp' %}"
                                  class="card-img-top"
-                                 alt="En Son Eklenen Unisex İsimler"></a>
+                                 alt="En Son Eklenen Unisex İsimler" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">En Son Eklenen Unisex İsimler</h3>
                             <p class="card-text">Unisex bebekler için farklı ve benzersiz isimler.</p>
@@ -545,7 +547,8 @@
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <a href="{% url 'post-getir' post_slug=women.slug %}">
-                                <img src="{{ women.resim.url }}" class="card-img-top" alt="{{ women.title }}"></a>
+                                <img src="{{ women.resim.url }}" class="card-img-top" alt="{{ women.title }}"
+                                     width="960" height="640"></a>
                             <div class="card-body">
                                 <h3 class="card-title" style="font-size: 20px;">{{ women.h1 }}</h3>
                                 <p class="card-text">{{ women.icerik1|truncatechars:100|safe }}</p>
@@ -568,7 +571,8 @@
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <a href="{% url 'post-getir' post_slug=saglikk.slug %}">
-                                <img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}"></a>
+                                <img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}" width="
+                                     960" height="640"></a>
                             <div class="card-body">
                                 <h3 class="card-title" style="font-size: 20px;">{{ saglikk.h1 }}</h3>
                                 <p class="card-text">{{ saglikk.icerik1|truncatechars:100|safe }}</p>
@@ -593,7 +597,7 @@
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <a href="{% url 'post-getir' post_slug=child.slug %}">
-                                <img src="{{ child.resim.url }}" class="card-img-top" alt="{{ child.title }}"></a>
+                                <img src="{{ child.resim.url }}" class="card-img-top" alt="{{ child.title }}" width="960" height="640"></a>
                             <div class="card-body">
                                 <h3 class="card-title" style="font-size: 20px;">{{ child.h1 }}</h3>
                                 <p class="card-text">{{ child.icerik1|truncatechars:100|safe }}</p>
