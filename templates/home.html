@@ -19,8 +19,8 @@
     <meta property="og:description" content="{{ description }}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
     <meta property="og:image" content="{{ Post_Kategorisi.resim }}">
-    <meta property="og:image:width" content="800"/>
-    <meta property="og:image:height" content="400"/>
+    <meta property="og:image:width" content="960"/>
+    <meta property="og:image:height" content="640"/>
 {% endblock OgTag %}
 <!--  Open Graph / Facebook Tag Bitiş -->
 
@@ -401,7 +401,7 @@
         <section class="category-section" id="erkek-bebek-isimleri">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Erkek Bebek İsimleri</h2>
-                <a href="{% url 'erkek' %}" class="btn btn-outline-warning">Tümünü Gör</a>
+                <a href="{% url 'erkek' %}" class="btn btn-success">Tümünü Gör</a>
             </div>
             <div class="row category-content">
                 <div class="col-md-4">
@@ -446,7 +446,7 @@
         <section class="category-section" id="kız-bebek-isimleri">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Kız Bebek İsimleri</h2>
-                <a href="{% url 'kiz' %}" class="btn btn-outline-warning">Tümünü Gör</a>
+                <a href="{% url 'kiz' %}" class="btn btn-success">Tümünü Gör</a>
             </div>
             <div class="row category-content">
                 <div class="col-md-4">
@@ -492,7 +492,7 @@
         <section class="category-section" id="kız-bebek-isimleri">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Unisex Bebek İsimleri</h2>
-                <a href="{% url 'unisex' %}" class="btn btn-outline-warning">Tümünü Gör</a>
+                <a href="{% url 'unisex' %}" class="btn btn-success">Tümünü Gör</a>
             </div>
             <div class="row category-content">
                 <div class="col-md-4">
@@ -538,7 +538,7 @@
         <section class="category-section" id="kadın">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Kadın</h2>
-                <a href="{% url 'kadin' %}" class="btn btn-outline-warning">Tümünü Gör</a>
+                <a href="{% url 'kadin' %}" class="btn btn-success">Tümünü Gör</a>
             </div>
             <div class="row category-content">
                 {% for women in kadin %}
@@ -561,7 +561,7 @@
         <section class="category-section" id="sağlık">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Sağlık</h2>
-                <a href="{% url 'saglik' %}" class="btn btn-outline-warning">Tümünü Gör</a>
+                <a href="{% url 'saglik' %}" class="btn btn-success">Tümünü Gör</a>
             </div>
             <div class="row category-content">
                 {% for saglikk in saglik %}
@@ -586,7 +586,7 @@
         <section class="category-section" id="çocuk-gelişimi">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Çocuk</h2>
-                <a href="{% url 'cocuk' %}" class="btn btn-outline-warning">Tümünü Gör</a>
+                <a href="{% url 'cocuk' %}" class="btn btn-success">Tümünü Gör</a>
             </div>
             <div class="row category-content">
                 {% for child in cocuk %}
