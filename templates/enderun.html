@@ -403,7 +403,7 @@
 
 
                     <!-- Kuranı Kerim de geçiyor mu ? Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" and icerik.Kuran == True %}
+                    {% if icerik.Kuran == True and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu? {{ icerik.Kuran }} {{ icerik.Post_Turu.short_title }}</h2>
                         <hr>
                         <div class="text-center">
@@ -415,7 +415,7 @@
                                                                           style="color: green; font-size: x-large;"></i></strong>
                         </div>
                         <hr>
-                    {% elif icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" and icerik.Kuran == False %}
+                    {% elif icerik.Kuran == False and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex"%}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu?</h2>
                         <hr>
                         <div class="text-center">
