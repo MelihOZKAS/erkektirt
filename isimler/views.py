@@ -219,7 +219,7 @@ def kategori(request):
 def enderun(request, post_slug):
     PostEndrun = get_object_or_404(Post, aktif=True, status="Yayinda", slug=post_slug)
     PostEndrun.okunma_sayisi += 1
-    PostEndrun.save(update_fields=['okunma_sayisi', 'SosyalKare', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
+    PostEndrun.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
                                    'pinterest', 'Trend'])
     soru_cevap = None
 
