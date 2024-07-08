@@ -407,7 +407,8 @@
 
 
                     <!-- Kuranı Kerim de geçiyor mu ? Başlangıç -->
-                    {% if icerik.Kuran == True and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                        {% if icerik.Kuran %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu?</h2>
                         <hr>
                         <div class="text-center">
@@ -419,7 +420,7 @@
                                                                           style="color: green; font-size: x-large;"></i></strong>
                         </div>
                         <hr>
-                    {% elif icerik.Kuran == False and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                    {% elif icerik.Kuran == False %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu?</h2>
                         <hr>
                         <div class="text-center">
@@ -431,6 +432,7 @@
                                                                             style="color: red; font-size: x-large;"></i></strong>
                         </div>
                         <hr>
+                    {% endif %}
                     {% endif %}
                     <!-- Kuranı Kerim de geçiyor mu ? Bitiş -->
 
