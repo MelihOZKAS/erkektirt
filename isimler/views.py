@@ -509,9 +509,10 @@ def oto_Paylas(request):
             caizsonuc = f"Maalesef { post.isim.capitalize() } İsmi Caiz Değildir."
 
 
-        sssSonuc = f"{ post.isim.capitalize() } isminin anlamı nedir ?={ post.kisaanlam.capitalize() }|{ post.isim.capitalize() } ismi kuranda geçiyor mu ?={kuransonuc}|{ post.kisaanlam.capitalize() } ismi caiz mi ?={caizsonuc}"
+        if post.isim:
+            sssSonuc = f"{ post.isim.capitalize() } isminin anlamı nedir ?={ post.kisaanlam.capitalize() }|{ post.isim.capitalize() } ismi kuranda geçiyor mu ?={kuransonuc}|{ post.kisaanlam.capitalize() } ismi caiz mi ?={caizsonuc}"
+            post.sss = sssSonuc
         post.status = "Yayinda"
-        post.sss = sssSonuc
         post.aktif = True
         post.olusturma_tarihi = timezone.now()  # eklenme tarihini güncelle
         post.save()
