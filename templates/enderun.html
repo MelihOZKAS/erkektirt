@@ -330,8 +330,12 @@
             justify-content: center;
         }
 
+        .btn-container > a {
+            display: contents;
+        }
+
         @media (max-width: 768px) {
-            .btn-custom {
+            .btn-custom, .btn-container > a {
                 flex: 1 1 100%;
                 margin: 0.25rem;
             }
@@ -517,7 +521,7 @@
                                     </a>
                                 {% else %}
                                     <button type="button" class="btn btn-secondary btn-custom"
-                                            disabled>{{ isim.isim }}</button>
+                                            disabled>{{ isim.isim|capfirst }}</button>
                                 {% endif %}
                             {% endfor %}
                         </div>
