@@ -411,54 +411,54 @@
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu?</h2>
                         <hr>
                         {% if icerik.Kuran %}
-                        <div class="text-center">
-                            <strong>
-                                <i class="bi bi-check-square-fill" style="color: green; font-size: x-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            ismi Kuran-ı Kerim’de <strong>geçmektedir. <i class="bi bi-check-square-fill"
-                                                                          style="color: green; font-size: x-large;"></i></strong>
-                        </div>
-                    {% elif icerik.Kuran == False %}
-                        <div class="text-center">
-                            <strong>
-                                <i class="bi bi-x-circle-fill" style="color: red; font-size: x-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            ismi Kuran-ı Kerim’de <strong>geçmemektedir. <i class="bi bi-x-circle-fill"
-                                                                            style="color: red; font-size: x-large;"></i></strong>
-                        </div>
-                    {% endif %}
+                            <div class="text-center">
+                                <strong>
+                                    <i class="bi bi-check-square-fill" style="color: green; font-size: x-large;"></i>
+                                    {{ icerik.isim|capfirst }}
+                                </strong>
+                                ismi Kuran-ı Kerim’de <strong>geçmektedir. <i class="bi bi-check-square-fill"
+                                                                              style="color: green; font-size: x-large;"></i></strong>
+                            </div>
+                        {% elif icerik.Kuran == False %}
+                            <div class="text-center">
+                                <strong>
+                                    <i class="bi bi-x-circle-fill" style="color: red; font-size: x-large;"></i>
+                                    {{ icerik.isim|capfirst }}
+                                </strong>
+                                ismi Kuran-ı Kerim’de <strong>geçmemektedir. <i class="bi bi-x-circle-fill"
+                                                                                style="color: red; font-size: x-large;"></i></strong>
+                            </div>
+                        {% endif %}
                         <hr>
                     {% endif %}
                     <!-- Kuranı Kerim de geçiyor mu ? Bitiş -->
 
 
                     <!-- Caiz Mi? Başlangıç -->
-                    {% if icerik.Caiz == True and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
                         <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Dinimizce Caiz Mi?</h2>
                         <hr>
-                        <div class="text-center">
-                            <strong>
-                                <i class="bi bi-check-square-fill" style="color: green; font-size: x-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            ismi, güzel ve olumlu anlamından dolayı, islami açıdan <strong>caiz</strong> bir isim
-                            seçeneğidir. <i class="bi bi-check-square-fill"
-                                            style="color: green; font-size: x-large;"></i>
-                        </div>
-                        <hr>
-                    {% elif icerik.Caiz == False and icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Dinimizce Caiz Mi?</h2>
-                        <hr>
-                        <div class="text-center">
-                            <strong>
-                                <i class="bi bi-x-circle-fill" style="color: red; font-size: x-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            ismi, ne yazık ki islami açıdan <strong>caiz olmayabilir! <i class="bi bi-x-circle-fill"
-                                                                                         style="color: red; font-size: x-large;"></i></strong>
-                        </div>
+                        {% if icerik.Caiz %}
+                            <div class="text-center">
+                                <strong>
+                                    <i class="bi bi-check-square-fill" style="color: green; font-size: x-large;"></i>
+                                    {{ icerik.isim|capfirst }}
+                                </strong>
+                                ismi, güzel ve olumlu anlamından dolayı, islami açıdan <strong>caiz</strong> bir isim
+                                seçeneğidir. <i class="bi bi-check-square-fill"
+                                                style="color: green; font-size: x-large;"></i>
+                            </div>
+
+                        {% elif icerik.Caiz == False %}
+                            <div class="text-center">
+                                <strong>
+                                    <i class="bi bi-x-circle-fill" style="color: red; font-size: x-large;"></i>
+                                    {{ icerik.isim|capfirst }}
+                                </strong>
+                                ismi, ne yazık ki islami açıdan <strong>caiz olmayabilir! <i class="bi bi-x-circle-fill"
+                                                                                             style="color: red; font-size: x-large;"></i></strong>
+                            </div>
+                        {% endif %}
                         <hr>
                     {% endif %}
                     <!-- Caiz Mi? Bitiş -->
