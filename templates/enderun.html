@@ -511,8 +511,8 @@
                                 {% if isim.exists %}
                                     <a href="{% url 'post-getir' post_slug=isim.slug %}">
                                         <button type="button"
-                                                class="btn {% if isim.cinsiyet == 'kiz' %}btn-warning{% elif isim.cinsiyet|capfirst == 'erkek' %}btn-primary{% else %}btn-success{% endif %} btn-custom">
-                                            {{ isim.isim }}
+                                                class="btn {% if isim.cinsiyet == 'kiz' %}btn-warning{% elif isim.cinsiyet == 'erkek' %}btn-primary{% else %}btn-success{% endif %} btn-custom">
+                                            {{ isim.isim|capfirst }}
                                         </button>
                                     </a>
                                 {% else %}
