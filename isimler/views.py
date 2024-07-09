@@ -10,8 +10,6 @@ from django.db.models import Q
 from django.utils import timezone
 from django.views.decorators.http import require_GET
 
-
-
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
 
@@ -387,6 +385,8 @@ def iletisim(request):
         'h1': h1,
     }
     return render(request, 'iletisim.html', context)
+
+
 @require_GET
 def robots_txt(request):
     return HttpResponse(robots_txt_content, content_type="text/plain")
@@ -397,6 +397,7 @@ User-agent: *
 Allow: /
 Sitemap: https://www.erkekbebekisimleri.net/sitemap.xml/
 """
+
 
 def hakkinda(request):
     title = "Hakkımızda erkekbebekisimleri.net | Erkek Bebek isimleri"
@@ -494,7 +495,8 @@ def aiadd(request):
 
         yeni_Slug = create_unique_title_slug(slug)
         isimekle = Post(title=title, slug=yeni_Slug, h1=h1, isim=isim, Benzerisimler=benzer, kisaanlam=kisaaciklama,
-                        description=desc, keywords=keys, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2, icerik3=unlu)
+                        description=desc, keywords=keys, Post_Turu=Post_Turu_Gelen, icerik1=icerik1, icerik2=icerik2,
+                        icerik3=unlu)
         isimekle.save()
 
         allname.objects.filter(id=GelenID).update(Durum="Tamamlandı")
@@ -504,23 +506,23 @@ def aiadd(request):
         else:
             return HttpResponse("Şükürler Olsun Post başarıyla kaydedildi. ID: " + str(isimekle.id))
 
+
 def oto_Paylas(request):
     post = Post.objects.filter(
         Q(status="oto") & (Q(yayin_tarihi__lte=timezone.now()) | Q(yayin_tarihi=None))).first()
     if post is not None:
 
         if post.Kuran:
-            kuransonuc =f"Evet { post.isim.capitalize() } İsmi Kuranı Kerimde Geçer."
+            kuransonuc = f"Evet {post.isim.capitalize()} İsmi Kuranı Kerimde Geçer."
         else:
-            kuransonuc = f"Maalesef { post.isim.capitalize() } İsmi Kuranı Kerimde Geçmemektedir."
+            kuransonuc = f"Maalesef {post.isim.capitalize()} İsmi Kuranı Kerimde Geçmemektedir."
         if post.Caiz:
-            caizsonuc = f"Evet { post.isim.capitalize() } İsmi Caizdir."
+            caizsonuc = f"Evet {post.isim.capitalize()} İsmi Caizdir."
         else:
-            caizsonuc = f"Maalesef { post.isim.capitalize() } İsmi Caiz Değildir."
-
+            caizsonuc = f"Maalesef {post.isim.capitalize()} İsmi Caiz Değildir."
 
         if post.isim:
-            sssSonuc = f"{ post.isim.capitalize() } isminin anlamı nedir ?={ post.kisaanlam.capitalize() }|{ post.isim.capitalize() } ismi kuranda geçiyor mu ?={kuransonuc}|{ post.kisaanlam.capitalize() } ismi caiz mi ?={caizsonuc}"
+            sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()}|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.kisaanlam.capitalize()} ismi caiz mi ?={caizsonuc}"
             post.sss = sssSonuc
         post.status = "Yayinda"
         post.aktif = True
@@ -529,3 +531,16 @@ def oto_Paylas(request):
         return HttpResponse(f'Şükürler Olsun "{post.title}" Paylaşıldı.')
     else:
         return HttpResponse('Paylaşılacak Post Bulunamadı.')
+
+
+@csrf_exempt
+def indexing_var_mi(request):
+    post = Post.objects.filter(indexing=True, aktif=True, status="Yayinda").first()
+    if post is not None:
+        # post'un indexing durumunu False yapayı unutmamak lazımmm dimi.
+        post.indexing = False
+        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
+                                 'pinterest', 'Trend'])
+        return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/")
+    else:
+        return HttpResponse("post bulunamadı.")

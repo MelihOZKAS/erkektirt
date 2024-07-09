@@ -52,6 +52,7 @@ urlpatterns = [
                   path("en-cok-goruntulenen-unisex-isimler/", kategori, name="ecgui"),
                   path("kisaisimekle/", kisaisimekle, name="kisaisimekle"),
                   path("robots.txt", robots_txt, name="robots"),
+                  path("index-ver/", indexing_var_mi, name="indexver"),
                   path("ai-cek/", aicek, name="aicek"),
                   path("ai-add/", aiadd, name="aiadd"),
                   path("paylas/", oto_Paylas, name="paylas"),
