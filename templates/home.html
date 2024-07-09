@@ -406,8 +406,9 @@
             <div class="row category-content">
                 <div class="col-md-4">
                     <div class="card mb-4">
-                        <img src="{% static 'media/images/populer-erkek-isimleri.webp' %}" class="card-img-top"
-                             alt="Popüler Erkek İsimleri">
+                        <a href="{% url 'pei' %}">
+                            <img src="{% static 'media/images/populer-erkek-isimleri.webp' %}" class="card-img-top"
+                                 alt="Popüler Erkek İsimleri" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">Popüler Erkek İsimleri</h3>
                             <p class="card-text">Erkek bebekler için popüler isimler.</p>
@@ -419,7 +420,7 @@
                     <div class="card mb-4">
                         <a href="{% url 'ecgei' %}">
                             <img src="{% static 'media/images/en-cok-goruntulenen-erkek-isimleri.webp' %}"
-                                 class="card-img-top" alt="En çok görüntülenen erkek isimleri"></a>
+                                 class="card-img-top" alt="En çok görüntülenen erkek isimleri" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">En Çok Görüntülenenler Erkek İsimleri</h3>
                             <p class="card-text">Sitemizde En Çok Bakılan Erkek Bebek İsimleri</p>
@@ -432,7 +433,7 @@
                         <a href="{% url 'erkek' %}">
                             <img src="{% static 'media/images/en-son-eklenen-erkek-bebek-isimleri.webp' %}"
                                  class="card-img-top"
-                                 alt="En Son Eklenen Erkek Bebek İsimleri"></a>
+                                 alt="En Son Eklenen Erkek Bebek İsimleri" width="960" height="640"></a>
                         <div class="card-body">
                             <h3 class="card-title" style="font-size: 20px;">En Son Eklenen Erkek Bebek İsimleri</h3>
                             <p class="card-text">Sitemize En Son Eklenen Erkek Bebek İsimleri</p>
@@ -571,7 +572,8 @@
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <a href="{% url 'post-getir' post_slug=saglikk.slug %}">
-                                <img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}" width="
+                                <img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}"
+                                     width="
                                      960" height="640"></a>
                             <div class="card-body">
                                 <h3 class="card-title" style="font-size: 20px;">{{ saglikk.h1 }}</h3>
@@ -597,7 +599,8 @@
                     <div class="col-md-4">
                         <div class="card mb-4">
                             <a href="{% url 'post-getir' post_slug=child.slug %}">
-                                <img src="{{ child.resim.url }}" class="card-img-top" alt="{{ child.title }}" width="960" height="640"></a>
+                                <img src="{{ child.resim.url }}" class="card-img-top" alt="{{ child.title }}"
+                                     width="960" height="640"></a>
                             <div class="card-body">
                                 <h3 class="card-title" style="font-size: 20px;">{{ child.h1 }}</h3>
                                 <p class="card-text">{{ child.icerik1|truncatechars:100|safe }}</p>
