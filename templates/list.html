@@ -297,7 +297,7 @@
                                         <h2 class="card-title" style="font-size: 16px;"><a
                                                 href="{% url 'post-getir' post_slug=post.slug %}">{{ post.h1 }}</a>
                                         </h2>
-                                        <p class="card-text">{{ post.kisaanlam|truncatechars:40|safe }}</p>
+                                        <p class="card-text">{{ post.kisaanlam|truncatechars:31|safe }}</p>
                                         <a href="{% url 'post-getir' post_slug=post.slug %}" class="btn btn-warning">Devamını
                                             Oku</a>
                                     </div>
