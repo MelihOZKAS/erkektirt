@@ -527,12 +527,13 @@
                         <hr>
                     {% endif %}
 
-                    <!-- Ünlü isimler Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-4">{{ icerik.isim|capfirst }} isminde Ünlüler Kimlerdir?</h2>
-                    {% endif %}
-
+                        <!-- Ünlü isimler Başlangıç -->
                     {% if icerik.icerik3 %}
+                        {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                            <h2 class="mt-4">{{ icerik.isim|capfirst }} isminde Ünlüler Kimlerdir?</h2>
+                        {% endif %}
+
+
                         <div class="mt-4"> {{ icerik.icerik3|safe }}</div>
                         <hr>
                     {% endif %}
@@ -605,8 +606,6 @@
 
                     </div>
                 {% endif %}
-
-
             </div>
 
 
