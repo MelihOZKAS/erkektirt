@@ -8,6 +8,7 @@ import json
 import requests
 from django.db.models import Q
 from django.utils import timezone
+from django.views.decorators.http import require_GET
 
 
 
@@ -386,7 +387,16 @@ def iletisim(request):
         'h1': h1,
     }
     return render(request, 'iletisim.html', context)
+@require_GET
+def robots_txt(request):
+    return HttpResponse(robots_txt_content, content_type="text/plain")
 
+
+robots_txt_content = """
+User-agent: *
+Allow: /
+Sitemap: https://www.erkekbebekisimleri.net/sitemap.xml/
+"""
 
 def hakkinda(request):
     title = "Hakkımızda erkekbebekisimleri.net | Erkek Bebek isimleri"
