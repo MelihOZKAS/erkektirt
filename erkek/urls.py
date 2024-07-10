@@ -54,6 +54,7 @@ urlpatterns = [
                   path("robots.txt", robots_txt, name="robots"),
                   path("index-ver/", indexing_var_mi, name="indexver"),
                   path("facebook-cek/", facebook_var_mi, name="facebookcek"),
+                  path("twitter-cek/", twitter_var_mi, name="twittercek"),
                   path("ai-cek/", aicek, name="aicek"),
                   path("ai-add/", aiadd, name="aiadd"),
                   path("paylas/", oto_Paylas, name="paylas"),

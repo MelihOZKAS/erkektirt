@@ -563,3 +563,24 @@ def facebook_var_mi(request):
         return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik}")
     else:
         return HttpResponse("post bulunamadı.")
+
+
+
+@csrf_exempt
+def twitter_var_mi(request):
+    post = Post.objects.filter(twitter=True, aktif=True, status="Yayinda").first()
+    if post is not None:
+        # post'un indexing durumunu False yapayı unutmamak lazımmm dimi.
+        post.twitter = False
+        hashtag = "#bebekisimleri"
+        if post.isim:
+            icerik = f"{post.isim} İsminin Gizli Anlamı Nedir? Öğrenince Şaşıracaksınız! İsminin Sırrı Nedir? #bebekisimleri"
+        else:
+            icerik = f"{post.h1}"
+        if not icerik:
+            icerik = f"{post.h1}"
+        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
+                                 'pinterest', 'Trend'])
+        return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik} {hashtag}")
+    else:
+        return HttpResponse("Paylaşılacak Twitter içerik bulunamadı")
