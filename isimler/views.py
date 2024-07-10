@@ -142,28 +142,28 @@ def kategori(request):
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="erkek")
         TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
             '-olusturma_tarihi')
-        title = "Popüler Erkek İçerikleri"
-        h1 = "Popüler Erkek İçerikleri"
-        description = "En popüler erkek içeriklerini burada bulabilirsiniz."
-        keywords = "popüler erkek, trend erkek, erkek haberleri"
+        title = "Popüler Erkek İsimleri Anlamları ve Analizleri | Bebek İsimleri"
+        h1 = "Popüler Erkek Bebek İsimleri ve Anlamları"
+        description = "En popüler erkek bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
+        keywords = "Modern Bebek isimleri, trend isimler, erkek bebek isimleri, anlamlı isimler, bebek isimleri, popüler bebek isimleri"
 
     elif request.resolver_match.url_name == 'pui':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="unisex")
         TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
             '-olusturma_tarihi')
-        title = "Popüler Unisex İçerikler"
-        h1 = "Popüler Unisex İçerikler"
-        description = "En popüler unisex içeriklerini burada bulabilirsiniz."
-        keywords = "popüler unisex, trend unisex, unisex haberleri"
+        title = "Popüler Unisex İsimler Anlamları ve Analizleri | Bebek İsimleri"
+        h1 = "Popüler Unisex Bebek İsimleri ve Anlamları"
+        description = "En popüler unisex bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
+        keywords = "Modern Bebek isimleri, trend isimler, unisex bebek isimleri, anlamlı isimler, bebek isimleri, popüler bebek isimleri"
 
     elif request.resolver_match.url_name == 'pki':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kiz")
         TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
             '-olusturma_tarihi')
-        title = "Popüler Kız İçerikleri"
-        h1 = "Popüler Kız İçerikleri"
-        description = "En popüler kız içeriklerini burada bulabilirsiniz."
-        keywords = "popüler kız, trend kız, kız haberleri"
+        title = "Popüler Kız İsimleri Anlamları ve Analizleri | Bebek İsimleri"
+        h1 = "Popüler Kız Bebek İsimleri ve Anlamları"
+        description = "En popüler kız bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
+        keywords = "Modern Bebek isimleri, trend isimler, kız bebek isimleri, anlamlı isimler, bebek isimleri, popüler bebek isimleri"
 
 
     # Çok Görüntü Olanlar
@@ -174,7 +174,7 @@ def kategori(request):
             'okunma_sayisi')
         title = "Popüler Kız İçerikleri"
         h1 = "Popüler Kız İçerikleri"
-        description = "En popüler kız içeriklerini burada bulabilirsiniz."
+        description = "En çok görünen erkek bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
         keywords = "popüler kız, trend kız, kız haberleri"
 
     elif request.resolver_match.url_name == 'ecgui':
@@ -184,7 +184,7 @@ def kategori(request):
             '-okunma_sayisi')
         title = "Popüler Kız İçerikleri"
         h1 = "Popüler Kız İçerikleri"
-        description = "En popüler kız içeriklerini burada bulabilirsiniz."
+        description = "En çok görünen unisex bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
         keywords = "popüler kız, trend kız, kız haberleri"
 
     elif request.resolver_match.url_name == 'ecgki':
@@ -194,7 +194,7 @@ def kategori(request):
             '-okunma_sayisi')
         title = "Popüler Kız İçerikleri"
         h1 = "Popüler Kız İçerikleri"
-        description = "En popüler kız içeriklerini burada bulabilirsiniz."
+        description = "En çok görünen kız bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
         keywords = "popüler kız, trend kız, kız haberleri"
 
     paginator = Paginator(TumPost, 9)  # 9 içerik göstermek için
@@ -429,7 +429,7 @@ def cerez(request):
 
 def kullanim(request):
     title = "Kullanım erkekbebekisimleri.net | Bilgilerinizin Korunması"
-    description = "erkekbebekisimleri.net gizlilik politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
+    description = "erkekbebekisimleri.net Kullanım politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
     keywords = "Kullanım Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
     h1 = "erkekbebekisimleri.net Kullanım Politikası Kişisel Bilgileriniz Güvende"
     context = {
@@ -563,7 +563,6 @@ def facebook_var_mi(request):
         return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik}")
     else:
         return HttpResponse("post bulunamadı.")
-
 
 
 @csrf_exempt
