@@ -574,7 +574,7 @@ def twitter_var_mi(request):
         post.twitter = False
         hashtag = "#bebekisimleri"
         if post.isim:
-            icerik = f"{post.isim.capitalize()} İsminin Gizli Anlamı Nedir? Öğrenince Şaşıracaksınız! İsminin Sırrı Nedir? #bebekisimleri"
+            icerik = f"{post.isim.capitalize()} İsminin Gizli Anlamı Nedir? Öğrenince Şaşıracaksınız! İsminin Sırrı Nedir?"
         else:
             icerik = f"{post.h1}"
         if not icerik:
