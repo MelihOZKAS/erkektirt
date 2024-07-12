@@ -234,7 +234,7 @@ def enderun(request, post_slug):
     for isim in benzer_isimler:
         isim = isim.strip()
         try:
-            benzer_post = Post.objects.get(isim=isim.lower())
+            benzer_post = Post.objects.get(isim=isim.lower(), aktif=True, status="Yayinda")
             isim_durumu.append({
                 'isim': isim,
                 'exists': True,
