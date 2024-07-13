@@ -196,7 +196,7 @@ def kategori(request):
         h1 = "En Çok Görüntülenen Unisex İsimler Anlamları"
         description = "En çok görüntülenen unisex bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
         keywords = "Unisex Bebek İsimleri, isimlerin Anlamları, Trend isimler, Kişilik Analizi ve Numeroloji Yorumları, En Çok Görüntülenen Unisex Bebek İsimleri, Trend Unisex Bebek İsimleri, Modern Unisex Bebek İsimleri"
-        urlsi = "https://www.erkekbebekisimleri.net/en-cok-goruntulenen-kiz-isimleri/"
+        urlsi = "https://www.erkekbebekisimleri.net/en-cok-goruntulenen-unisex-isimler/"
     elif request.resolver_match.url_name == 'ecgki':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kiz")
         TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
@@ -205,7 +205,7 @@ def kategori(request):
         h1 = "En Çok Görüntülenen Kız İsimleri Anlamları"
         description = "En çok görüntülenen kız bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
         keywords = "Kız Bebek İsimleri, isimlerin Anlamları, Trend isimler, Kişilik Analizi ve Numeroloji Yorumları, En Çok Görüntülenen Kız Bebek İsimleri, Trend Kız Bebek İsimleri,Modern Kız Bebek İsimleri"
-        urlsi = "https://www.erkekbebekisimleri.net/en-cok-goruntulenen-unisex-isimler/"
+        urlsi = "https://www.erkekbebekisimleri.net/en-cok-goruntulenen-kiz-isimleri/"
 
     paginator = Paginator(TumPost, 9)  # 9 içerik göstermek için
     page_number = request.GET.get('sayfa')
