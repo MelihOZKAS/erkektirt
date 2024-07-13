@@ -197,6 +197,7 @@ def kategori(request):
         description = "En çok görüntülenen unisex bebek isimleri ve anlamları. Bebeğiniz için en trend isimler, kişilik analizleri ve numerolojik yorumlar. Bebeğinize mükemmel ismi seçin."
         keywords = "Unisex Bebek İsimleri, isimlerin Anlamları, Trend isimler, Kişilik Analizi ve Numeroloji Yorumları, En Çok Görüntülenen Unisex Bebek İsimleri, Trend Unisex Bebek İsimleri, Modern Unisex Bebek İsimleri"
         urlsi = "https://www.erkekbebekisimleri.net/en-cok-goruntulenen-unisex-isimler/"
+
     elif request.resolver_match.url_name == 'ecgki':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kiz")
         TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
@@ -237,9 +238,7 @@ def enderun(request, post_slug):
     PostEndrun.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
                                    'pinterest', 'Trend'])
     soru_cevap = None
-
     benzer_isimler = PostEndrun.Benzerisimler.split(',') if PostEndrun.Benzerisimler else []
-
     isim_durumu = []
 
     for isim in benzer_isimler:

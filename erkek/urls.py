@@ -72,6 +72,6 @@ urlpatterns = [
                   path('sitemap.xml/', index, {'sitemaps': sitemaps}),
                   path('sitemap-<section>.xml/', sitemap, {'sitemaps': sitemaps},
                        name='django.contrib.sitemaps.views.sitemap'),
-                  path('<str:post_slug>/', enderun, name='post-getir'),  # Blog Git
+                  path('<str:post_slug>/', enderun, name='post-getir'),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                                            document_root=settings.MEDIA_ROOT)
