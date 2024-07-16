@@ -14,6 +14,23 @@ class PostAdmin(admin.ModelAdmin):
     list_editable = ("status", "aktif", "banner", "editor",)
 
     actions = ["SSSduzenle", ]
+
+
+    def SSSduzenle(self, request, queryset):
+        for post in queryset:
+            if post.Kuran:
+                kuransonuc = f"Evet {post.isim.capitalize()} İsmi Kuranı Kerimde Geçer."
+            else:
+                kuransonuc = f"Maalesef {post.isim.capitalize()} İsmi Kuranı Kerimde Geçmemektedir."
+            if post.Caiz:
+                caizsonuc = f"Evet {post.isim.capitalize()} İsmi Caizdir."
+            else:
+                caizsonuc = f"Maalesef {post.isim.capitalize()} İsmi Caiz Değildir."
+            sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()} anlamına gelmektedir.|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?={caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?=Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır."
+            post.sss = sssSonuc
+            post.save()
+
+    SSSduzenle.short_description = 'SSSEdit'
     def seo_check(self, obj):
         checks = []
 
@@ -65,21 +82,7 @@ class PostAdmin(admin.ModelAdmin):
 
     seo_check.short_description = 'SEO'
 
-    def SSSduzenle(self, queryset):
-        for post in queryset:
-            if post.Kuran:
-                kuransonuc = f"Evet {post.isim.capitalize()} İsmi Kuranı Kerimde Geçer."
-            else:
-                kuransonuc = f"Maalesef {post.isim.capitalize()} İsmi Kuranı Kerimde Geçmemektedir."
-            if post.Caiz:
-                caizsonuc = f"Evet {post.isim.capitalize()} İsmi Caizdir."
-            else:
-                caizsonuc = f"Maalesef {post.isim.capitalize()} İsmi Caiz Değildir."
-            sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()}|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?={caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?=Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır."
-            post.sss = sssSonuc
-            post.save()
 
-    SSSduzenle.short_description = 'SSSEdit'
 
 
 admin.site.register(Post, PostAdmin)
