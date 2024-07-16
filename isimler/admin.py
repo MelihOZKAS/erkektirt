@@ -28,6 +28,7 @@ class PostAdmin(admin.ModelAdmin):
                 caizsonuc = f"Maalesef {post.isim.capitalize()} İsmi Caiz Değildir."
             sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()} anlamına gelmektedir.|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?={caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?=Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır."
             post.sss = sssSonuc
+            post.indexing = True
             post.save()
 
     SSSduzenle.short_description = 'SSSEdit'
