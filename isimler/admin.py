@@ -65,7 +65,7 @@ class PostAdmin(admin.ModelAdmin):
 
     seo_check.short_description = 'SEO'
 
-    def SSSduzenle(modeladmin, queryset):
+    def SSSduzenle(self, queryset):
         for post in queryset:
             if post.Kuran:
                 kuransonuc = f"Evet {post.isim.capitalize()} İsmi Kuranı Kerimde Geçer."
