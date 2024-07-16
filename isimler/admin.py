@@ -1,15 +1,19 @@
 from django.contrib import admin
 from .models import *
 from django.utils.html import format_html
+
+
 # Register your models here.
 class PostAdmin(admin.ModelAdmin):
-    list_display = ("title", "slug", "yazar", "okunma_sayisi", "seo_check", "status", "olusturma_tarihi", "guncelleme_tarihi", "editor","banner","aktif",)#"get_hikayeKategorisi", "get_masalKategorisi",
+    list_display = (
+    "title", "slug", "yazar", "okunma_sayisi", "seo_check", "status", "olusturma_tarihi", "guncelleme_tarihi", "editor",
+    "banner", "aktif",)  # "get_hikayeKategorisi", "get_masalKategorisi",
     prepopulated_fields = {'slug': ('title',)}
     search_fields = ("title",)
-    list_filter = ("status","aktif","banner","editor",)
-    list_editable = ("status","aktif","banner","editor",)
+    list_filter = ("status", "aktif", "banner", "editor",)
+    list_editable = ("status", "aktif", "banner", "editor",)
 
-
+    actions = ["SSSduzenle", ]
     def seo_check(self, obj):
         checks = []
 
@@ -61,15 +65,31 @@ class PostAdmin(admin.ModelAdmin):
 
     seo_check.short_description = 'SEO'
 
+    def SSSduzenle(modeladmin, queryset):
+        for post in queryset:
+            if post.Kuran:
+                kuransonuc = f"Evet {post.isim.capitalize()} İsmi Kuranı Kerimde Geçer."
+            else:
+                kuransonuc = f"Maalesef {post.isim.capitalize()} İsmi Kuranı Kerimde Geçmemektedir."
+            if post.Caiz:
+                caizsonuc = f"Evet {post.isim.capitalize()} İsmi Caizdir."
+            else:
+                caizsonuc = f"Maalesef {post.isim.capitalize()} İsmi Caiz Değildir."
+            sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()}|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?={caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?=Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır."
+            post.sss = sssSonuc
+            post.save()
+
+    SSSduzenle.short_description = 'SSSEdit'
+
 
 admin.site.register(Post, PostAdmin)
 
 
-
 class allNamesAdmin(admin.ModelAdmin):
-    list_display = ("isim", "Durum", )
+    list_display = ("isim", "Durum",)
     search_fields = ("isim",)
     list_filter = ("Durum", "Cinsiyet",)
+
 
 admin.site.register(allname, allNamesAdmin)
 
@@ -81,7 +101,9 @@ class KategoriAdmin(admin.ModelAdmin):
     list_filter = ("aktif",)
     list_editable = ("aktif",)
 
+
 admin.site.register(PostKategori, KategoriAdmin)
+
 
 class iletisimAdmin(admin.ModelAdmin):
     list_display = ("email",)

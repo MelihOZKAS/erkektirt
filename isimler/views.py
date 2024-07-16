@@ -532,10 +532,6 @@ def oto_Paylas(request):
             caizsonuc = f"Maalesef {post.isim.capitalize()} İsmi Caiz Değildir."
 
 
-
-
-
-
         if post.isim:
             sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()}|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?={caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?=Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır. "
             post.sss = sssSonuc
