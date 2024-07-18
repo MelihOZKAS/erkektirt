@@ -61,6 +61,7 @@ urlpatterns = [
                   path("index-ver/", indexing_var_mi, name="indexver"),
                   path("facebook-cek/", facebook_var_mi, name="facebookcek"),
                   path("twitter-cek/", twitter_var_mi, name="twittercek"),
+                  path("pinterest-cek/", pinterest_var_mi, name="pinterestcek"),
                   path("ai-cek/", aicek, name="aicek"),
                   path("ai-add/", aiadd, name="aiadd"),
                   path("paylas/", oto_Paylas, name="paylas"),

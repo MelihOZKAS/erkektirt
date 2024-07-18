@@ -594,3 +594,20 @@ def twitter_var_mi(request):
         return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik} {hashtag}")
     else:
         return HttpResponse("Paylaşılacak Twitter içerik bulunamadı")
+
+
+@csrf_exempt
+def pinterest_var_mi(request):
+    post = Post.objects.filter(pinterest=True, aktif=True, status="Yayinda").first()
+    if post is not None:
+        # post'un facebook durumunu False yapayı unutmamak lazımmm dimi.
+        post.pinterest = False
+        icerik = post.title
+        if not icerik:
+            icerik = "Bebek İsimleri"
+        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
+                                 'pinterest', 'Trend'])
+        return HttpResponse(
+            f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik} Daha fazla bebek ismi için bizi takip edin!={post.title}!={post.Post_Turu.short_title}!={post.resim.url}")
+    else:
+        return HttpResponse("post bulunamadı.")
