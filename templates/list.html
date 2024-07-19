@@ -274,12 +274,19 @@
         }
 
 
-        /* Paginator için yeni stiller */
+        /* Paginator için güncellenmiş stiller */
+        .pagination {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
         .pagination .page-link {
             color: #333;
             background-color: #f8f9fa;
             border-color: #dee2e6;
             transition: color 0.3s, background-color 0.3s;
+            padding: 0.75rem 1rem;
+            font-size: 1.1rem;
         }
 
         .pagination .page-item.active .page-link {
@@ -315,6 +322,12 @@
             background-color: #2a2a2a;
         }
 
+        @media (max-width: 575.98px) {
+            .pagination .page-link {
+                padding: 0.5rem 0.75rem;
+                font-size: 1rem;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -358,16 +371,20 @@
 
     {% if TumPost.paginator.num_pages > 1 %}
         <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
+            <ul class="pagination pagination-lg justify-content-center flex-wrap">
                 {% if TumPost.has_previous %}
                     <li class="page-item">
                         <a class="page-link" href="?sayfa={{ TumPost.previous_page_number }}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
+                            <span class="d-none d-sm-inline">Önceki</span>
                         </a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&laquo;</span>
+        <span class="page-link">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="d-none d-sm-inline">Önceki</span>
+        </span>
                     </li>
                 {% endif %}
 
@@ -386,12 +403,16 @@
                 {% if TumPost.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?sayfa={{ TumPost.next_page_number }}" aria-label="Next">
+                            <span class="d-none d-sm-inline">Sonraki</span>
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <span class="page-link" aria-hidden="true">&raquo;</span>
+        <span class="page-link">
+          <span class="d-none d-sm-inline">Sonraki</span>
+          <span aria-hidden="true">&raquo;</span>
+        </span>
                     </li>
                 {% endif %}
             </ul>
