@@ -286,7 +286,8 @@
             border-color: #dee2e6;
             transition: color 0.3s, background-color 0.3s;
             padding: 0.75rem 1rem;
-            font-size: 1.1rem;
+            font-size: 1rem;
+            white-space: nowrap;
         }
 
         .pagination .page-item.active .page-link {
@@ -325,7 +326,7 @@
         @media (max-width: 575.98px) {
             .pagination .page-link {
                 padding: 0.5rem 0.75rem;
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -363,61 +364,61 @@
                     </div>
                 </section>
             </div>
+            {% if TumPost.paginator.num_pages > 1 %}
+                <nav aria-label="Page navigation">
+                    <ul class="pagination pagination-lg justify-content-center flex-wrap">
+                        {% if TumPost.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?sayfa={{ TumPost.previous_page_number }}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                    <span>Önceki</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+        <span class="page-link">
+          <span aria-hidden="true">&laquo;</span>
+          <span>Önceki</span>
+        </span>
+                            </li>
+                        {% endif %}
+
+                        {% for i in page_range %}
+                            {% if TumPost.number == i %}
+                                <li class="page-item active d-none d-sm-inline" aria-current="page">
+                                    <span class="page-link">{{ i }}</span>
+                                </li>
+                            {% else %}
+                                <li class="page-item d-none d-sm-inline">
+                                    <a class="page-link" href="?sayfa={{ i }}">{{ i }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if TumPost.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?sayfa={{ TumPost.next_page_number }}" aria-label="Next">
+                                    <span>Sonraki</span>
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+        <span class="page-link">
+          <span>Sonraki</span>
+          <span aria-hidden="true">&raquo;</span>
+        </span>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            {% endif %}
 
             <!-- Sidebar -->
             {% include "parcalar/sidebar.html" %}
         </div>
     </div>
-
-    {% if TumPost.paginator.num_pages > 1 %}
-        <nav aria-label="Page navigation">
-            <ul class="pagination pagination-lg justify-content-center flex-wrap">
-                {% if TumPost.has_previous %}
-                    <li class="page-item">
-                        <a class="page-link" href="?sayfa={{ TumPost.previous_page_number }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span class="d-none d-sm-inline">Önceki</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-        <span class="page-link">
-          <span aria-hidden="true">&laquo;</span>
-          <span class="d-none d-sm-inline">Önceki</span>
-        </span>
-                    </li>
-                {% endif %}
-
-                {% for i in page_range %}
-                    {% if TumPost.number == i %}
-                        <li class="page-item active" aria-current="page">
-                            <span class="page-link">{{ i }}</span>
-                        </li>
-                    {% else %}
-                        <li class="page-item">
-                            <a class="page-link" href="?sayfa={{ i }}">{{ i }}</a>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-
-                {% if TumPost.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?sayfa={{ TumPost.next_page_number }}" aria-label="Next">
-                            <span class="d-none d-sm-inline">Sonraki</span>
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-        <span class="page-link">
-          <span class="d-none d-sm-inline">Sonraki</span>
-          <span aria-hidden="true">&raquo;</span>
-        </span>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-    {% endif %}
 
 
 {% endblock %}
