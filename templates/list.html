@@ -274,6 +274,44 @@
         }
 
 
+        /* Paginator için yeni stiller */
+        .pagination .page-link {
+            color: #333;
+            background-color: transparent;
+            border: none;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .pagination .page-item.active .page-link {
+            color: #fff;
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .pagination .page-item:not(.active) .page-link:hover {
+            color: #ffc107;
+            background-color: transparent;
+        }
+
+        .dark-mode .pagination .page-link {
+            color: #f8f9fa;
+        }
+
+        .dark-mode .pagination .page-item.active .page-link {
+            color: #333;
+            background-color: #ffc107;
+            border-color: #ffc107;
+        }
+
+        .dark-mode .pagination .page-item:not(.active) .page-link:hover {
+            color: #ffc107;
+            background-color: transparent;
+        }
+
+        .dark-mode .pagination .page-item.disabled .page-link {
+            color: #6c757d;
+        }
+
     </style>
 {% endblock %}
 
@@ -330,7 +368,7 @@
                     </li>
                 {% endif %}
 
-                {% for i in TumPost.paginator.page_range %}
+                {% for i in page_range %}
                     {% if TumPost.number == i %}
                         <li class="page-item active" aria-current="page">
                             <span class="page-link">{{ i }}</span>
