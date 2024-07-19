@@ -178,7 +178,7 @@ def kategori(request):
     # Çok Görüntü Olanlar
     elif request.resolver_match.url_name == 'ecgei':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="erkek")
-        TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
+        TumPost = Post.objects.filter(aktif=True,status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
             'okunma_sayisi')
         title = "En Çok Bakılan Erkek İsimleri Anlamları ve Analizleri | Bebek İsimleri"
         h1 = "En Çok Görüntülenen Erkek İsimleri Anlamları"
@@ -190,7 +190,7 @@ def kategori(request):
 
     elif request.resolver_match.url_name == 'ecgui':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="unisex")
-        TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
+        TumPost = Post.objects.filter(aktif=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
             '-okunma_sayisi')
         title = "En Çok Bakılan Unisex İsimler Anlamları ve Analizleri | Bebek İsimleri"
         h1 = "En Çok Görüntülenen Unisex İsimler Anlamları"
@@ -200,7 +200,7 @@ def kategori(request):
 
     elif request.resolver_match.url_name == 'ecgki':
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kiz")
-        TumPost = Post.objects.filter(aktif=True, Trend=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
+        TumPost = Post.objects.filter(aktif=True, status="Yayinda", Post_Turu=Post_Kategorisi).order_by(
             '-okunma_sayisi')
         title = "En Çok Bakılan Kız İsimler Anlamları ve Analizleri | Bebek İsimleri"
         h1 = "En Çok Görüntülenen Kız İsimleri Anlamları"
