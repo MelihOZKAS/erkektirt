@@ -606,14 +606,14 @@
                                             data-bs-target="#collapse{{ forloop.counter }}"
                                             aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
                                             aria-controls="collapse{{ forloop.counter }}">
-                                        {{ question }}
+                                        {{ question|safe }}
                                     </button>
                                 </h2>
                                 <div id="collapse{{ forloop.counter }}"
                                      class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
                                      data-bs-parent="#accordionExample">
                                     <div class="accordion-body">
-                                        {{ answer }}
+                                        {{ answer|safe }}
                                     </div>
                                 </div>
                             </div>
