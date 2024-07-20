@@ -23,7 +23,7 @@ class PostAdmin(admin.ModelAdmin):
 
     def SSSsplitEdit(self, request, queryset):
         for post in queryset:
-            post.content = update_sss_format(post.content)
+            post.sss = update_sss_format(post.content)
             post.save()
 
     SSSsplitEdit.short_description = "SSS formatını güncelle"
