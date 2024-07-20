@@ -190,6 +190,7 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
+
         .navbar {
             background-color: #ffffff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -339,6 +340,36 @@
                 flex: 1 1 100%;
                 margin: 0.25rem;
             }
+        }
+
+        /* Textlerdeki Linkleri Düzenler */
+        a {
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        /* Light mode için */
+        body:not(.dark-mode) a {
+            color: #333;
+        }
+
+        /* Dark mode için */
+        .dark-mode a {
+            color: #f8f9fa;
+        }
+
+        /* Navbar linkleri için özel durumlar */
+        .navbar-brand, .nav-link {
+            color: #333 !important;
+        }
+
+        .navbar-dark .navbar-brand, .navbar-dark .nav-link {
+            color: #f8f9fa !important;
+        }
+
+        /* Dark mode'da list-group-item içindeki linkler için */
+        .dark-mode .list-group-item a {
+            color: #ffffff;
         }
 
 
