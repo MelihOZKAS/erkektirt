@@ -261,7 +261,7 @@ def enderun(request, post_slug):
 
     if PostEndrun.sss:
         sss = PostEndrun.sss.split("|")
-        soru_cevap = [item.split("=") for item in sss]
+        soru_cevap = [item.split("::") for item in sss]
 
     # todo tüm içeriği json için veriyorum
     contents = [PostEndrun.icerik1, PostEndrun.icerik2, PostEndrun.icerik3, PostEndrun.icerik4, PostEndrun.icerik5,
@@ -539,7 +539,7 @@ def oto_Paylas(request):
 
 
         if post.isim:
-            sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?={post.kisaanlam.capitalize()} anlamına gelmektedir.|{post.isim.capitalize()} ismi kuranda geçiyor mu ?={kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?={caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?=Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır. "
+            sssSonuc = f"{post.isim.capitalize()} isminin anlamı nedir ?::{post.kisaanlam.capitalize()} anlamına gelmektedir.|{post.isim.capitalize()} ismi kuranda geçiyor mu ?::{kuransonuc}|{post.isim.capitalize()} ismi caiz mi ?::{caizsonuc}|{post.isim.capitalize()} isminin cinseyeti nedir?::Genel olarak {post.isim.capitalize()} ismi {post.Post_Turu.short_title.capitalize()} ismi olarak kullanılmaktadır. "
             post.sss = sssSonuc
         post.status = "Yayinda"
         post.aktif = True

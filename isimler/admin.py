@@ -4,6 +4,12 @@ from django.utils.html import format_html
 
 
 # Register your models here.
+
+
+def update_sss_format(old_content):
+    return old_content.replace('=', '::')
+
+
 class PostAdmin(admin.ModelAdmin):
     list_display = (
     "title", "slug", "yazar", "okunma_sayisi", "seo_check", "status", "olusturma_tarihi", "guncelleme_tarihi", "editor",
@@ -13,7 +19,14 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ("status", "aktif", "banner", "editor",)
     list_editable = ("status", "aktif", "banner", "editor",)
 
-    actions = ["SSSduzenle", ]
+    actions = ["SSSduzenle", "SSSsplitEdit"]
+
+    def SSSsplitEdit(self, request, queryset):
+        for post in queryset:
+            post.content = update_sss_format(post.content)
+            post.save()
+
+    SSSsplitEdit.short_description = "SSS formatını güncelle"
 
 
     def SSSduzenle(self, request, queryset):
