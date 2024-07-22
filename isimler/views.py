@@ -218,6 +218,7 @@ def kategori(request):
     else:
         title = f"{title} - {page_number}"
         description = f"{description} - Sayfa {page_number}"
+        h1 = f"{h1} - Sayfa {page_number}"
 
     context = {
         'title': title,
