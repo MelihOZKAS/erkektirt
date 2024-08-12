@@ -314,6 +314,11 @@ def arama(request):
         posts = Post.objects.filter(isim__icontains=query, Post_Turu__short_title='kiz', aktif=True,
                                     status="Yayinda")
         Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="unisex")
+    else:
+        return HttpResponse(
+            'Lütfen Formu Kullanarak Tekrar Deneyin. <a href="{}" class="btn btn-primary">Ana Sayfaya Dönmek için Tıklayın.</a>'.format(
+                reverse('home')))
+
 
     paginator = Paginator(posts, 12)  # Her sayfada 12 sonuç göster
     page_number = request.GET.get('sayfa')
