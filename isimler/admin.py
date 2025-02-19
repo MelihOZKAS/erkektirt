@@ -97,8 +97,6 @@ class PostAdmin(admin.ModelAdmin):
     seo_check.short_description = 'SEO'
 
 
-
-
 admin.site.register(Post, PostAdmin)
 
 
