@@ -344,9 +344,12 @@
                         {% for post in TumPost %}
                             <div class="col-md-4">
                                 <div class="card mb-4">
-                                    <a href="{% url 'post-getir' post_slug=post.slug %}">
+                                    {% if post.resim %}
+                                                                            <a href="{% url 'post-getir' post_slug=post.slug %}">
                                         <img src="{{ post.resim.url }}" class="card-img-top" alt="{{ post.title }}"
                                              height="960" width="640">
+                                    {% endif %}
+
                                     </a>
                                     <div class="card-body">
                                         <h2 class="card-title" style="font-size: 16px;"><a
