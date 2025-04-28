@@ -370,9 +370,9 @@ def gizlilik(request):
 
 def iletisim(request):
     title = "iletişim erkekbebekisimleri.net | Bilgilerinizin Korunması"
-    description = "erkekbebekisimleri.net iletişim politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
+    description = "erkekbebekisimleri.net iletişim politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin."
     keywords = "iletişim Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
-    h1 = "erkekbebekisimleri.net Gizlilik Politikası: Kişisel Bilgileriniz Güvende"
+    h1 = "İletişim"
 
     if request.method == 'POST':
         recaptcha_response = request.POST.get('g-recaptcha-response')
@@ -424,8 +424,8 @@ ads_content = """google.com, pub-7065951693101615, DIRECT, f08c47fec0942fa0"""
 def hakkinda(request):
     title = "Hakkımızda erkekbebekisimleri.net | Erkek Bebek isimleri"
     description = "erkekbebekisimleri.net Hakkımızda bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
-    keywords = "Gizlilik Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
-    h1 = "erkekbebekisimleri.net Gizlilik Politikası: Kişisel Bilgileriniz Güvende"
+    keywords = "Hakkımızda, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
+    h1 = "erkekbebekisimleri.net Hakkımızda     Kişisel Bilgileriniz Güvende"
     context = {
         'title': title,
         'description': description,
@@ -437,9 +437,9 @@ def hakkinda(request):
 
 def cerez(request):
     title = "Çerez Politikamız erkekbebekisimleri.net | Erkek isimleri"
-    description = "erkekbebekisimleri.net gizlilik politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin. Gizliliğiniz bizim için en önemlidir."
-    keywords = "Gizlilik Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
-    h1 = "erkekbebekisimleri.net Gizlilik Politikası: Kişisel Bilgileriniz Güvende"
+    description = "erkekbebekisimleri.net çerez politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin."
+    keywords = "çerez Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
+    h1 = "erkekbebekisimleri.net Çeverez Politikası Kişisel Bilgileriniz Güvende"
     context = {
         'title': title,
         'description': description,
