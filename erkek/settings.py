@@ -41,6 +41,10 @@ SECURE_HSTS_SECONDS = 31536000  # 1 yıl HSTS politikası
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Alt alanları da HSTS politikasına dahil et
 SECURE_HSTS_PRELOAD = True  # Tarayıcı HSTS ön yükleme listesine eklenebilme
 
+# Cloudflare/Proxy arkasında doğru host/şema tespiti ve URL standardizasyonu
+USE_X_FORWARDED_HOST = True
+APPEND_SLASH = True
+
 # Çerez Güvenliği
 SESSION_COOKIE_SECURE = True  # Oturum çerezlerini sadece HTTPS üzerinden gönder
 CSRF_COOKIE_SECURE = True  # CSRF token çerezlerini sadece HTTPS üzerinden gönder
@@ -53,7 +57,7 @@ CSRF_COOKIE_SAMESITE    = 'Lax'   # CSRF korumasını güçlendirir :contentRefe
 # İçerik Güvenliği
 SECURE_CONTENT_TYPE_NOSNIFF = True  # Tarayıcının içerik tipini tahmin etmesini engeller (XSS koruması)
 SECURE_BROWSER_XSS_FILTER = True  # Tarayıcıların XSS korumasını etkinleştirir
-SECURE_REFERRER_POLICY = 'same-origin'  # Referer bilgisini sınırla :contentReference[oaicite:15]{index=15}
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'  # Modern referrer politikası
 # Tarayıcıların sayfayı bir frame veya iframe içinde göstermesini engeller (Clickjacking koruması).
 # 'DENY' (hiçbir zaman) veya 'SAMEORIGIN' (sadece kendi sitenizden) seçenekleri vardır.
 # 'SAMEORIGIN' genellikle daha kullanışlıdır.

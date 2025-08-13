@@ -21,8 +21,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .sitemaps import *
 from django.contrib.sitemaps.views import index, sitemap
+from django.views.generic import TemplateView
 
 sitemaps = {
+    'static': StaticViewSitemap,
     'Erkekisimleri': erkekisimleri,
     'Kizisimleri': kizisimleri,
     'Unisexisimler': unisexisimleri,
@@ -40,6 +42,10 @@ def handler404(request, *args, **argv):
 urlpatterns = [
                   path("admin/", admin.site.urls),
                   path("", home, name="home"),
+                   # Basit statik sayfa sitemap'ı için sayfalar
+                   path("hakkimizda/", hakkinda, name="hakkimizda"),
+                   path("gizlilik-politikasi/", gizlilik, name="gizlilik-politikasi"),
+                   path("kullanim-sartlari/", kullanim, name="kullanim-sartlari"),
                   path('tinymce/', include('tinymce.urls')),
                   path('ara/', arama, name='ara'),
                   path("erkek-isimleri/", kategori, name="erkek"),
@@ -67,11 +73,8 @@ urlpatterns = [
                   path("ai-cek/", aicek, name="aicek"),
                   path("ai-add/", aiadd, name="aiadd"),
                   path("paylas/", oto_Paylas, name="paylas"),
-                  path("iletisim/", iletisim, name="iletisim"),
-                  path("hakkimizda/", hakkinda, name="hakkimizda"),
-                  path("cerez-politikasi/", cerez, name="cerez"),
-                  path("gizlilik-politikasi/", gizlilik, name="gizlilik-politikasi"),
-                  path("kullanim-sartlari/", kullanim, name="kullanim-sartlari"),
+                   path("iletisim/", iletisim, name="iletisim"),
+                   path("cerez-politikasi/", cerez, name="cerez"),
                   path('sitemap.xml/', index, {'sitemaps': sitemaps}),
                   path('sitemap-<section>.xml/', sitemap, {'sitemaps': sitemaps},
                        name='django.contrib.sitemaps.views.sitemap'),

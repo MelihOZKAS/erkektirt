@@ -14,6 +14,55 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
+    <style>
+        :root {
+            --bg: #ffffff;
+            --fg: #212529;
+            --muted: #6c757d;
+            --card-bg: #ffffff;
+            --border: #e9ecef;
+            --navbar-bg: #ffffff;
+            --footer-bg: #2A2A2C;
+            --footer-fg: #F1F6FA;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+        }
+        .navbar {
+            background-color: var(--navbar-bg);
+        }
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+        }
+        .footer {
+            background-color: var(--footer-bg);
+            color: var(--footer-fg);
+        }
+        .footer a { color: #eff4f8; text-decoration: none; }
+        .footer a:hover { color: #6fa8dc; }
+        .navbar.shadow-sm { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+
+        /* Dark mode */
+        .dark-mode {
+            --bg: #121212;
+            --fg: #f1f1f1;
+            --muted: #b5b5b5;
+            --card-bg: #1e1e1e;
+            --border: #343a40;
+            --navbar-bg: #1a1a1a;
+            --footer-bg: #1f1f1f;
+            --footer-fg: #f1f1f1;
+        }
+        .dark-mode .navbar a,
+        .dark-mode .nav-link {
+            color: #f1f1f1 !important;
+        }
+        .dark-mode .footer a { color: #f8f9fa; }
+        .dark-mode .footer a:hover { color: #ffc107; }
+    </style>
+
 
     <!-- Extra CSS -->
     {% block extra_css %}
@@ -29,6 +78,7 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Erkek isimleri, Kız isimleri ve anlamları">
+    <link rel="alternate" hreflang="tr" href="{{ request.build_absolute_uri }}" />
     <meta property="og:locale" content="tr_TR">
 
     <!--  tt Tag Başlangıç -->
@@ -51,7 +101,11 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Robots -->
+    {% if noindex %}
+    <meta name="robots" content="noindex, nofollow">
+    {% else %}
     <meta name="robots" content="index, follow">
+    {% endif %}
 
     <!-- Google ADS -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7065951693101615"
@@ -106,8 +160,7 @@
 </script>
 <!-- Event snippet for Diğer conversion page Bitiş-->
 
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
 </head>
 <body>
 {% include "parcalar/navbar.html" %}

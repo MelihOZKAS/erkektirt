@@ -269,14 +269,14 @@ def enderun(request, post_slug):
                 PostEndrun.icerik6, PostEndrun.icerik7]
     articleBody = ' '.join(filter(None, contents))
 
-    # todo tüm resimleri json için veriyorum
+    # todo tüm resimleri json için veriyorum (mutlak URL)
     resimler = []
     if PostEndrun.resim:
-        resimler.append(PostEndrun.resim.url)
+        resimler.append(request.build_absolute_uri(PostEndrun.resim.url))
     if PostEndrun.resim2:
-        resimler.append(PostEndrun.resim2.url)
+        resimler.append(request.build_absolute_uri(PostEndrun.resim2.url))
     if PostEndrun.resim3:
-        resimler.append(PostEndrun.resim3.url)
+        resimler.append(request.build_absolute_uri(PostEndrun.resim3.url))
     # if PostEndrun.resim4:
     #    resimler.append(PostEndrun.resim4.url)
     if not resimler:  # Eğer resimler listesi boşsa
@@ -288,22 +288,28 @@ def enderun(request, post_slug):
         'isim_durumu': isim_durumu,
         'articleBody': articleBody,
         'resimler': resimler,
+        'icerik_resim_abs': (request.build_absolute_uri(PostEndrun.resim.url) if PostEndrun.resim else ''),
     }
 
     return render(request, "enderun.html", context)
 
 
 def arama(request):
-    query = request.POST.get('fulltext')
-    gender = request.POST.get('gender')
-    # query = request.GET.get('fulltext')
-    # gender = request.GET.get('gender')
+    # Hem GET hem POST desteklenir; q veya fulltext parametresi ile arama
+    query = (
+        request.GET.get('q')
+        or request.GET.get('fulltext')
+        or request.POST.get('q')
+        or request.POST.get('fulltext')
+        or ''
+    )
+    gender = request.GET.get('gender') or request.POST.get('gender') or '1'
 
-    if gender == '1':  # Unisex
+    if gender == '1':  # Unisex (varsayılan)
         Cinsiyet = "Unisex"
         posts = Post.objects.filter(isim__icontains=query, Post_Turu__short_title='unisex', aktif=True,
                                     status="Yayinda")
-        Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kiz")
+        Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="unisex")
     elif gender == '2':  # Erkek
         Cinsiyet = "Erkek"
         posts = Post.objects.filter(isim__icontains=query, Post_Turu__short_title='erkek', aktif=True,
@@ -313,7 +319,7 @@ def arama(request):
         Cinsiyet = "Kız"
         posts = Post.objects.filter(isim__icontains=query, Post_Turu__short_title='kiz', aktif=True,
                                     status="Yayinda")
-        Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="unisex")
+        Post_Kategorisi = get_object_or_404(PostKategori, aktif=True, short_title="kiz")
     else:
         return HttpResponse(
             'Lütfen Formu Kullanarak Tekrar Deneyin. <a href="{}" class="btn btn-primary">Ana Sayfaya Dönmek için Tıklayın.</a>'.format(
@@ -342,6 +348,9 @@ def arama(request):
         H1 = f"{H1}"
         description = f"{description} - Sayfa {page_number}"
 
+    # Canonical temel URL (sayfasız)
+    base_search_url = f"{request.scheme}://{request.get_host()}/ara/?q={query}&gender={gender}"
+
     context = {
         'title': title,
         'H1': H1,
@@ -349,6 +358,9 @@ def arama(request):
         'keywords': keywords,
         'Post_Kategorisi': Post_Kategorisi,
         'TumPost': TumPost,
+        'urlsi': base_search_url,
+        'noindex': True,
+        'is_search': True,
     }
 
     return render(request, 'list.html', context)

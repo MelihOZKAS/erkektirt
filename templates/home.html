@@ -10,6 +10,19 @@
     <meta name="author" content="Erkek Bebek isimleri">
     <!-- Canonical Link -->
     <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Erkek Bebek İsimleri",
+      "url": "{{ request.scheme }}://{{ request.get_host }}/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ request.scheme }}://{{ request.get_host }}/ara/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
 {% endblock MetaTag %}
 <!-- Meta Tag Bitiş -->
 
@@ -43,24 +56,14 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        .navbar {
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
+        .navbar { background-color: var(--navbar-bg); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06); }
 
         .navbar-dark {
             background-color: #333333;
         }
 
-        .navbar-brand,
-        .nav-link {
-            color: #333 !important;
-        }
-
-        .navbar-dark .navbar-brand,
-        .navbar-dark .nav-link {
-            color: #f8f9fa !important;
-        }
+        .navbar-brand, .nav-link { color: var(--fg) !important; }
+        .navbar-dark .navbar-brand, .navbar-dark .nav-link { color: #f8f9fa !important; }
 
         .hero-section {
             background: url('{% static "media/images/aile.webp" %}') no-repeat center center;
@@ -92,47 +95,24 @@
             padding-bottom: 10px;
         }
 
-        .category-content .card {
-            transition: transform 0.2s;
-            background-color: #ffffff;
-            border: 1px solid #e9ecef;
-            color: #333333;
-        }
+        .category-content .card { transition: transform 0.2s; background-color: var(--card-bg); border: 1px solid var(--border); color: var(--fg); }
 
-        .category-content .card:hover {
-            transform: scale(1.05);
-        }
+        .category-content .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0,0,0,0.08); }
 
         .category-content .card img {
             height: 200px;
             object-fit: cover;
         }
 
-        footer {
-            background-color: #f8f9fa;
-            border-top: 1px solid #e9ecef;
-            padding: 20px 0;
-        }
+        footer { background-color: var(--footer-bg); border-top: 1px solid var(--border); padding: 20px 0; }
 
-        .dark-mode {
-            background-color: #1c1c1c;
-            color: #ffffff;
-        }
+        .dark-mode { background-color: var(--bg); color: var(--fg); }
 
-        .dark-mode .navbar {
-            background-color: #333333;
-        }
+        .dark-mode .navbar { background-color: var(--navbar-bg); }
 
-        .dark-mode footer {
-            background-color: #333333;
-            border-top: 1px solid #555555;
-        }
+        .dark-mode footer { background-color: var(--footer-bg); border-top: 1px solid var(--border); }
 
-        .dark-mode .category-content .card {
-            background-color: #2a2a2a;
-            border: 1px solid #444444;
-            color: #ffffff;
-        }
+        .dark-mode .category-content .card { background-color: var(--card-bg); border: 1px solid var(--border); color: var(--fg); }
 
         .toggle-mode {
             cursor: pointer;

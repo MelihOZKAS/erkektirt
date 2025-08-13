@@ -2,6 +2,23 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
 from isimler.models import *
 
+class StaticViewSitemap(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+    protocol = 'https'
+
+    def items(self):
+        return [
+            'home',
+            'erkek', 'kiz', 'unisex', 'kadin', 'saglik', 'cocuk',
+            'pei', 'pki', 'pui',
+            'ecgei', 'ecgki', 'ecgui',
+            'hakkimizda', 'gizlilik-politikasi', 'kullanim-sartlari', 'iletisim',
+        ]
+
+    def location(self, item):
+        return reverse(item)
+
 class erkekisimleri(Sitemap):
     changefreq = "daily"
     priority = 1.0
