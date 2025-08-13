@@ -22,8 +22,8 @@
             --card-bg: #ffffff;
             --border: #e9ecef;
             --navbar-bg: #ffffff;
-            --footer-bg: #2A2A2C;
-            --footer-fg: #F1F6FA;
+            --footer-bg: #f8f9fa;
+            --footer-fg: #212529;
         }
         body {
             background-color: var(--bg);
@@ -39,9 +39,10 @@
         .footer {
             background-color: var(--footer-bg);
             color: var(--footer-fg);
+            border-top: 1px solid var(--border);
         }
-        .footer a { color: #eff4f8; text-decoration: none; }
-        .footer a:hover { color: #6fa8dc; }
+        .footer a { color: inherit; text-decoration: none; }
+        .footer a:hover { color: #0d6efd; }
         .navbar.shadow-sm { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
 
         /* Dark mode */
@@ -59,7 +60,7 @@
         .dark-mode .nav-link {
             color: #f1f1f1 !important;
         }
-        .dark-mode .footer a { color: #f8f9fa; }
+        .dark-mode .footer a { color: var(--footer-fg); }
         .dark-mode .footer a:hover { color: #ffc107; }
     </style>
 
