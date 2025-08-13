@@ -11,6 +11,10 @@
     <!-- Meta Tag Bitiş -->
 
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
@@ -24,18 +28,24 @@
             --navbar-bg: #ffffff;
             --footer-bg: #f8f9fa;
             --footer-fg: #212529;
+            --accent: #0aa67a;
         }
+        html { scroll-behavior: smooth; }
         body {
             background-color: var(--bg);
             color: var(--fg);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
         }
-        .navbar {
-            background-color: var(--navbar-bg);
-        }
+        .navbar { background-color: var(--navbar-bg); position: sticky; top: 0; z-index: 1030; }
         .card {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
         }
+        .card, .btn, .form-control, .pagination .page-link, .dropdown-menu { border-radius: 12px; }
+        .btn-success { background-color: var(--accent); border-color: var(--accent); }
+        .btn-success:hover { background-color: #08966e; border-color: #08966e; }
+        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 .2rem rgba(10,166,122,.25); }
+        .nav-link.active { font-weight: 600; border-bottom: 2px solid var(--accent); }
         .footer {
             background-color: var(--footer-bg);
             color: var(--footer-fg);
@@ -62,6 +72,9 @@
         }
         .dark-mode .footer a { color: var(--footer-fg); }
         .dark-mode .footer a:hover { color: #ffc107; }
+
+        /* Back to top */
+        .back-to-top { position: fixed; right: 24px; bottom: 24px; width: 44px; height: 44px; display: none; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,.15); }
     </style>
 
 
@@ -175,5 +188,16 @@
 {% endblock extra_js %}
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 <script defer src="{% static 'js/scripts.js' %}"></script>
+<button id="backToTop" class="btn btn-success back-to-top" aria-label="Yukarı çık"><i class="bi bi-arrow-up"></i></button>
+<script>
+  const backToTop = document.getElementById('backToTop');
+  if (backToTop) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 300) backToTop.style.display = 'inline-flex';
+      else backToTop.style.display = 'none';
+    });
+    backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+  }
+</script>
 </body>
 </html>
