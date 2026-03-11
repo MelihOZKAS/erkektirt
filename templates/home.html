@@ -1,14 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
-<!-- Meta Tag Başlangıç -->
 {% block MetaTag %}
     <title>{{ title }}</title>
     <meta name="description" content="{{ description }}">
     <meta name="keywords" content="{{ keywords }}">
     <meta name="author" content="Erkek Bebek isimleri">
-    <!-- Canonical Link -->
     <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/">
     <script type="application/ld+json">
     {
@@ -24,9 +21,7 @@
     }
     </script>
 {% endblock MetaTag %}
-<!-- Meta Tag Bitiş -->
 
-<!--  Open Graph / Facebook Tag Başlangıç -->
 {% block OgTag %}
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">
@@ -35,381 +30,502 @@
     <meta property="og:image:width" content="960"/>
     <meta property="og:image:height" content="640"/>
 {% endblock OgTag %}
-<!--  Open Graph / Facebook Tag Bitiş -->
 
-
-<!--  tt Tag Başlangıç -->
 {% block ttTag %}
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description }}">
     <meta name="twitter:url" content="https://x.com/erkekbebekisimleri">
     <meta name="twitter:image" content="{{ resim }}">
 {% endblock ttTag %}
-<!--  tt Tag Bitiş -->
-
-
 
 {% block extra_css %}
-    <style>
-        .hero-section {
-            background: url('{% static "media/images/aile.webp" %}') no-repeat center center;
-        }
-        .search-form .letter-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .category-section .d-flex { margin-bottom: 1rem; }
-        .category-content .card img { height: 200px; object-fit: cover; }
-    </style>
-{% endblock %}
+<style>
+    .home-hero {
+        background: linear-gradient(135deg, rgba(13,150,104,0.92) 0%, rgba(5,96,69,0.95) 50%, rgba(0,60,40,0.97) 100%),
+                    url('{% static "media/images/aile.webp" %}') no-repeat center center;
+        background-size: cover;
+        padding: 5rem 0 4rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    .home-hero::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.05) 0%, transparent 50%);
+        animation: heroShimmer 15s linear infinite;
+    }
+    @keyframes heroShimmer {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .home-hero h1 {
+        color: #fff;
+        font-size: 2.8rem;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 2;
+        text-shadow: 0 2px 20px rgba(0,0,0,0.15);
+    }
+    .home-hero p {
+        color: rgba(255,255,255,0.85);
+        font-size: 1.15rem;
+        max-width: 600px;
+        margin: 0 auto 2rem;
+        position: relative;
+        z-index: 2;
+    }
+    .home-hero .hero-search {
+        max-width: 520px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+    }
+    .home-hero .hero-search .form-control {
+        height: 56px;
+        border-radius: 28px;
+        padding-left: 24px;
+        padding-right: 56px;
+        font-size: 1rem;
+        border: 2px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(10px);
+        color: #fff;
+    }
+    .home-hero .hero-search .form-control::placeholder { color: rgba(255,255,255,0.5); }
+    .home-hero .hero-search .form-control:focus {
+        background: rgba(255,255,255,0.2);
+        border-color: rgba(255,255,255,0.4);
+        box-shadow: 0 0 0 4px rgba(255,255,255,0.1);
+        color: #fff;
+    }
+    .home-hero .hero-search button {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: none;
+        background: #fff;
+        color: var(--accent);
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .home-hero .hero-search button:hover { transform: translateY(-50%) scale(1.08); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
+    .stat-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(6px);
+        padding: 8px 18px;
+        border-radius: 50px;
+        color: rgba(255,255,255,0.9);
+        font-size: 0.85rem;
+        font-weight: 500;
+        margin: 4px;
+    }
+
+    .quick-link-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        padding: 1.75rem 1.25rem;
+        text-align: center;
+        text-decoration: none;
+        display: block;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    .quick-link-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+    }
+    .quick-link-card .ql-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    .quick-link-card h3 { font-size: 1rem; font-weight: 700; color: var(--fg); margin-bottom: 0.3rem; }
+    .quick-link-card p { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+    .letter-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; }
+    .letter-btn {
+        width: 44px; height: 44px;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: 0.95rem;
+        border-radius: 12px; border: 1px solid var(--border);
+        background: var(--card-bg); color: var(--fg);
+        text-decoration: none; transition: all 0.2s;
+    }
+    .letter-btn:hover {
+        background: var(--accent); color: #fff; border-color: var(--accent);
+        transform: scale(1.1); box-shadow: 0 4px 12px rgba(13,150,104,0.3);
+    }
+
+    .gender-pill {
+        display: inline-flex; align-items: center; gap: 8px;
+        padding: 12px 28px; border-radius: 50px;
+        font-weight: 600; font-size: 0.95rem;
+        text-decoration: none; transition: all 0.2s;
+        border: 2px solid var(--border); background: var(--card-bg); color: var(--fg);
+    }
+    .gender-pill:hover { transform: translateY(-2px); box-shadow: var(--card-shadow-hover); }
+    .gender-pill.erkek:hover, .gender-pill.erkek.active { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+    .gender-pill.kiz:hover, .gender-pill.kiz.active { background: #ec4899; color: #fff; border-color: #ec4899; }
+    .gender-pill.unisex:hover, .gender-pill.unisex.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .section-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;
+    }
+    .section-header h2 { margin: 0; font-size: 1.5rem; }
+    .section-header a { font-size: 0.88rem; font-weight: 600; }
+
+    .article-card { text-decoration: none; display: block; }
+    .article-card .card { height: 100%; }
+    .article-card .card-img-top { height: 200px; object-fit: cover; }
+    .article-card .card-body h3 { font-size: 1rem; font-weight: 700; color: var(--fg); margin-bottom: 0.4rem; line-height: 1.4; }
+    .article-card .card-body p { font-size: 0.85rem; color: var(--muted); margin: 0; }
+    .article-card .card-badge {
+        display: inline-block; font-size: 0.7rem; font-weight: 600;
+        padding: 3px 10px; border-radius: 50px; margin-bottom: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .home-hero { padding: 3rem 0 2.5rem; }
+        .home-hero h1 { font-size: 1.8rem; }
+        .home-hero p { font-size: 1rem; }
+        .letter-btn { width: 38px; height: 38px; font-size: 0.85rem; border-radius: 10px; }
+    }
+</style>
+{% endblock %}
 
 
 {% block icerik %}
-    <div class="hero-section">
+<!-- Hero -->
+<section class="home-hero">
+    <div class="container">
         <h1>{{ h1 }}</h1>
-    </div>
+        <p>Bebeğiniz için en anlamlı, en güzel ve en modern isimleri keşfedin.</p>
 
-    <div class="container my-5">
-        <div class="search-form mb-5">
-            <h2>Baş Harfe ve Cinsiyete Göre Ara</h2>
-            <div class="letter-container mb-3">
-                <a href="#Cinsiyet"><span class="letter-select" data-value="A">A</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="B">B</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="C">C</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="D">D</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="E">E</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="F">F</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="G">G</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="H">H</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="I">I</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="i">i</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="J">J</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="K">K</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="L">L</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="M">M</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="N">N</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="O">O</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="Ö">Ö</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="P">P</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="R">R</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="S">S</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="Ş">Ş</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="T">T</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="U">U</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="Ü">Ü</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="V">V</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="Y">Y</span></a>
-                <a href="#Cinsiyet"><span class="letter-select" data-value="Z">Z</span></a>
-            </div>
+        <form action="/ara/" method="get" class="hero-search">
+            <input type="text" class="form-control" name="q" maxlength="128" placeholder="Bir isim veya harf ara..." autocomplete="off">
+            <button type="submit" aria-label="Ara"><i class="bi bi-search"></i></button>
+        </form>
 
-            <form action="/ara/" method="get">
-                <fieldset class="mb-3 mt-5" id="Cinsiyet">
-                    <legend class="text-center">Cinsiyet Seç <strong style="color: red;">( Zorunlu )</strong></legend>
-                    <div class="row justify-content-center">
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                            <div class="gender-card" onclick="selectGender('genderAll')">
-                                <img src="https://img.icons8.com/?size=100&id=46561&format=png&color=000000"
-                                     alt="Unisex isimler">
-                                <div class="card-body">
-                                    <input class="form-check-input" type="radio" name="gender" id="genderAll" value="1"
-                                           checked>
-                                    <label class="form-check-label" for="genderAll">Unisex</label>
-                                </div>
-                                <div class="checkmark">&#10004;</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                            <div class="gender-card" onclick="selectGender('genderMale')">
-                                <img src="https://img.icons8.com/?size=100&id=46664&format=png&color=000000"
-                                     alt="Erkek">
-                                <div class="card-body">
-                                    <input class="form-check-input" type="radio" name="gender" id="genderMale"
-                                           value="2">
-                                    <label class="form-check-label" for="genderMale">Erkek</label>
-                                </div>
-                                <div class="checkmark">&#10004;</div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-sm-4 col-md-3 col-lg-2">
-                            <div class="gender-card" onclick="selectGender('genderFemale')">
-                                <img src="https://img.icons8.com/?size=100&id=46529&format=png&color=000000" alt="Kız">
-                                <div class="card-body">
-                                    <input class="form-check-input" type="radio" name="gender" id="genderFemale"
-                                           value="3">
-                                    <label class="form-check-label" for="genderFemale">Kız</label>
-                                </div>
-                                <div class="checkmark">&#10004;</div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-
-
-                <div class="mb-3">
-                    <label for="namePart" class="form-label">İsmin Bir Kısmını Girin</label>
-                    <input type="text" class="form-control" id="namePart" name="q" maxlength="128"
-                           placeholder="İsmin Bir Kısmını Girin">
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6 offset-md-3 mt-3 text-center">
-                        <button type="submit" class="btn btn-success btn-lg">
-                            Bebek ismi Ara
-                            <img src="https://img.icons8.com/?size=100&id=vh31KMqhxPJn&format=png&color=000000"
-                                 alt="Icon"
-                                 width="50" height="50"/>
-                        </button>
-                    </div>
-                </div>
-
-
-            </form>
+        <div class="mt-3" style="position: relative; z-index: 2;">
+            <span class="stat-pill"><i class="bi bi-book"></i> {{ toplam_isim }}+ İsim</span>
+            <span class="stat-pill"><i class="bi bi-people"></i> {{ toplam_goruntuleme }}+ Görüntüleme</span>
         </div>
-
-
-        <section class="category-section" id="erkek-bebek-isimleri">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Erkek Bebek İsimleri</h2>
-                <a href="{% url 'erkek' %}" class="btn btn-success">Tümünü Gör</a>
-            </div>
-            <div class="row category-content">
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'pei' %}">
-                            <img src="{% static 'media/images/populer-erkek-isimleri.webp' %}" class="card-img-top"
-                                 alt="Popüler Erkek İsimleri" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">Popüler Erkek İsimleri</h3>
-                            <p class="card-text">Erkek bebekler için popüler isimler.</p>
-                            <a href="{% url 'pei' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'ecgei' %}">
-                            <img src="{% static 'media/images/en-cok-goruntulenen-erkek-isimleri.webp' %}"
-                                 class="card-img-top" alt="En çok görüntülenen erkek isimleri" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">En Çok Görüntülenenler Erkek İsimleri</h3>
-                            <p class="card-text">Sitemizde En Çok Bakılan Erkek Bebek İsimleri</p>
-                            <a href="{% url 'ecgei' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'erkek' %}">
-                            <img src="{% static 'media/images/en-son-eklenen-erkek-bebek-isimleri.webp' %}"
-                                 class="card-img-top"
-                                 alt="En Son Eklenen Erkek Bebek İsimleri" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">En Son Eklenen Erkek Bebek İsimleri</h3>
-                            <p class="card-text">Sitemize En Son Eklenen Erkek Bebek İsimleri</p>
-                            <a href="{% url 'erkek' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="category-section" id="kız-bebek-isimleri">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Kız Bebek İsimleri</h2>
-                <a href="{% url 'kiz' %}" class="btn btn-success">Tümünü Gör</a>
-            </div>
-            <div class="row category-content">
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'pki' %}">
-                            <img src="{% static 'media/images/populer-kiz-isimleri.webp' %}" class="card-img-top"
-                                 alt="Popüler Kız İsimleri" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">Popüler Kız İsimleri</h3>
-                            <p class="card-text">Kız bebekler için popüler isimler.</p>
-                            <a href="{% url 'pki' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'ecgki' %}">
-                            <img src="{% static 'media/images/en-cok-goruntulenen-kiz-isimleri.webp' %}"
-                                 class="card-img-top" alt="En Çok Görüntülenenler Kız İsimleri" width="960"
-                                 height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">En Çok Görüntülenenler Kız İsimleri</h3>
-                            <p class="card-text">Sitemizde En Çok Bakılan Kız Bebek İsimleri</p>
-                            <a href="{% url 'ecgki' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'kiz' %}">
-                            <img src="{% static 'media/images/en-son-eklenen-kiz-isimleri.webp' %}" class="card-img-top"
-                                 alt="En Son Eklenen Kız İsimleri" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">En Son Eklenen Kız İsimleri</h3>
-                            <p class="card-text">Kız bebekler için farklı ve benzersiz isimler.</p>
-                            <a href="{% url 'kiz' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-
-        <section class="category-section" id="unisex-bebek-isimleri">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Unisex Bebek İsimleri</h2>
-                <a href="{% url 'unisex' %}" class="btn btn-success">Tümünü Gör</a>
-            </div>
-            <div class="row category-content">
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'pui' %}">
-                            <img src="{% static 'media/images/populer-unisex-isimler.webp' %}" class="card-img-top"
-                                 alt="Popüler Unisex İsimler" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">Popüler Unisex İsimler</h3>
-                            <p class="card-text">Unisex bebekler için popüler isimler.</p>
-                            <a href="{% url 'pui' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'ecgui' %}">
-                            <img src="{% static 'media/images/en-cok-goruntulenen-unisek-isimler.webp' %}"
-                                 class="card-img-top" alt="En Çok Görüntülenenler Unisex İsimler" width="960"
-                                 height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">En Çok Görüntülenenler Unisex İsimler</h3>
-                            <p class="card-text">Sitemizde En Çok Bakılan Unisex Bebek İsimleri</p>
-                            <a href="{% url 'ecgui' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <a href="{% url 'unisex' %}">
-                            <img src="{% static 'media/images/en-son-eklenen-unisex-isimler.webp' %}"
-                                 class="card-img-top"
-                                 alt="En Son Eklenen Unisex İsimler" width="960" height="640"></a>
-                        <div class="card-body">
-                            <h3 class="card-title" style="font-size: 20px;">En Son Eklenen Unisex İsimler</h3>
-                            <p class="card-text">Unisex bebekler için farklı ve benzersiz isimler.</p>
-                            <a href="{% url 'unisex' %}" class="btn btn-warning">Devamını Oku</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="category-section" id="kadın">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Kadın</h2>
-                <a href="{% url 'kadin' %}" class="btn btn-success">Tümünü Gör</a>
-            </div>
-            <div class="row category-content">
-                {% for women in kadin %}
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <a href="{% url 'post-getir' post_slug=women.slug %}">
-                                <img src="{{ women.resim.url }}" class="card-img-top" alt="{{ women.title }}"
-                                     width="960" height="640"></a>
-                            <div class="card-body">
-                                <h3 class="card-title" style="font-size: 20px;">{{ women.h1 }}</h3>
-                                <p class="card-text">{{ women.icerik1|truncatechars:100|safe }}</p>
-                                <a href="{% url 'post-getir' post_slug=women.slug %}" class="btn btn-warning">Devamını
-                                    Oku</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <section class="category-section" id="sağlık">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Sağlık</h2>
-                <a href="{% url 'saglik' %}" class="btn btn-success">Tümünü Gör</a>
-            </div>
-            <div class="row category-content">
-                {% for saglikk in saglik %}
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <a href="{% url 'post-getir' post_slug=saglikk.slug %}">
-                                <img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}"
-                                     width="960" height="640"></a>
-                            <div class="card-body">
-                                <h3 class="card-title" style="font-size: 20px;">{{ saglikk.h1 }}</h3>
-                                <p class="card-text">{{ saglikk.icerik1|truncatechars:100|safe }}</p>
-                                <a href="{% url 'post-getir' post_slug=saglikk.slug %}" class="btn btn-warning">Devamını
-                                    Oku</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-
-            </div>
-        </section>
-
-        <section class="category-section" id="çocuk-gelişimi">
-            <div class="d-flex justify-content-between align-items-center">
-                <h2>Çocuk</h2>
-                <a href="{% url 'cocuk' %}" class="btn btn-success">Tümünü Gör</a>
-            </div>
-            <div class="row category-content">
-                {% for child in cocuk %}
-                    <div class="col-md-4">
-                        <div class="card mb-4">
-                            <a href="{% url 'post-getir' post_slug=child.slug %}">
-                                <img src="{{ child.resim.url }}" class="card-img-top" alt="{{ child.title }}"
-                                     width="960" height="640"></a>
-                            <div class="card-body">
-                                <h3 class="card-title" style="font-size: 20px;">{{ child.h1 }}</h3>
-                                <p class="card-text">{{ child.icerik1|truncatechars:100|safe }}</p>
-                                <a href="{% url 'post-getir' post_slug=child.slug %}" class="btn btn-warning">Devamını
-                                    Oku</a>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-
-            </div>
-        </section>
-
     </div>
+</section>
+
+<!-- Hızlı Erişim -->
+<div class="container" style="margin-top: -2.5rem; position: relative; z-index: 10;">
+    <div class="row g-3">
+        <div class="col-6 col-md-3">
+            <a href="{% url 'erkek' %}" class="quick-link-card">
+                <div class="ql-icon" style="background: rgba(59,130,246,0.1); color: #3b82f6;">
+                    <i class="bi bi-gender-male"></i>
+                </div>
+                <h3>Erkek İsimleri</h3>
+                <p>Popüler & anlamlı</p>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{% url 'kiz' %}" class="quick-link-card">
+                <div class="ql-icon" style="background: rgba(236,72,153,0.1); color: #ec4899;">
+                    <i class="bi bi-gender-female"></i>
+                </div>
+                <h3>Kız İsimleri</h3>
+                <p>Zarif & modern</p>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{% url 'unisex' %}" class="quick-link-card">
+                <div class="ql-icon" style="background: var(--accent-glow); color: var(--accent);">
+                    <i class="bi bi-gender-ambiguous"></i>
+                </div>
+                <h3>Unisex İsimler</h3>
+                <p>Her cinsiyet</p>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a href="{% url 'hayvan-ana' %}" class="quick-link-card">
+                <div class="ql-icon" style="background: rgba(245,158,11,0.1); color: #f59e0b;">
+                    <i class="bi bi-heart"></i>
+                </div>
+                <h3>Hayvan İsimleri</h3>
+                <p>Evcil dostunuz</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5">
+    <!-- Harfe Göre Ara -->
+    <section class="mb-5">
+        <div class="text-center mb-3">
+            <h2 style="font-size: 1.4rem;">Baş Harfe Göre İsim Ara</h2>
+            <p style="color: var(--muted); font-size: 0.9rem;">Bir harf seçin, o harfle başlayan isimleri görün</p>
+        </div>
+        <div class="letter-grid">
+            {% for h in "ABCÇDEFGĞHIİJKLMNOÖPRSŞTUÜVYZ" %}
+            <a href="/ara/?q={{ h }}" class="letter-btn">{{ h }}</a>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Cinsiyete Göre -->
+    <section class="mb-5 text-center">
+        <h2 style="font-size: 1.4rem; margin-bottom: 1rem;">Cinsiyete Göre Keşfet</h2>
+        <div class="d-flex flex-wrap justify-content-center gap-3">
+            <a href="{% url 'erkek' %}" class="gender-pill erkek">
+                <i class="bi bi-gender-male" style="font-size: 1.2rem;"></i> Erkek İsimleri
+            </a>
+            <a href="{% url 'kiz' %}" class="gender-pill kiz">
+                <i class="bi bi-gender-female" style="font-size: 1.2rem;"></i> Kız İsimleri
+            </a>
+            <a href="{% url 'unisex' %}" class="gender-pill unisex">
+                <i class="bi bi-gender-ambiguous" style="font-size: 1.2rem;"></i> Unisex İsimler
+            </a>
+        </div>
+    </section>
+
+    <!-- Erkek Bebek İsimleri -->
+    <section class="category-section" id="erkek-bebek-isimleri">
+        <div class="section-header">
+            <h2><i class="bi bi-gender-male" style="color: #3b82f6;"></i> Erkek Bebek İsimleri</h2>
+            <a href="{% url 'erkek' %}">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <a href="{% url 'pei' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/populer-erkek-isimleri.webp' %}" class="card-img-top" alt="Popüler Erkek İsimleri" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(59,130,246,0.1); color: #3b82f6;">Popüler</span>
+                            <h3>Popüler Erkek İsimleri</h3>
+                            <p>Erkek bebekler için en popüler isimler</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'ecgei' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/en-cok-goruntulenen-erkek-isimleri.webp' %}" class="card-img-top" alt="En Çok Görüntülenen Erkek İsimleri" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(245,158,11,0.1); color: #f59e0b;">Trend</span>
+                            <h3>En Çok Görüntülenen Erkek İsimleri</h3>
+                            <p>Sitemizde en çok bakılan erkek isimleri</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'erkek' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/en-son-eklenen-erkek-bebek-isimleri.webp' %}" class="card-img-top" alt="En Son Eklenen Erkek İsimleri" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: var(--accent-glow); color: var(--accent);">Yeni</span>
+                            <h3>En Son Eklenen Erkek İsimleri</h3>
+                            <p>Yeni eklenen erkek bebek isimleri</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kız Bebek İsimleri -->
+    <section class="category-section" id="kiz-bebek-isimleri">
+        <div class="section-header">
+            <h2><i class="bi bi-gender-female" style="color: #ec4899;"></i> Kız Bebek İsimleri</h2>
+            <a href="{% url 'kiz' %}">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <a href="{% url 'pki' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/populer-kiz-isimleri.webp' %}" class="card-img-top" alt="Popüler Kız İsimleri" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(236,72,153,0.1); color: #ec4899;">Popüler</span>
+                            <h3>Popüler Kız İsimleri</h3>
+                            <p>Kız bebekler için en popüler isimler</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'ecgki' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/en-cok-goruntulenen-kiz-isimleri.webp' %}" class="card-img-top" alt="En Çok Görüntülenen Kız İsimleri" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(245,158,11,0.1); color: #f59e0b;">Trend</span>
+                            <h3>En Çok Görüntülenen Kız İsimleri</h3>
+                            <p>Sitemizde en çok bakılan kız isimleri</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'kiz' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/en-son-eklenen-kiz-isimleri.webp' %}" class="card-img-top" alt="En Son Eklenen Kız İsimleri" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: var(--accent-glow); color: var(--accent);">Yeni</span>
+                            <h3>En Son Eklenen Kız İsimleri</h3>
+                            <p>Yeni eklenen kız bebek isimleri</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Unisex Bebek İsimleri -->
+    <section class="category-section" id="unisex-bebek-isimleri">
+        <div class="section-header">
+            <h2><i class="bi bi-gender-ambiguous" style="color: var(--accent);"></i> Unisex İsimler</h2>
+            <a href="{% url 'unisex' %}">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-4">
+                <a href="{% url 'pui' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/populer-unisex-isimler.webp' %}" class="card-img-top" alt="Popüler Unisex İsimler" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: var(--accent-glow); color: var(--accent);">Popüler</span>
+                            <h3>Popüler Unisex İsimler</h3>
+                            <p>Her cinsiyet için popüler isimler</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'ecgui' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/en-cok-goruntulenen-unisek-isimler.webp' %}" class="card-img-top" alt="En Çok Görüntülenen Unisex İsimler" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(245,158,11,0.1); color: #f59e0b;">Trend</span>
+                            <h3>En Çok Görüntülenen Unisex İsimler</h3>
+                            <p>Sitemizde en çok bakılan unisex isimler</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="{% url 'unisex' %}" class="article-card">
+                    <div class="card">
+                        <img src="{% static 'media/images/en-son-eklenen-unisex-isimler.webp' %}" class="card-img-top" alt="En Son Eklenen Unisex İsimler" width="960" height="640">
+                        <div class="card-body">
+                            <span class="card-badge" style="background: var(--accent-glow); color: var(--accent);">Yeni</span>
+                            <h3>En Son Eklenen Unisex İsimler</h3>
+                            <p>Yeni eklenen unisex isimler</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kadın -->
+    {% if kadin %}
+    <section class="category-section" id="kadin">
+        <div class="section-header">
+            <h2><i class="bi bi-person-hearts" style="color: #a855f7;"></i> Kadın</h2>
+            <a href="{% url 'kadin' %}">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+            {% for women in kadin %}
+            <div class="col-md-4">
+                <a href="{% url 'post-getir' post_slug=women.slug %}" class="article-card">
+                    <div class="card">
+                        {% if women.resim %}<img src="{{ women.resim.url }}" class="card-img-top" alt="{{ women.title }}" width="960" height="640">{% endif %}
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(168,85,247,0.1); color: #a855f7;">Kadın</span>
+                            <h3>{{ women.h1 }}</h3>
+                            <p>{{ women.icerik1|truncatechars:80|safe }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Sağlık -->
+    {% if saglik %}
+    <section class="category-section" id="saglik">
+        <div class="section-header">
+            <h2><i class="bi bi-heart-pulse" style="color: #ef4444;"></i> Sağlık</h2>
+            <a href="{% url 'saglik' %}">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+            {% for saglikk in saglik %}
+            <div class="col-md-4">
+                <a href="{% url 'post-getir' post_slug=saglikk.slug %}" class="article-card">
+                    <div class="card">
+                        {% if saglikk.resim %}<img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}" width="960" height="640">{% endif %}
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(239,68,68,0.1); color: #ef4444;">Sağlık</span>
+                            <h3>{{ saglikk.h1 }}</h3>
+                            <p>{{ saglikk.icerik1|truncatechars:80|safe }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Çocuk -->
+    {% if cocuk %}
+    <section class="category-section" id="cocuk-gelisimi">
+        <div class="section-header">
+            <h2><i class="bi bi-emoji-smile" style="color: #f59e0b;"></i> Çocuk</h2>
+            <a href="{% url 'cocuk' %}">Tümünü Gör <i class="bi bi-arrow-right"></i></a>
+        </div>
+        <div class="row g-3">
+            {% for child in cocuk %}
+            <div class="col-md-4">
+                <a href="{% url 'post-getir' post_slug=child.slug %}" class="article-card">
+                    <div class="card">
+                        {% if child.resim %}<img src="{{ child.resim.url }}" class="card-img-top" alt="{{ child.title }}" width="960" height="640">{% endif %}
+                        <div class="card-body">
+                            <span class="card-badge" style="background: rgba(245,158,11,0.1); color: #f59e0b;">Çocuk</span>
+                            <h3>{{ child.h1 }}</h3>
+                            <p>{{ child.icerik1|truncatechars:80|safe }}</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
 {% endblock %}
-
-
-{% block extra_js %}
-    <script>
-        function selectGender(genderId) {
-            document.querySelectorAll('.gender-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.getElementById(genderId).closest('.gender-card').classList.add('active');
-            document.getElementById(genderId).checked = true;
-        }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            selectGender('genderAll');
-
-            const letterSelectElements = document.querySelectorAll('.letter-select');
-            const namePartInput = document.getElementById('namePart');
-            letterSelectElements.forEach(function (element) {
-                element.addEventListener('click', function (event) {
-                    const letterValue = event.target.getAttribute('data-value');
-                    namePartInput.value = letterValue;
-                });
-            });
-        });
-    </script>
-{% endblock %}
-

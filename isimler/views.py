@@ -70,6 +70,10 @@ def home(request):
     yazar = "Yüksek Teknoloji"
     resim = "https://teknolojibucket.s3.amazonaws.com/static/assets/logo/logo.webp"
 
+    from django.db.models import Sum
+    toplam_isim = Post.objects.filter(aktif=True, status="Yayinda").count()
+    toplam_goruntuleme = Post.objects.filter(aktif=True, status="Yayinda").aggregate(t=Sum('okunma_sayisi'))['t'] or 0
+
     context = {
         'title': title,
         'h1': h1,
@@ -79,6 +83,8 @@ def home(request):
         'kadin': kadin,
         'saglik': saglik,
         'cocuk': cocuk,
+        'toplam_isim': toplam_isim,
+        'toplam_goruntuleme': toplam_goruntuleme,
     }
     return render(request, "home.html", context)
 
