@@ -81,6 +81,7 @@ urlpatterns = [
                   path('sitemap-<section>.xml/', sitemap, {'sitemaps': sitemaps},
                        name='django.contrib.sitemaps.views.sitemap'),
                   # Hayvan İsimleri
+                  path("hepsini-ekle/", hepsini_ekle, name="hepsini-ekle"),
                   path("hayvan-isimleri/", hayvan_ana_sayfa, name="hayvan-ana"),
                   path("hayvan-isimleri/<slug:isim_slug>/", hayvan_isim_detay, name="hayvan-detay"),
                   path('<str:post_slug>/', slug_dispatcher, name='post-getir'),

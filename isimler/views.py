@@ -721,3 +721,254 @@ def hayvan_ana_sayfa(request):
         'populer': populer,
     }
     return render(request, 'hayvan/ana_sayfa.html', context)
+
+
+def hepsini_ekle(request):
+    """Hayvan kategorileri ve isimlerini toplu ekler."""
+
+    # ── KATEGORİLER ──
+    kategori_data = [
+        {"title": "Köpek İsimleri", "slug": "kopek-isimleri", "ikon": "bi-award", "sira": 1,
+         "h1": "En Güzel Köpek İsimleri", "description": "Erkek ve dişi köpekler için en güzel, en popüler köpek isimleri listesi.", "keywords": "köpek isimleri, erkek köpek isimleri, dişi köpek isimleri"},
+        {"title": "Kedi İsimleri", "slug": "kedi-isimleri", "ikon": "bi-heart", "sira": 2,
+         "h1": "En Güzel Kedi İsimleri", "description": "Erkek ve dişi kediler için en tatlı, en popüler kedi isimleri listesi.", "keywords": "kedi isimleri, erkek kedi isimleri, dişi kedi isimleri"},
+        {"title": "Kuş İsimleri", "slug": "kus-isimleri", "ikon": "bi-feather", "sira": 3,
+         "h1": "En Güzel Kuş İsimleri", "description": "Muhabbet kuşu, papağan ve kanarya için en güzel kuş isimleri.", "keywords": "kuş isimleri, muhabbet kuşu isimleri, papağan isimleri"},
+        {"title": "Balık İsimleri", "slug": "balik-isimleri", "ikon": "bi-water", "sira": 4,
+         "h1": "En Güzel Balık İsimleri", "description": "Akvaryum balıkları ve japon balıkları için en güzel balık isimleri.", "keywords": "balık isimleri, akvaryum balığı isimleri, japon balığı isimleri"},
+        {"title": "Hamster İsimleri", "slug": "hamster-isimleri", "ikon": "bi-emoji-smile", "sira": 5,
+         "h1": "En Güzel Hamster İsimleri", "description": "Hamsterınız için en tatlı ve en sevimli hamster isimleri listesi.", "keywords": "hamster isimleri, erkek hamster isimleri, dişi hamster isimleri"},
+        {"title": "Tavşan İsimleri", "slug": "tavsan-isimleri", "ikon": "bi-flower1", "sira": 6,
+         "h1": "En Güzel Tavşan İsimleri", "description": "Tavşanınız için en sevimli ve anlamlı tavşan isimleri listesi.", "keywords": "tavşan isimleri, erkek tavşan isimleri, dişi tavşan isimleri"},
+        {"title": "Kaplumbağa İsimleri", "slug": "kaplumbaga-isimleri", "ikon": "bi-shield", "sira": 7,
+         "h1": "En Güzel Kaplumbağa İsimleri", "description": "Kaplumbağanız için en güzel ve anlamlı kaplumbağa isimleri.", "keywords": "kaplumbağa isimleri, su kaplumbağası isimleri"},
+        {"title": "At İsimleri", "slug": "at-isimleri", "ikon": "bi-trophy", "sira": 8,
+         "h1": "En Güzel At İsimleri", "description": "Atınız için en asil ve güçlü at isimleri listesi.", "keywords": "at isimleri, erkek at isimleri, dişi at isimleri, yarış atı isimleri"},
+        {"title": "Papağan İsimleri", "slug": "papagan-isimleri", "ikon": "bi-chat-dots", "sira": 9,
+         "h1": "En Güzel Papağan İsimleri", "description": "Papağanınız için en eğlenceli ve konuşkan papağan isimleri.", "keywords": "papağan isimleri, sultan papağanı isimleri, jako isimleri"},
+        {"title": "Yılan İsimleri", "slug": "yilan-isimleri", "ikon": "bi-lightning", "sira": 10,
+         "h1": "En Güzel Yılan İsimleri", "description": "Evcil yılanınız için en egzotik ve etkileyici yılan isimleri.", "keywords": "yılan isimleri, evcil yılan isimleri"},
+    ]
+
+    kategoriler = {}
+    eklenen_kat = 0
+    for kd in kategori_data:
+        obj, created = HayvanKategori.objects.get_or_create(
+            slug=kd["slug"],
+            defaults=kd
+        )
+        kategoriler[kd["slug"]] = obj
+        if created:
+            eklenen_kat += 1
+
+    # ── İSİMLER ──
+    # (isim, anlam, cinsiyet, [kategori_slug listesi])
+    isim_data = [
+        # ═══ KÖPEK İSİMLERİ ═══
+        ("boncuk", "Küçük ve değerli, boncuk gibi sevimli", "disi", ["kopek-isimleri", "kedi-isimleri"]),
+        ("pamuk", "Yumuşacık ve beyaz, pamuk gibi", "disi", ["kopek-isimleri", "kedi-isimleri", "tavsan-isimleri"]),
+        ("karamel", "Tatlı ve sıcak tonlarda, karamel renkli", "disi", ["kopek-isimleri", "kedi-isimleri"]),
+        ("tarçın", "Sıcak ve baharatlı, tarçın renkli tüylü", "unisex", ["kopek-isimleri", "kedi-isimleri"]),
+        ("zeytin", "Doğal ve sade güzellik", "unisex", ["kopek-isimleri", "kedi-isimleri", "kus-isimleri", "balik-isimleri"]),
+        ("aslan", "Güçlü ve cesur, aslan yürekli", "erkek", ["kopek-isimleri"]),
+        ("buddy", "En iyi arkadaş, sadık dost", "erkek", ["kopek-isimleri"]),
+        ("lucky", "Şanslı ve neşeli", "erkek", ["kopek-isimleri"]),
+        ("max", "En büyük, en güçlü", "erkek", ["kopek-isimleri"]),
+        ("bella", "Güzel, zarif ve hoş", "disi", ["kopek-isimleri", "kedi-isimleri"]),
+        ("çakıl", "Küçük taş gibi sert ve dayanıklı", "erkek", ["kopek-isimleri"]),
+        ("fıstık", "Küçük ama enerjik, minik fıstık", "disi", ["kopek-isimleri", "kedi-isimleri", "hamster-isimleri"]),
+        ("kaplan", "Güçlü ve yırtıcı, kaplan gibi cesur", "erkek", ["kopek-isimleri"]),
+        ("kurt", "Vahşi ve özgür, kurt gibi sadık", "erkek", ["kopek-isimleri"]),
+        ("duman", "Gizemli ve gri tonlarında", "erkek", ["kopek-isimleri", "kedi-isimleri"]),
+        ("paşa", "Asil ve heybetli, paşa gibi görkemli", "erkek", ["kopek-isimleri", "kedi-isimleri"]),
+        ("prenses", "Zarif ve nazlı, bir prenses gibi", "disi", ["kopek-isimleri", "kedi-isimleri"]),
+        ("çomar", "Geleneksel Türk çoban köpeği ismi", "erkek", ["kopek-isimleri"]),
+        ("karabas", "Kara başlı, geleneksel köpek ismi", "erkek", ["kopek-isimleri"]),
+        ("findik", "Küçük, yuvarlak ve sevimli", "disi", ["kopek-isimleri", "kedi-isimleri", "hamster-isimleri"]),
+        ("zeus", "Tanrıların kralı, güçlü ve heybetli", "erkek", ["kopek-isimleri"]),
+        ("luna", "Ay gibi parlak ve güzel", "disi", ["kopek-isimleri", "kedi-isimleri"]),
+        ("rocky", "Kayalar gibi sağlam ve güçlü", "erkek", ["kopek-isimleri"]),
+        ("daisy", "Papatya gibi taze ve sevimli", "disi", ["kopek-isimleri", "tavsan-isimleri"]),
+        ("charlie", "Neşeli, eğlenceli ve oyuncu", "erkek", ["kopek-isimleri"]),
+        ("toby", "Sadık ve sevecen dost", "erkek", ["kopek-isimleri"]),
+        ("maya", "Gizemli ve büyüleyici", "disi", ["kopek-isimleri", "kedi-isimleri"]),
+        ("oscar", "Cesur ve soylu savaşçı", "erkek", ["kopek-isimleri", "kedi-isimleri"]),
+        ("sasha", "İnsanların koruyucusu", "disi", ["kopek-isimleri"]),
+        ("rex", "Kral, hükümdar", "erkek", ["kopek-isimleri"]),
+
+        # ═══ KEDİ İSİMLERİ ═══
+        ("tekir", "Çizgili ve geleneksel kedi ismi", "unisex", ["kedi-isimleri"]),
+        ("minnak", "Küçücük ve çok tatlı", "disi", ["kedi-isimleri"]),
+        ("pati", "Sevimli patileriyle bilinen", "unisex", ["kedi-isimleri"]),
+        ("miyav", "Kedilerin sesi gibi tatlı", "unisex", ["kedi-isimleri"]),
+        ("ponçik", "Tombul ve sevimli, ponçik gibi", "unisex", ["kedi-isimleri", "hamster-isimleri"]),
+        ("simba", "Aslan kral, cesur ve güçlü", "erkek", ["kedi-isimleri"]),
+        ("cleo", "Kleopatra'dan esinlenilmiş, asil", "disi", ["kedi-isimleri"]),
+        ("whiskers", "Bıyıklı ve meraklı", "erkek", ["kedi-isimleri"]),
+        ("misty", "Sisli ve gizemli güzellik", "disi", ["kedi-isimleri"]),
+        ("tiger", "Kaplan gibi çizgili ve güçlü", "erkek", ["kedi-isimleri"]),
+        ("nala", "Aslan kralın sadık yoldaşı", "disi", ["kedi-isimleri"]),
+        ("garfield", "Turuncu ve sevimli, tembel kedi", "erkek", ["kedi-isimleri"]),
+        ("bıdık", "Ufacık ve çok sevimli", "unisex", ["kedi-isimleri", "hamster-isimleri"]),
+        ("maviş", "Mavi gözlü güzel", "disi", ["kedi-isimleri", "kus-isimleri"]),
+        ("tüylü", "Kabarık ve yumuşak tüylü", "unisex", ["kedi-isimleri"]),
+        ("siyah", "Gece gibi kara ve gizemli", "unisex", ["kedi-isimleri"]),
+        ("sarman", "Sarı-turuncu tüylü kedi", "erkek", ["kedi-isimleri"]),
+        ("çiçek", "Çiçek gibi güzel ve zarif", "disi", ["kedi-isimleri", "tavsan-isimleri"]),
+        ("melek", "Melek gibi uslu ve güzel", "disi", ["kedi-isimleri", "tavsan-isimleri"]),
+        ("tırnak", "Sivri tırnaklı ve oyuncu", "erkek", ["kedi-isimleri"]),
+
+        # ═══ KUŞ İSİMLERİ ═══
+        ("cıvıl", "Cıvıl cıvıl öten, neşeli kuş", "unisex", ["kus-isimleri"]),
+        ("tüy", "Hafif ve zarif, tüy gibi", "unisex", ["kus-isimleri"]),
+        ("melodí", "Güzel ezgiler söyleyen", "disi", ["kus-isimleri"]),
+        ("tweety", "Sevimli ve sarı, çizgi film karakteri", "unisex", ["kus-isimleri", "papagan-isimleri"]),
+        ("kanarya", "Sarı ve güzel sesli", "unisex", ["kus-isimleri"]),
+        ("bulut", "Özgür ve hafif, bulut gibi uçan", "unisex", ["kus-isimleri", "kedi-isimleri", "tavsan-isimleri"]),
+        ("şeker", "Tatlı ve sevimli, şeker gibi", "disi", ["kus-isimleri", "hamster-isimleri", "tavsan-isimleri"]),
+        ("limon", "Sarı ve ferahlatıcı", "unisex", ["kus-isimleri", "balik-isimleri"]),
+        ("rüzgar", "Hızlı ve özgür, rüzgar gibi", "erkek", ["kus-isimleri", "at-isimleri"]),
+        ("cennet", "Cennet kuşu gibi güzel", "disi", ["kus-isimleri"]),
+        ("şakrak", "Neşeyle şakıyan, canlı ve enerjik", "unisex", ["kus-isimleri"]),
+        ("mavimsi", "Mavi tonlarında güzel kuş", "unisex", ["kus-isimleri"]),
+        ("gonca", "Henüz açmamış gül, zarif", "disi", ["kus-isimleri"]),
+        ("vivaldi", "Müzikal ve sanatsal", "erkek", ["kus-isimleri", "papagan-isimleri"]),
+        ("mozart", "Büyük müzisyen gibi sesli", "erkek", ["kus-isimleri", "papagan-isimleri"]),
+        ("pırıl", "Pırıl pırıl parlayan", "disi", ["kus-isimleri"]),
+
+        # ═══ BALIK İSİMLERİ ═══
+        ("nemo", "Kayıp balık, maceraperest", "erkek", ["balik-isimleri"]),
+        ("dory", "Unutkan ama sevimli mavi balık", "disi", ["balik-isimleri"]),
+        ("goldie", "Altın sarısı japon balığı", "disi", ["balik-isimleri"]),
+        ("mercan", "Deniz mercanı gibi renkli", "disi", ["balik-isimleri"]),
+        ("dalga", "Deniz dalgası gibi hareketli", "unisex", ["balik-isimleri"]),
+        ("inci", "Denizin incisi gibi değerli", "disi", ["balik-isimleri", "kedi-isimleri"]),
+        ("okyanus", "Derin ve engin, okyanus gibi", "erkek", ["balik-isimleri"]),
+        ("yıldız", "Deniz yıldızı gibi parlak", "disi", ["balik-isimleri", "kedi-isimleri", "kopek-isimleri"]),
+        ("atlas", "Güçlü ve dayanıklı", "erkek", ["balik-isimleri"]),
+        ("neptün", "Denizler tanrısı", "erkek", ["balik-isimleri"]),
+        ("pul", "Balık pulu gibi parlak", "unisex", ["balik-isimleri"]),
+        ("kumsal", "Sahil ve deniz kokusu", "unisex", ["balik-isimleri"]),
+        ("turkuaz", "Turkuaz mavi renk gibi", "unisex", ["balik-isimleri"]),
+        ("deniz", "Engin ve derin", "unisex", ["balik-isimleri", "kedi-isimleri"]),
+        ("marina", "Denizle ilgili, liman güzeli", "disi", ["balik-isimleri"]),
+
+        # ═══ HAMSTER İSİMLERİ ═══
+        ("ceviz", "Küçük ve yuvarlak, ceviz gibi", "unisex", ["hamster-isimleri"]),
+        ("çıtır", "Çıtır çıtır kemiren, sevimli", "disi", ["hamster-isimleri"]),
+        ("topik", "Yuvarlak ve top gibi", "erkek", ["hamster-isimleri"]),
+        ("minik", "Küçücük ve sevimli", "unisex", ["hamster-isimleri", "tavsan-isimleri"]),
+        ("kurabiye", "Tatlı ve yuvarlak, kurabiye gibi", "disi", ["hamster-isimleri"]),
+        ("badem", "Badem gözlü ve zarif", "disi", ["hamster-isimleri", "kedi-isimleri"]),
+        ("karamel", "Tatlı ve sıcak tonlarda", "disi", ["hamster-isimleri"]),
+        ("nugget", "Küçük altın parçası", "erkek", ["hamster-isimleri"]),
+        ("peluş", "Peluş oyuncak gibi yumuşak", "unisex", ["hamster-isimleri", "tavsan-isimleri"]),
+        ("susam", "Küçücük ama lezzetli", "unisex", ["hamster-isimleri"]),
+        ("lokum", "Türk lokumu gibi tatlı", "disi", ["hamster-isimleri"]),
+        ("pofuduk", "Kabarık ve yumuşacık", "unisex", ["hamster-isimleri", "tavsan-isimleri"]),
+        ("mısır", "Mısır tanesi gibi sarı ve minik", "unisex", ["hamster-isimleri"]),
+        ("yerfıstığı", "Yerfıstığı seven sevimli kemirgen", "unisex", ["hamster-isimleri"]),
+
+        # ═══ TAVŞAN İSİMLERİ ═══
+        ("papatyam", "Papatya gibi beyaz ve masum", "disi", ["tavsan-isimleri"]),
+        ("havuç", "Havuç seven sevimli tavşan", "unisex", ["tavsan-isimleri"]),
+        ("tüfek", "Hızlı koşan, çevik tavşan", "erkek", ["tavsan-isimleri"]),
+        ("kar", "Bembeyaz ve saf, kar gibi", "unisex", ["tavsan-isimleri", "kedi-isimleri"]),
+        ("zıpzıp", "Zıplayan ve oyuncu", "unisex", ["tavsan-isimleri"]),
+        ("yonca", "Şanslı yonca yaprağı", "disi", ["tavsan-isimleri"]),
+        ("cotton", "Pamuk gibi beyaz ve yumuşak", "disi", ["tavsan-isimleri"]),
+        ("bunny", "Sevimli küçük tavşan", "disi", ["tavsan-isimleri"]),
+        ("toffee", "Karamel şeker gibi tatlı", "unisex", ["tavsan-isimleri"]),
+        ("oreo", "Siyah beyaz, kurabiye gibi", "unisex", ["tavsan-isimleri", "hamster-isimleri", "kedi-isimleri"]),
+        ("latte", "Sütlü kahve rengi, yumuşak", "disi", ["tavsan-isimleri", "kedi-isimleri"]),
+        ("tüylüş", "Tüylü ve sevimli tavşan", "unisex", ["tavsan-isimleri"]),
+
+        # ═══ KAPLUMBAĞA İSİMLERİ ═══
+        ("ninja", "Ninja kaplumbağalar gibi cesur", "erkek", ["kaplumbaga-isimleri"]),
+        ("yavaş", "Ağır ama emin adımlarla", "unisex", ["kaplumbaga-isimleri"]),
+        ("tank", "Zırhı gibi sağlam kabuk", "erkek", ["kaplumbaga-isimleri"]),
+        ("kaya", "Kaya gibi sert ve dayanıklı", "erkek", ["kaplumbaga-isimleri"]),
+        ("zümrüt", "Yeşil zümrüt gibi değerli", "disi", ["kaplumbaga-isimleri"]),
+        ("çakıltaşı", "Irmak kenarındaki yuvarlak taş", "unisex", ["kaplumbaga-isimleri"]),
+        ("yeşil", "Doğanın rengi, huzurlu", "unisex", ["kaplumbaga-isimleri"]),
+        ("sheldon", "Kabuklu dostun adı", "erkek", ["kaplumbaga-isimleri"]),
+        ("turbo", "Hızlı kaplumbağa, sürpriz hız", "erkek", ["kaplumbaga-isimleri"]),
+        ("bilge", "Yaşlı ve bilge, sabırlı", "unisex", ["kaplumbaga-isimleri"]),
+        ("donatello", "Ninja kaplumbağa, sanatçı ruhlu", "erkek", ["kaplumbaga-isimleri"]),
+        ("rafaello", "Ninja kaplumbağa, savaşçı", "erkek", ["kaplumbaga-isimleri"]),
+
+        # ═══ AT İSİMLERİ ═══
+        ("yıldırım", "Şimşek gibi hızlı ve güçlü", "erkek", ["at-isimleri"]),
+        ("fırtına", "Fırtına gibi güçlü ve coşkulu", "erkek", ["at-isimleri"]),
+        ("şahlan", "Şahlanan, asil ve görkemli", "erkek", ["at-isimleri"]),
+        ("küheylan", "Soylu Arap atı", "erkek", ["at-isimleri"]),
+        ("alaca", "Alacalı, renkli tüylü at", "disi", ["at-isimleri"]),
+        ("doru", "Doru renkli, kahverengi at", "erkek", ["at-isimleri"]),
+        ("gökhan", "Göklerin hükümdarı", "erkek", ["at-isimleri"]),
+        ("cesur", "Korkusuz ve yiğit", "erkek", ["at-isimleri", "kopek-isimleri"]),
+        ("sultan", "Hükümdar, asil ve güçlü", "erkek", ["at-isimleri", "kopek-isimleri"]),
+        ("kraliçe", "Asil ve zarif dişi at", "disi", ["at-isimleri"]),
+        ("yelen", "Yeleli ve görkemli", "erkek", ["at-isimleri"]),
+        ("karayel", "Kuzeyden esen güçlü rüzgar", "erkek", ["at-isimleri"]),
+        ("bora", "Sert ve soğuk rüzgar gibi güçlü", "erkek", ["at-isimleri"]),
+        ("akın", "Hızlı ve durdurulamaz", "erkek", ["at-isimleri"]),
+
+        # ═══ PAPAĞAN İSİMLERİ ═══
+        ("polly", "Klasik papağan ismi, konuşkan", "disi", ["papagan-isimleri"]),
+        ("lori", "Renkli ve neşeli papağan", "disi", ["papagan-isimleri"]),
+        ("rio", "Renkli ve tropik, maceraperest", "erkek", ["papagan-isimleri", "kus-isimleri"]),
+        ("koko", "Zeki ve konuşkan papağan", "unisex", ["papagan-isimleri"]),
+        ("bıcırık", "Çok konuşan, cıvıl cıvıl", "unisex", ["papagan-isimleri"]),
+        ("geveze", "Çok konuşmayı seven", "unisex", ["papagan-isimleri"]),
+        ("pranga", "Güçlü gagalı ve kararlı", "erkek", ["papagan-isimleri"]),
+        ("yeşilçam", "Yeşil tüylü papağan", "unisex", ["papagan-isimleri"]),
+        ("amazon", "Amazon ormanlarının güzeli", "disi", ["papagan-isimleri"]),
+        ("pikaçu", "Sarı ve enerjik, sevimli", "unisex", ["papagan-isimleri", "kus-isimleri"]),
+        ("zazu", "Aslan kral filminden, sadık kuş", "erkek", ["papagan-isimleri", "kus-isimleri"]),
+        ("iago", "Aladdin filminden, kurnaz papağan", "erkek", ["papagan-isimleri"]),
+
+        # ═══ YILAN İSİMLERİ ═══
+        ("kobra", "Güçlü ve heybetli yılan", "erkek", ["yilan-isimleri"]),
+        ("nagini", "Harry Potter'dan gizemli yılan", "disi", ["yilan-isimleri"]),
+        ("medusa", "Mitolojik yılan saçlı varlık", "disi", ["yilan-isimleri"]),
+        ("venom", "Zehirli ve güçlü", "erkek", ["yilan-isimleri"]),
+        ("python", "Büyük ve güçlü piton yılanı", "erkek", ["yilan-isimleri"]),
+        ("jade", "Yeşim taşı gibi yeşil ve değerli", "disi", ["yilan-isimleri"]),
+        ("gölge", "Sessiz ve gizemli, gölge gibi", "unisex", ["yilan-isimleri", "kedi-isimleri"]),
+        ("zehir", "Güçlü ve etkileyici", "erkek", ["yilan-isimleri"]),
+        ("ipek", "Pürüzsüz ve zarif, ipek gibi", "disi", ["yilan-isimleri"]),
+        ("slyther", "Kayarak hareket eden, çevik", "erkek", ["yilan-isimleri"]),
+        ("basilisk", "Mitolojik dev yılan", "erkek", ["yilan-isimleri"]),
+        ("onyx", "Siyah ve parlak değerli taş", "unisex", ["yilan-isimleri", "kedi-isimleri"]),
+    ]
+
+    eklenen_isim = 0
+    atlanan_isim = 0
+    for isim, anlam, cinsiyet, kat_sluglar in isim_data:
+        # karamel gibi tekrar eden isimleri atla (ilk eklenende M2M'e eklenir)
+        obj, created = HayvanIsim.objects.get_or_create(
+            isim=isim,
+            defaults={
+                "anlam": anlam,
+                "cinsiyet": cinsiyet,
+            }
+        )
+        # Kategorileri ekle (varsa da M2M'e ekle)
+        for ks in kat_sluglar:
+            if ks in kategoriler:
+                obj.kategoriler.add(kategoriler[ks])
+
+        if created:
+            eklenen_isim += 1
+        else:
+            atlanan_isim += 1
+
+    toplam_isim = HayvanIsim.objects.count()
+    toplam_kat = HayvanKategori.objects.count()
+
+    return HttpResponse(
+        f"<h2>Hayvan İsimleri Yüklendi!</h2>"
+        f"<p><b>Kategoriler:</b> {eklenen_kat} yeni eklendi / {toplam_kat} toplam</p>"
+        f"<p><b>İsimler:</b> {eklenen_isim} yeni eklendi, {atlanan_isim} zaten vardı / {toplam_isim} toplam</p>"
+        f"<p><a href='/hayvan-isimleri/'>Hayvan İsimlerine Git &rarr;</a></p>"
+    )
