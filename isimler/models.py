@@ -194,6 +194,82 @@ class allname(models.Model):
 
 
 
+def hayvan_resim_upload_to(instance, filename):
+    uzanti = filename.split('.')[-1]
+    return f"hayvan_isimleri/{instance.slug}.{uzanti}"
+
+
+class HayvanKategori(models.Model):
+    title = models.CharField(max_length=255, help_text="Örn: Köpek İsimleri")
+    slug = models.SlugField(max_length=255, unique=True, help_text="Örn: kopek-isimleri")
+    h1 = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True, help_text="Meta açıklama")
+    keywords = models.CharField(max_length=500, blank=True)
+    ikon = models.CharField(max_length=50, blank=True, help_text="Bootstrap icon class. Örn: bi-piggy-bank")
+    resim = models.ImageField(upload_to='hayvan_kategorileri/', storage=ImageSettingStorage(),
+                              null=True, blank=True)
+    aktif = models.BooleanField(default=True)
+    sira = models.PositiveSmallIntegerField(default=0, help_text="Sıralama (küçük = önce)")
+    olusturma_tarihi = models.DateTimeField(auto_now_add=True)
+    guncelleme_tarihi = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Hayvan Kategorisi"
+        verbose_name_plural = "Hayvan Kategorileri"
+        ordering = ['sira', 'title']
+
+    def __str__(self):
+        return self.title
+
+
+class HayvanIsim(models.Model):
+    isim = models.CharField(max_length=255, help_text="İsim (küçük harfle)")
+    slug = models.SlugField(max_length=255, unique=True, blank=True)
+    h1 = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255, blank=True, help_text="SEO Title")
+    description = models.TextField(blank=True, help_text="Meta açıklama")
+    keywords = models.CharField(max_length=500, blank=True)
+    kategoriler = models.ManyToManyField(HayvanKategori, related_name='isimler',
+                                         help_text="Bu isim hangi hayvan türlerinde kullanılabilir?")
+    anlam = models.TextField(blank=True, help_text="İsmin kısa anlamı")
+    icerik = HTMLField(null=True, blank=True, help_text="Detaylı açıklama")
+    resim = models.ImageField(upload_to=hayvan_resim_upload_to, storage=ImageSettingStorage(),
+                              null=True, blank=True)
+    cinsiyet = models.CharField(max_length=20, choices=[
+        ('erkek', 'Erkek'),
+        ('disi', 'Dişi'),
+        ('unisex', 'Unisex'),
+    ], default='unisex')
+    aktif = models.BooleanField(default=True)
+    okunma_sayisi = models.PositiveBigIntegerField(default=0)
+    olusturma_tarihi = models.DateTimeField(auto_now_add=True)
+    guncelleme_tarihi = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Hayvan İsmi"
+        verbose_name_plural = "Hayvan İsimleri"
+        ordering = ['isim']
+
+    def __str__(self):
+        return self.isim
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            from django.utils.text import slugify
+            base_slug = slugify(f"{self.isim}-hayvan-ismi")
+            slug = base_slug
+            n = 1
+            while HayvanIsim.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f"{base_slug}-{n}"
+                n += 1
+            self.slug = slug
+        if not self.title:
+            self.title = f"{self.isim.capitalize()} - Hayvan İsmi Anlamı ve Özellikleri"
+        if not self.h1:
+            self.h1 = f"{self.isim.capitalize()} Hayvan İsmi ve Anlamı"
+        super().save(*args, **kwargs)
+
+
 class iletisimmodel(models.Model):
     name = models.CharField(max_length=255, blank=True, null=True)
     email = models.CharField(max_length=255,blank=True,null=True,help_text=HELP_TEXTS["keywords"])

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block MetaTag %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}/hayvan-isimleri/">
+{% endblock MetaTag %}
+
+{% block OgTag %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+{% endblock OgTag %}
+
+{% block icerik %}
+<div class="container my-5">
+    <div class="text-center mb-5">
+        <h1 style="font-size: 2.2rem;">{{ H1 }}</h1>
+        <p class="mt-3" style="color: var(--fg-secondary); max-width: 600px; margin: 0 auto;">
+            Evcil dostunuz için en anlamlı ve en tatlı isimleri keşfedin. Kategorilere göre filtreleyerek mükemmel ismi bulun.
+        </p>
+    </div>
+
+    <!-- Kategori Kartları -->
+    <section class="category-section">
+        <h2>Kategoriler</h2>
+        <div class="row g-3">
+            {% for kat in kategoriler %}
+            <div class="col-6 col-md-4 col-lg-3">
+                <a href="{% url 'post-getir' kat.slug %}" style="text-decoration: none;">
+                    <div class="card text-center p-4" style="min-height: 160px;">
+                        {% if kat.ikon %}
+                        <div style="font-size: 2.5rem; color: var(--accent); margin-bottom: 0.75rem;">
+                            <i class="bi {{ kat.ikon }}"></i>
+                        </div>
+                        {% endif %}
+                        <h5 class="card-title mb-1" style="font-size: 1rem;">{{ kat.title }}</h5>
+                        <small style="color: var(--muted);">{{ kat.isimler.count }} isim</small>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Son Eklenenler -->
+    {% if son_eklenen %}
+    <section class="category-section mt-5">
+        <h2>Son Eklenen İsimler</h2>
+        <div class="row g-3">
+            {% for isim in son_eklenen %}
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{% url 'hayvan-detay' isim.slug %}" style="text-decoration: none;">
+                    <div class="card text-center p-3">
+                        <h6 class="mb-1" style="color: var(--fg);">{{ isim.isim|capfirst }}</h6>
+                        <small style="color: var(--muted);">
+                            {% if isim.cinsiyet == 'erkek' %}<i class="bi bi-gender-male" style="color: #3b82f6;"></i>
+                            {% elif isim.cinsiyet == 'disi' %}<i class="bi bi-gender-female" style="color: #ec4899;"></i>
+                            {% else %}<i class="bi bi-gender-ambiguous" style="color: var(--accent);"></i>{% endif %}
+                            {{ isim.get_cinsiyet_display }}
+                        </small>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Popüler -->
+    {% if populer %}
+    <section class="category-section mt-5">
+        <h2>En Popüler Hayvan İsimleri</h2>
+        <div class="row g-3">
+            {% for isim in populer %}
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{% url 'hayvan-detay' isim.slug %}" style="text-decoration: none;">
+                    <div class="card text-center p-3">
+                        <h6 class="mb-1" style="color: var(--fg);">{{ isim.isim|capfirst }}</h6>
+                        <small style="color: var(--muted);"><i class="bi bi-eye"></i> {{ isim.okunma_sayisi }}</small>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock icerik %}

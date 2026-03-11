@@ -31,6 +31,8 @@ sitemaps = {
     'kadin': kadin,
     'cocuk': cocuk,
     'saglik': saglik,
+    'hayvan-kategoriler': HayvanKategoriSitemap,
+    'hayvan-isimler': HayvanIsimSitemap,
 }
 
 
@@ -78,6 +80,9 @@ urlpatterns = [
                   path('sitemap.xml/', index, {'sitemaps': sitemaps}),
                   path('sitemap-<section>.xml/', sitemap, {'sitemaps': sitemaps},
                        name='django.contrib.sitemaps.views.sitemap'),
-                  path('<str:post_slug>/', enderun, name='post-getir'),
+                  # Hayvan İsimleri
+                  path("hayvan-isimleri/", hayvan_ana_sayfa, name="hayvan-ana"),
+                  path("hayvan-isimleri/<slug:isim_slug>/", hayvan_isim_detay, name="hayvan-detay"),
+                  path('<str:post_slug>/', slug_dispatcher, name='post-getir'),
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
                                                                                            document_root=settings.MEDIA_ROOT)

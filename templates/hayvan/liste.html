@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block MetaTag %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <link rel="canonical" href="{{ urlsi }}">
+{% endblock MetaTag %}
+
+{% block OgTag %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    {% if kategori.resim %}<meta property="og:image" content="{{ kategori.resim.url }}">{% endif %}
+{% endblock OgTag %}
+
+{% block SchemaitemList %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "{{ H1 }}",
+  "description": "{{ description }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {% for isim in isimler %}
+      {
+        "@type": "ListItem",
+        "position": {{ forloop.counter }},
+        "url": "https://www.erkekbebekisimleri.net{% url 'hayvan-detay' isim.slug %}",
+        "name": "{{ isim.isim|capfirst }}"
+      }{% if not forloop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+}
+</script>
+{% endblock SchemaitemList %}
+
+{% block SchemaBreadcrumbList %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://www.erkekbebekisimleri.net/"},
+    {"@type": "ListItem", "position": 2, "name": "Hayvan İsimleri", "item": "https://www.erkekbebekisimleri.net/hayvan-isimleri/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ kategori.title }}", "item": "https://www.erkekbebekisimleri.net/{{ kategori.slug }}/"}
+  ]
+}
+</script>
+{% endblock SchemaBreadcrumbList %}
+
+{% block icerik %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-9">
+            <h1>{{ H1 }}</h1>
+            {% if kategori.description %}
+            <p class="mt-2 mb-4" style="color: var(--fg-secondary);">{{ kategori.description }}</p>
+            {% endif %}
+
+            <!-- Harf Filtresi -->
+            <div class="mb-4">
+                <div class="d-flex flex-wrap gap-1 justify-content-center">
+                    <a href="{% url 'post-getir' kategori.slug %}" class="letter-select {% if not secili_harf %}active{% endif %}" style="{% if not secili_harf %}opacity:0.7{% endif %}">Tümü</a>
+                    {% for h in "ABCDEFGHIJKLMNOPRSTUVYZÇÖŞÜİ" %}
+                    <a href="{% url 'post-getir' kategori.slug %}?harf={{ h }}{% if secili_cinsiyet %}&cinsiyet={{ secili_cinsiyet }}{% endif %}"
+                       class="letter-select {% if secili_harf == h %}active{% endif %}"
+                       style="text-decoration:none; color:#fff;">{{ h }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Cinsiyet Filtresi -->
+            <div class="d-flex justify-content-center gap-2 mb-4 flex-wrap">
+                <a href="{% url 'post-getir' kategori.slug %}{% if secili_harf %}?harf={{ secili_harf }}{% endif %}"
+                   class="btn btn-sm {% if not secili_cinsiyet %}btn-success{% else %}btn-outline-success{% endif %}">Tümü</a>
+                <a href="{% url 'post-getir' kategori.slug %}?cinsiyet=erkek{% if secili_harf %}&harf={{ secili_harf }}{% endif %}"
+                   class="btn btn-sm {% if secili_cinsiyet == 'erkek' %}btn-primary{% else %}btn-outline-success{% endif %}">
+                    <i class="bi bi-gender-male"></i> Erkek</a>
+                <a href="{% url 'post-getir' kategori.slug %}?cinsiyet=disi{% if secili_harf %}&harf={{ secili_harf }}{% endif %}"
+                   class="btn btn-sm {% if secili_cinsiyet == 'disi' %}btn-warning{% else %}btn-outline-success{% endif %}">
+                    <i class="bi bi-gender-female"></i> Dişi</a>
+                <a href="{% url 'post-getir' kategori.slug %}?cinsiyet=unisex{% if secili_harf %}&harf={{ secili_harf }}{% endif %}"
+                   class="btn btn-sm {% if secili_cinsiyet == 'unisex' %}btn-success{% else %}btn-outline-success{% endif %}">
+                    <i class="bi bi-gender-ambiguous"></i> Unisex</a>
+            </div>
+
+            <!-- İsim Listesi -->
+            <div class="row g-3">
+                {% for isim in isimler %}
+                <div class="col-6 col-md-4">
+                    <a href="{% url 'hayvan-detay' isim.slug %}" style="text-decoration: none;">
+                        <div class="card p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-0" style="font-size: 1.05rem; color: var(--fg);">{{ isim.isim|capfirst }}</h5>
+                                    {% if isim.anlam %}
+                                    <small style="color: var(--muted);">{{ isim.anlam|truncatechars:40 }}</small>
+                                    {% endif %}
+                                </div>
+                                <div>
+                                    {% if isim.cinsiyet == 'erkek' %}<i class="bi bi-gender-male" style="color: #3b82f6; font-size: 1.2rem;"></i>
+                                    {% elif isim.cinsiyet == 'disi' %}<i class="bi bi-gender-female" style="color: #ec4899; font-size: 1.2rem;"></i>
+                                    {% else %}<i class="bi bi-gender-ambiguous" style="color: var(--accent); font-size: 1.2rem;"></i>{% endif %}
+                                </div>
+                            </div>
+                            {% if isim.kategoriler.count > 1 %}
+                            <div class="mt-2">
+                                {% for kat in isim.kategoriler.all %}
+                                <span style="font-size: 0.7rem; background: var(--badge-bg); color: var(--badge-fg); padding: 2px 8px; border-radius: 50px;">{{ kat.title }}</span>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-emoji-frown" style="font-size: 3rem; color: var(--muted);"></i>
+                    <p class="mt-3" style="color: var(--muted);">Bu filtrelere uygun isim bulunamadı.</p>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Pagination -->
+            {% if isimler.paginator.num_pages > 1 %}
+            <nav aria-label="Sayfa navigasyonu" class="mt-4">
+                <ul class="pagination pagination-lg justify-content-center flex-wrap">
+                    {% if isimler.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?sayfa={{ isimler.previous_page_number }}{% if secili_cinsiyet %}&cinsiyet={{ secili_cinsiyet }}{% endif %}{% if secili_harf %}&harf={{ secili_harf }}{% endif %}">
+                            &laquo; Önceki
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in isimler.paginator.page_range %}
+                        {% if isimler.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                        {% elif i > isimler.number|add:"-4" and i < isimler.number|add:"4" %}
+                        <li class="page-item">
+                            <a class="page-link" href="?sayfa={{ i }}{% if secili_cinsiyet %}&cinsiyet={{ secili_cinsiyet }}{% endif %}{% if secili_harf %}&harf={{ secili_harf }}{% endif %}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if isimler.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?sayfa={{ isimler.next_page_number }}{% if secili_cinsiyet %}&cinsiyet={{ secili_cinsiyet }}{% endif %}{% if secili_harf %}&harf={{ secili_harf }}{% endif %}">
+                            Sonraki &raquo;
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-3">
+            <div class="sticky-top" style="top: 90px;">
+                <div class="mb-4">
+                    <h5 class="fw-bold mb-3">Hayvan Türleri</h5>
+                    <ul class="list-group list-group-flush" style="border-radius: var(--radius-md); overflow: hidden;">
+                        {% for kat in tum_kategoriler %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center {% if kat.slug == kategori.slug %}fw-bold{% endif %}">
+                            <a href="{% url 'post-getir' kat.slug %}">
+                                {% if kat.ikon %}<i class="bi {{ kat.ikon }} me-1"></i>{% endif %}
+                                {{ kat.title }}
+                            </a>
+                            <span style="font-size: 0.75rem; background: var(--badge-bg); color: var(--badge-fg); padding: 2px 8px; border-radius: 50px;">{{ kat.isimler.count }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="mb-4">
+                    <a href="{% url 'hayvan-ana' %}" class="btn btn-outline-success w-100">
+                        <i class="bi bi-house me-1"></i> Tüm Hayvan İsimleri
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock icerik %}

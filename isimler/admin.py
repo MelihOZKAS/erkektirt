@@ -125,3 +125,30 @@ class iletisimAdmin(admin.ModelAdmin):
 
 
 admin.site.register(iletisimmodel, iletisimAdmin)
+
+
+class HayvanKategoriAdmin(admin.ModelAdmin):
+    list_display = ("title", "slug", "aktif", "sira")
+    prepopulated_fields = {'slug': ('title',)}
+    list_editable = ("aktif", "sira")
+    search_fields = ("title",)
+    list_filter = ("aktif",)
+
+
+admin.site.register(HayvanKategori, HayvanKategoriAdmin)
+
+
+class HayvanIsimAdmin(admin.ModelAdmin):
+    list_display = ("isim", "slug", "cinsiyet", "okunma_sayisi", "aktif", "kategori_listesi")
+    prepopulated_fields = {'slug': ('isim',)}
+    list_editable = ("aktif", "cinsiyet")
+    search_fields = ("isim", "anlam")
+    list_filter = ("aktif", "cinsiyet", "kategoriler")
+    filter_horizontal = ("kategoriler",)
+
+    def kategori_listesi(self, obj):
+        return ", ".join([k.title for k in obj.kategoriler.all()])
+    kategori_listesi.short_description = "Kategoriler"
+
+
+admin.site.register(HayvanIsim, HayvanIsimAdmin)

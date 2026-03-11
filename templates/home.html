@@ -31,7 +31,7 @@
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">
     <meta property="og:url" content="{{ request.build_absolute_uri }}">
-    <meta property="og:image" content="{{ Post_Kategorisi.resim }}">
+    <meta property="og:image" content="{{ resim }}">
     <meta property="og:image:width" content="960"/>
     <meta property="og:image:height" content="640"/>
 {% endblock OgTag %}
@@ -43,7 +43,7 @@
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description }}">
     <meta name="twitter:url" content="https://x.com/erkekbebekisimleri">
-    <meta name="twitter:image" content="{{ Post_Kategorisi.resim }}">
+    <meta name="twitter:image" content="{{ resim }}">
 {% endblock ttTag %}
 <!--  tt Tag Bitiş -->
 
@@ -51,224 +51,16 @@
 
 {% block extra_css %}
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-        .navbar { background-color: var(--navbar-bg); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06); }
-
-        .navbar-dark {
-            background-color: #333333;
-        }
-
-        .navbar-brand, .nav-link { color: var(--fg) !important; }
-        .navbar-dark .navbar-brand, .navbar-dark .nav-link { color: #f8f9fa !important; }
-
         .hero-section {
             background: url('{% static "media/images/aile.webp" %}') no-repeat center center;
-            background-size: cover;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            text-align: center;
         }
-
-
-        .hero-section h1 {
-            font-size: 3em;
-            font-weight: bold;
-            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
-        }
-
-        .category-section {
-            margin-bottom: 40px;
-        }
-
-        .category-section h2 {
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-
-        .category-content .card { transition: transform 0.2s; background-color: var(--card-bg); border: 1px solid var(--border); color: var(--fg); }
-
-        .category-content .card:hover { transform: translateY(-4px); box-shadow: 0 12px 20px rgba(0,0,0,0.08); }
-
-        .category-content .card img {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        footer { background-color: var(--footer-bg); border-top: 1px solid var(--border); padding: 20px 0; }
-
-        .dark-mode { background-color: var(--bg); color: var(--fg); }
-
-        .dark-mode .navbar { background-color: var(--navbar-bg); }
-
-        .dark-mode footer { background-color: var(--footer-bg); border-top: 1px solid var(--border); }
-
-        .dark-mode .category-content .card { background-color: var(--card-bg); border: 1px solid var(--border); color: var(--fg); }
-
-        .toggle-mode {
-            cursor: pointer;
-        }
-
-        .toggle-mode img {
-            width: 24px;
-        }
-
-        .letter-select {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            margin: 5px;
-            line-height: 40px;
-            text-align: center;
-            background-color: rgb(55, 141, 5);
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .letter-select:hover {
-            background-color: #0056b3;
-            transform: scale(1.1);
-        }
-
         .search-form .letter-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
         }
-
-        @media (max-width: 576px) {
-            .letter-select {
-                width: 40px;
-                height: 40px;
-                line-height: 40px;
-                font-size: 0.875rem;
-            }
-        }
-
-        .navbar-nav {
-            margin: 0 auto;
-        }
-
-        .toggle-mode {
-            margin-right: 20px;
-        }
-
-
-        .category-section h2 {
-            margin: 0;
-            padding: 0;
-        }
-
-        .category-section .btn-link {
-            padding: 0;
-            font-size: 1rem;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .category-section .btn-link:hover {
-            text-decoration: underline;
-        }
-
-        .category-section .d-flex {
-            margin-bottom: 1rem;
-        }
-
-
-        .footer {
-            background-color: #2A2A2C;
-            padding-top: 3rem;
-            padding-bottom: 3rem;
-            color: #F1F6FA;
-        }
-
-        .footer h5 {
-            font-weight: bold;
-        }
-
-        .footer a {
-            color: #eff4f8;
-            text-decoration: none;
-        }
-
-        .footer a:hover {
-            color: #6fa8dc;
-        }
-
-        .footer .list-unstyled {
-            padding-left: 0;
-            list-style: none;
-        }
-
-        .footer .row > div {
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 767.98px) {
-            .footer .row > div {
-                text-align: center;
-            }
-        }
-
-        .gender-card {
-            width: 100%;
-            border: 8px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 15px 0;
-            text-align: center;
-            cursor: pointer;
-            transition: transform 0.3s;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .gender-card img {
-            width: 100%;
-            height: auto;
-        }
-
-        .gender-card:hover {
-            transform: scale(1.05);
-        }
-
-        .gender-card .form-check-input {
-            display: none;
-        }
-
-        .gender-card.active {
-            border-color: green;
-            /*border-color: #da8a21;*/
-        }
-
-        .gender-card.active .card-body {
-            background-color: #047f0c;
-            color: white;
-        }
-
-        .checkmark {
-            display: none;
-        }
-
-        .gender-card.active .checkmark {
-            display: block;
-            color: green;
-            font-size: 24px;
-            margin-top: 10px;
-        }
-
+        .category-section .d-flex { margin-bottom: 1rem; }
+        .category-content .card img { height: 200px; object-fit: cover; }
     </style>
 {% endblock %}
 
@@ -312,8 +104,7 @@
                 <a href="#Cinsiyet"><span class="letter-select" data-value="Z">Z</span></a>
             </div>
 
-            <form action="/ara/" method="post">
-                {% csrf_token %}
+            <form action="/ara/" method="get">
                 <fieldset class="mb-3 mt-5" id="Cinsiyet">
                     <legend class="text-center">Cinsiyet Seç <strong style="color: red;">( Zorunlu )</strong></legend>
                     <div class="row justify-content-center">
@@ -358,7 +149,7 @@
 
                 <div class="mb-3">
                     <label for="namePart" class="form-label">İsmin Bir Kısmını Girin</label>
-                    <input type="text" class="form-control" id="namePart" name="fulltext" maxlength="128"
+                    <input type="text" class="form-control" id="namePart" name="q" maxlength="128"
                            placeholder="İsmin Bir Kısmını Girin">
                 </div>
 
@@ -471,7 +262,7 @@
         </section>
 
 
-        <section class="category-section" id="kız-bebek-isimleri">
+        <section class="category-section" id="unisex-bebek-isimleri">
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Unisex Bebek İsimleri</h2>
                 <a href="{% url 'unisex' %}" class="btn btn-success">Tümünü Gör</a>
@@ -553,8 +344,7 @@
                         <div class="card mb-4">
                             <a href="{% url 'post-getir' post_slug=saglikk.slug %}">
                                 <img src="{{ saglikk.resim.url }}" class="card-img-top" alt="{{ saglikk.title }}"
-                                     width="
-                                     960" height="640"></a>
+                                     width="960" height="640"></a>
                             <div class="card-body">
                                 <h3 class="card-title" style="font-size: 20px;">{{ saglikk.h1 }}</h3>
                                 <p class="card-text">{{ saglikk.icerik1|truncatechars:100|safe }}</p>
@@ -608,28 +398,15 @@
             document.getElementById(genderId).checked = true;
         }
 
-        // Sayfa yüklendiğinde koyu modun durumunu kontrol et ve 'genderAll' seçili olacak şekilde ayarla
-        window.onload = function () {
-            var isDarkMode = localStorage.getItem('dark-mode') === 'true';
-
-            if (isDarkMode) {
-                document.body.classList.add("dark-mode");
-                document.querySelector('.navbar').classList.add('navbar-dark');
-                document.getElementById('darkModeIcon').src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
-            }
-
-            selectGender('genderAll');
-        };
-
-
         document.addEventListener('DOMContentLoaded', function () {
+            selectGender('genderAll');
+
             const letterSelectElements = document.querySelectorAll('.letter-select');
             const namePartInput = document.getElementById('namePart');
-
             letterSelectElements.forEach(function (element) {
                 element.addEventListener('click', function (event) {
                     const letterValue = event.target.getAttribute('data-value');
-                    namePartInput.value = letterValue; // input alanını temizleyip yeni değeri yazar
+                    namePartInput.value = letterValue;
                 });
             });
         });

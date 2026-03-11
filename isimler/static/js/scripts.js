@@ -1,15 +1,30 @@
-function toggleDarkMode() {
-    var body = document.body;
-    body.classList.toggle("dark-mode");
-    const navBar = document.querySelector('.navbar');
-    navBar.classList.toggle('navbar-dark');
+/* ============================================
+   THEME SYSTEM - Premium Dark/Light Mode
+   ============================================ */
 
-    const darkModeIcon = document.getElementById('darkModeIcon');
-    if (body.classList.contains('dark-mode')) {
-        darkModeIcon.src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
-        localStorage.setItem('dark-mode', 'true');
-    } else {
-        darkModeIcon.src = "https://img.icons8.com/?size=100&id=45475&format=png&color=000000";
-        localStorage.setItem('dark-mode', 'false');
+(function () {
+    // Apply theme immediately to prevent flash
+    const savedTheme = localStorage.getItem('dark-mode');
+    if (savedTheme === 'true') {
+        document.documentElement.classList.add('dark-mode');
+        document.body && document.body.classList.add('dark-mode');
     }
-}
+})();
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Apply saved theme on DOM ready
+    const isDark = localStorage.getItem('dark-mode') === 'true';
+    if (isDark) {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Toggle handler
+    const toggleBtn = document.getElementById('themeToggle');
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', function () {
+            document.body.classList.toggle('dark-mode');
+            const nowDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('dark-mode', nowDark ? 'true' : 'false');
+        });
+    }
+});

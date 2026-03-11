@@ -15,6 +15,7 @@
 <!-- Meta Tag Bitiş -->
 
 <!--  Open Graph / Facebook Tag Başlangıç -->
+{% block og_type %}<meta property="og:type" content="article">{% endblock og_type %}
 {% block OgTag %}
     <meta property="og:title" content="{{ icerik.title }}">
     <meta property="og:description" content="{{ icerik.description }}">
@@ -83,35 +84,11 @@
   "datePublished": "{{ icerik.olusturma_tarihi.isoformat }}",
   "dateModified": "{{ icerik.guncelleme_tarihi.isoformat }}",
   "description": "{{ icerik.description }}",
-  "articleBody": "{{ articleBody }}",
+  "articleBody": "{{ articleBody|escapejs }}",
   "keywords": "{{ icerik.keywords }}",
   "articleSection": "{{ icerik.Post_Turu.Title }}",
   "inLanguage": "tr",
-  "mainEntity": {
-    "@type": "Article",
-    "headline": "{{ icerik.title }}",
-    "description": "{{ icerik.description }}",
-    "image": "{{ icerik.resim.url }}"
-  },
-  "video": [
-    {% for video in post.videos.all %}
-    {
-      "@type": "VideoObject",
-      "name": "{{ video.title }}",
-      "description": "{{ video.description }}",
-      "thumbnailUrl": "{{ video.thumbnail.url }}",
-      "uploadDate": "{{ video.upload_date|date:'Y-m-d' }}",
-      "contentUrl": "{{ video.url }}",
-      "embedUrl": "{{ video.embed_url }}",
-      "interactionStatistic": {
-        "@type": "InteractionCounter",
-        "interactionType": "https://schema.org/WatchAction",
-        "userInteractionCount": "{{ video.view_count }}"
-      }
-    }{% if not forloop.last %},{% endif %}
-    {% endfor %}
-  ],
-   "interactionStatistic": {
+  "interactionStatistic": {
     "@type": "InteractionCounter",
     "interactionType": "https://schema.org/ReadAction",
     "userInteractionCount": "{{ icerik.okunma_sayisi }}"
@@ -158,6 +135,7 @@
 
 <!-- Schema FAQ Başlangıç -->
 {% block SchemaFaq %}
+{% if soru_cevap %}
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -166,176 +144,22 @@
     {% for question,answer in soru_cevap %}
     {
       "@type": "Question",
-      "name": "{{ question }}",
+      "name": "{{ question|escapejs }}",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "{{ answer|safe }}"
+        "text": "{{ answer|escapejs }}"
       }
     }{% if not forloop.last %},{% endif %}
     {% endfor %}
   ]
 }
 </script>
+{% endif %}
 {% endblock SchemaFaq %}
 <!-- Schema FAQ SchemaFaq -->
 
 
 {% block extra_css %}
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            transition: background-color 0.3s, color 0.3s;
-        }
-
-
-        .navbar { background-color: var(--navbar-bg); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.06); }
-
-        .navbar-dark {
-            background-color: #333333;
-        }
-
-        .navbar-brand, .nav-link { color: var(--fg) !important; }
-        .navbar-dark .navbar-brand, .navbar-dark .nav-link { color: #f8f9fa !important; }
-
-        .dark-mode { background-color: var(--bg); color: var(--fg); }
-
-        .dark-mode .navbar { background-color: var(--navbar-bg); }
-
-        .dark-mode footer { background-color: var(--footer-bg); border-top: 1px solid var(--border); }
-
-
-        .toggle-mode {
-            cursor: pointer;
-        }
-
-        .toggle-mode img {
-            width: 24px;
-        }
-
-        .category-section {
-            margin-bottom: 40px;
-        }
-
-        .category-section h2 {
-            margin-bottom: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-bottom: 2px solid #f0f0f0;
-            padding-bottom: 10px;
-        }
-
-
-        .navbar-nav {
-            margin: 0 auto;
-        }
-
-        .toggle-mode {
-            margin-right: 20px;
-        }
-
-        /* Dark mode için eklemeler */
-        .dark-mode .list-group-item {
-            background-color: #2a2a2a;
-            color: #ffffff;
-        }
-
-        .dark-mode .list-group-item a {
-            color: #ffffff;
-        }
-
-        .dark-mode .sticky-top {
-            background-color: #1c1c1c;
-        }
-
-
-        /* Dark mode for accordion */
-        .dark-mode .accordion-item { background-color: var(--card-bg); color: var(--fg); }
-
-        .dark-mode .accordion-button { background-color: var(--navbar-bg); color: var(--fg); border: none; }
-
-        .dark-mode .accordion-button:not(.collapsed) { background-color: var(--navbar-bg); color: var(--fg); box-shadow: none; }
-
-        .dark-mode .accordion-button.collapsed { background-color: var(--navbar-bg); color: var(--fg); }
-
-        .dark-mode .accordion-button::after {
-            filter: invert(1); /* Tersine çevirme ile renkleri koyulaştır */
-        }
-
-        .dark-mode .accordion-button:focus {
-            box-shadow: none;
-        }
-
-        .dark-mode .accordion-body { background-color: var(--card-bg); color: var(--fg); }
-
-        .dark-mode .accordion-header { background-color: var(--card-bg); border: none; }
-
-
-        /* Dark mode for accordion */
-
-
-        .btn-custom {
-            margin: 0.5rem;
-            border-radius: 20px;
-            padding: 0.75rem 1.25rem;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .btn-custom:hover {
-            transform: scale(1.05);
-        }
-
-        .btn-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn-container > a {
-            display: contents;
-        }
-
-        @media (max-width: 768px) {
-            .btn-custom, .btn-container > a {
-                flex: 1 1 100%;
-                margin: 0.25rem;
-            }
-        }
-
-        /* Textlerdeki Linkleri Düzenler */
-        a {
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        /* Light mode için */
-        body:not(.dark-mode) a {
-            color: #333;
-        }
-
-        /* Dark mode için */
-        .dark-mode a {
-            color: #f8f9fa;
-        }
-
-        /* Navbar linkleri için özel durumlar */
-        .navbar-brand, .nav-link {
-            color: #333 !important;
-        }
-
-        .navbar-dark .navbar-brand, .navbar-dark .nav-link {
-            color: #f8f9fa !important;
-        }
-
-        /* Dark mode'da list-group-item içindeki linkler için */
-        .dark-mode .list-group-item a {
-            color: #ffffff;
-        }
-
-
-    </style>
 {% endblock %}
 
 {% block icerik %}
@@ -346,8 +170,8 @@
                 <div class="post-content">
                     <div class="d-flex align-items-center justify-content-center"
                          style="height: 100%;">
-                        <img src="{{ icerik.resim.url }}" class="img-fluid mb-4" alt="{{ icerik.title }}" width="960"
-                             height="640" loading="lazy" style="border-radius: 20px;">
+                        {% if icerik.resim %}<img src="{{ icerik.resim.url }}" class="img-fluid mb-4" alt="{{ icerik.title }}" width="960"
+                             height="640" loading="lazy" class="img-premium">{% endif %}
                     </div>
                     <h1>{{ icerik.h1 }}</h1>
                     {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
@@ -477,7 +301,7 @@
                              style="height: 100%;">
                             <img src="{{ icerik.resim2.url }}" class="img-fluid mb-4" alt="{{ icerik.title }} - 2"
                                  width="960"
-                                 height="640" loading="lazy" style="border-radius: 20px;">
+                                 height="640" loading="lazy" class="img-premium">
                         </div>
                     {% endif %}
                     <!-- Resim2 Bitiş -->
@@ -496,11 +320,12 @@
                              style="height: 100%;">
                             <img src="{{ icerik.resim3.url }}" class="img-fluid mb-4" alt="{{ icerik.title }} - 3"
                                  width="960"
-                                 height="640" loading="lazy" style="border-radius: 20px;">
+                                 height="640" loading="lazy" class="img-premium">
                         </div>
                     {% endif %}
 
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" and isim_durumu %}
+                    {% if isim_durumu %}
+                        {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
                         <h2 class="mt-4">{{ icerik.isim|capfirst }} İsmine Benzer ve Uyumlu İsimler Nelerdir?</h2>
                         <div class="btn-container">
                             {% for isim in isim_durumu %}
@@ -518,6 +343,7 @@
                             {% endfor %}
                         </div>
                         <hr>
+                        {% endif %}
                     {% endif %}
 
                     <!-- Ünlü isimler Başlangıç -->
@@ -539,7 +365,7 @@
                              style="height: 100%;">
                             <img src="{{ icerik.resim4.url }}" class="img-fluid mb-4" alt="{{ icerik.title }} - 4"
                                  width="960"
-                                 height="640" loading="lazy" style="border-radius: 20px;">
+                                 height="640" loading="lazy" class="img-premium">
                         </div>
                     {% endif %}
                     <!-- icerik4 Başlangıç -->
@@ -623,17 +449,3 @@
 {% endblock %}
 
 
-{% block extra_js %}
-    <script>
-        // Sayfa yüklendiğinde koyu modun durumunu kontrol et
-        window.onload = function () {
-            var isDarkMode = localStorage.getItem('dark-mode') === 'true';
-
-            if (isDarkMode) {
-                document.body.classList.add("dark-mode");
-                document.querySelector('.navbar').classList.add('navbar-dark');
-                document.getElementById('darkModeIcon').src = "https://img.icons8.com/ios-filled/50/ffffff/sun.png";
-            }
-        };
-    </script>
-{% endblock %}

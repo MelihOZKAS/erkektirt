@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block MetaTag %}
+    <title>{{ title }}</title>
+    <meta name="description" content="{{ description }}">
+    <meta name="keywords" content="{{ keywords }}">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+{% endblock MetaTag %}
+
+{% block og_type %}<meta property="og:type" content="article">{% endblock og_type %}
+{% block OgTag %}
+    <meta property="og:title" content="{{ title }}">
+    <meta property="og:description" content="{{ description }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    {% if isim.resim %}<meta property="og:image" content="{{ isim.resim.url }}">{% endif %}
+{% endblock OgTag %}
+
+{% block SchemaArticle %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ request.build_absolute_uri }}"
+  },
+  "headline": "{{ title|escapejs }}",
+  "description": "{{ description|escapejs }}",
+  {% if isim.resim %}"image": "{{ isim.resim.url }}",{% endif %}
+  "datePublished": "{{ isim.olusturma_tarihi|date:'c' }}",
+  "dateModified": "{{ isim.guncelleme_tarihi|date:'c' }}"
+}
+</script>
+{% endblock SchemaArticle %}
+
+{% block SchemaBreadcrumbList %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://www.erkekbebekisimleri.net/"},
+    {"@type": "ListItem", "position": 2, "name": "Hayvan İsimleri", "item": "https://www.erkekbebekisimleri.net/hayvan-isimleri/"},
+    {% for kat in kategoriler %}
+    {"@type": "ListItem", "position": {{ forloop.counter|add:2 }}, "name": "{{ kat.title }}", "item": "https://www.erkekbebekisimleri.net/{{ kat.slug }}/"}{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endblock SchemaBreadcrumbList %}
+
+{% block icerik %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb" style="font-size: 0.9rem;">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'hayvan-ana' %}">Hayvan İsimleri</a></li>
+                    {% for kat in kategoriler %}
+                    <li class="breadcrumb-item"><a href="{% url 'post-getir' kat.slug %}">{{ kat.title }}</a></li>
+                    {% endfor %}
+                    <li class="breadcrumb-item active" aria-current="page">{{ isim.isim|capfirst }}</li>
+                </ol>
+            </nav>
+
+            <!-- İsim Başlık Kartı -->
+            <div class="card p-4 mb-4">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <h1 style="font-size: 2rem; margin: 0;">{{ isim.h1|default:isim.isim|capfirst }}</h1>
+                    <span>
+                        {% if isim.cinsiyet == 'erkek' %}<i class="bi bi-gender-male" style="color: #3b82f6; font-size: 1.5rem;"></i>
+                        {% elif isim.cinsiyet == 'disi' %}<i class="bi bi-gender-female" style="color: #ec4899; font-size: 1.5rem;"></i>
+                        {% else %}<i class="bi bi-gender-ambiguous" style="color: var(--accent); font-size: 1.5rem;"></i>{% endif %}
+                    </span>
+                </div>
+
+                {% if isim.anlam %}
+                <p style="font-size: 1.1rem; color: var(--fg-secondary);">{{ isim.anlam }}</p>
+                {% endif %}
+
+                <!-- Bilgi Tablosu -->
+                <div class="row g-3 mt-2">
+                    <div class="col-6 col-md-3">
+                        <div class="text-center p-3" style="background: var(--card-bg); border-radius: var(--radius-md);">
+                            <small style="color: var(--muted);">Cinsiyet</small>
+                            <div class="fw-bold mt-1">{{ isim.get_cinsiyet_display }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-center p-3" style="background: var(--card-bg); border-radius: var(--radius-md);">
+                            <small style="color: var(--muted);">Görüntülenme</small>
+                            <div class="fw-bold mt-1"><i class="bi bi-eye me-1"></i>{{ isim.okunma_sayisi }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-center p-3" style="background: var(--card-bg); border-radius: var(--radius-md);">
+                            <small style="color: var(--muted);">Harf Sayısı</small>
+                            <div class="fw-bold mt-1">{{ isim.isim|length }}</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-center p-3" style="background: var(--card-bg); border-radius: var(--radius-md);">
+                            <small style="color: var(--muted);">Kategori</small>
+                            <div class="fw-bold mt-1">{{ kategoriler.count }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kategoriler -->
+                <div class="mt-3">
+                    {% for kat in kategoriler %}
+                    <a href="{% url 'post-getir' kat.slug %}" style="text-decoration: none;">
+                        <span style="font-size: 0.8rem; background: var(--badge-bg); color: var(--badge-fg); padding: 4px 12px; border-radius: 50px; display: inline-block; margin: 2px;">
+                            {% if kat.ikon %}<i class="bi {{ kat.ikon }} me-1"></i>{% endif %}{{ kat.title }}
+                        </span>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% if isim.resim %}
+            <div class="card mb-4 overflow-hidden">
+                <img src="{{ isim.resim.url }}" alt="{{ isim.isim|capfirst }}" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;">
+            </div>
+            {% endif %}
+
+            <!-- İçerik -->
+            {% if isim.icerik %}
+            <div class="card p-4 mb-4">
+                <div class="icerik-alani">
+                    {{ isim.icerik|safe }}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Benzer İsimler -->
+            {% if benzer_isimler %}
+            <div class="mb-4">
+                <h2 style="font-size: 1.4rem;" class="mb-3">Benzer Hayvan İsimleri</h2>
+                <div class="row g-3">
+                    {% for b in benzer_isimler %}
+                    <div class="col-6 col-md-4">
+                        <a href="{% url 'hayvan-detay' b.slug %}" style="text-decoration: none;">
+                            <div class="card p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <h5 class="mb-0" style="font-size: 1rem; color: var(--fg);">{{ b.isim|capfirst }}</h5>
+                                        {% if b.anlam %}
+                                        <small style="color: var(--muted);">{{ b.anlam|truncatechars:30 }}</small>
+                                        {% endif %}
+                                    </div>
+                                    {% if b.cinsiyet == 'erkek' %}<i class="bi bi-gender-male" style="color: #3b82f6;"></i>
+                                    {% elif b.cinsiyet == 'disi' %}<i class="bi bi-gender-female" style="color: #ec4899;"></i>
+                                    {% else %}<i class="bi bi-gender-ambiguous" style="color: var(--accent);"></i>{% endif %}
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 90px;">
+                <!-- Kategoriler -->
+                <div class="card p-4 mb-4">
+                    <h5 class="fw-bold mb-3">Hayvan Türleri</h5>
+                    <ul class="list-group list-group-flush" style="border-radius: var(--radius-md); overflow: hidden;">
+                        {% for kat in kategoriler %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <a href="{% url 'post-getir' kat.slug %}">
+                                {% if kat.ikon %}<i class="bi {{ kat.ikon }} me-1"></i>{% endif %}
+                                {{ kat.title }}
+                            </a>
+                            <span style="font-size: 0.75rem; background: var(--badge-bg); color: var(--badge-fg); padding: 2px 8px; border-radius: 50px;">{{ kat.isimler.count }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Genel Bağlantı -->
+                <div class="mb-4">
+                    <a href="{% url 'hayvan-ana' %}" class="btn btn-outline-success w-100">
+                        <i class="bi bi-house me-1"></i> Tüm Hayvan İsimleri
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock icerik %}

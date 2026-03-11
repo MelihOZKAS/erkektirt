@@ -6,9 +6,10 @@ from django.core.paginator import Paginator
 import environ
 import json
 import requests
-from django.db.models import Q
+from django.db.models import Q, F
 from django.utils import timezone
 from django.views.decorators.http import require_GET
+from django.utils.html import strip_tags
 
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
@@ -67,7 +68,7 @@ def home(request):
     description = "ErkekBebekisimleri ile hayalinizdeki ismi bulun! Anlamlı, nadir, modern ve trend isimler arasından seçim yapın. Bebeğinizin ismi, kişiliğini yansıtsın."
     keywords = "erkek bebek isimleri,erkek isimleri,kız bebek isimleri,kız isimleri,anlamlı isimler,nadir isimler,modern isimler,trend isimler,isim anlamları,oğlum için isim,kızım için isim,isim önerileri,bebek isimleri rehberi,en güzel erkek bebek isimleri,en güzel kız bebek isimleri"
     yazar = "Yüksek Teknoloji"
-    resim = "resimurlsi gelecek buraya"
+    resim = "https://teknolojibucket.s3.amazonaws.com/static/assets/logo/logo.webp"
 
     context = {
         'title': title,
@@ -208,17 +209,18 @@ def kategori(request):
         keywords = "Kız Bebek İsimleri, isimlerin Anlamları, Trend isimler, Kişilik Analizi ve Numeroloji Yorumları, En Çok Görüntülenen Kız Bebek İsimleri, Trend Kız Bebek İsimleri,Modern Kız Bebek İsimleri"
         urlsi = "https://www.erkekbebekisimleri.net/en-cok-goruntulenen-kiz-isimleri/"
 
+    else:
+        return HttpResponse("Geçersiz kategori.", status=404)
+
     paginator = Paginator(TumPost, 9)  # 9 içerik göstermek için
     page_number = request.GET.get('sayfa')
     TumPost = paginator.get_page(page_number)
 
-    if page_number is None:
-        title = f"{title}"
-        description = f"{description}"
-    else:
-        title = f"{title} - {page_number}"
+    if page_number is not None:
+        title = f"{title} - Sayfa {page_number}"
         description = f"{description} - Sayfa {page_number}"
         h1 = f"{h1} - Sayfa {page_number}"
+        urlsi = f"{urlsi}?sayfa={page_number}"
 
     context = {
         'title': title,
@@ -233,26 +235,41 @@ def kategori(request):
     return render(request, "list.html", context)
 
 
+def slug_dispatcher(request, post_slug):
+    """Tek catch-all: önce HayvanKategori dene, bulamazsa Post'a düş."""
+    try:
+        kat = HayvanKategori.objects.get(slug=post_slug, aktif=True)
+        return hayvan_kategori_liste(request, post_slug)
+    except HayvanKategori.DoesNotExist:
+        return enderun(request, post_slug)
+
+
 def enderun(request, post_slug):
     PostEndrun = get_object_or_404(Post, aktif=True, status="Yayinda", slug=post_slug)
-    PostEndrun.okunma_sayisi += 1
-    PostEndrun.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
-                                   'pinterest', 'Trend'])
+    Post.objects.filter(pk=PostEndrun.pk).update(okunma_sayisi=F('okunma_sayisi') + 1)
     soru_cevap = None
     benzer_isimler = PostEndrun.Benzerisimler.split(',') if PostEndrun.Benzerisimler else []
     isim_durumu = []
 
+    benzer_isimler_clean = [i.strip().lower() for i in benzer_isimler if i.strip()]
+    existing_posts = Post.objects.filter(
+        isim__in=benzer_isimler_clean, aktif=True, status="Yayinda"
+    ).select_related('Post_Turu')
+    existing_map = {post.isim: post for post in existing_posts}
+
     for isim in benzer_isimler:
         isim = isim.strip()
-        try:
-            benzer_post = Post.objects.get(isim=isim.lower(), aktif=True, status="Yayinda")
+        if not isim:
+            continue
+        benzer_post = existing_map.get(isim.lower())
+        if benzer_post:
             isim_durumu.append({
                 'isim': isim,
                 'exists': True,
                 'slug': benzer_post.slug,
                 'cinsiyet': benzer_post.Post_Turu.short_title
             })
-        except Post.DoesNotExist:
+        else:
             isim_durumu.append({
                 'isim': isim,
                 'exists': False,
@@ -267,7 +284,7 @@ def enderun(request, post_slug):
     # todo tüm içeriği json için veriyorum
     contents = [PostEndrun.icerik1, PostEndrun.icerik2, PostEndrun.icerik3, PostEndrun.icerik4, PostEndrun.icerik5,
                 PostEndrun.icerik6, PostEndrun.icerik7]
-    articleBody = ' '.join(filter(None, contents))
+    articleBody = strip_tags(' '.join(filter(None, contents)))
 
     # todo tüm resimleri json için veriyorum (mutlak URL)
     resimler = []
@@ -329,7 +346,6 @@ def arama(request):
     paginator = Paginator(posts, 12)  # Her sayfada 12 sonuç göster
     page_number = request.GET.get('sayfa')
     TumPost = paginator.get_page(page_number)
-    print(posts)
 
     title = f"{query} ile gelen arama sonuçları | Erkek Bebek İsimleri"
     H1 = f"{query} ile Yapılan Aramada Bulunan İsimler ve Anlamları"
@@ -339,13 +355,8 @@ def arama(request):
     if not posts:
         H1 = f"{query} ile Hiç Bir {Cinsiyet} İsmi Bulunamadı Lütfen Farklı Bir Seçenek ile Deneyin! "
 
-    if page_number is None:
-        title = f"{title}"
-        H1 = f"{H1}"
-        description = f"{description}"
-    else:
-        title = f"{title} - {page_number}"
-        H1 = f"{H1}"
+    if page_number is not None:
+        title = f"{title} - Sayfa {page_number}"
         description = f"{description} - Sayfa {page_number}"
 
     # Canonical temel URL (sayfasız)
@@ -420,11 +431,10 @@ def robots_txt(request):
     return HttpResponse(robots_txt_content, content_type="text/plain")
 
 
-robots_txt_content = """
-User-agent: *
+robots_txt_content = """User-agent: *
 Allow: /
 Sitemap: https://www.erkekbebekisimleri.net/sitemap.xml/
-"""
+""".lstrip()
 
 @require_GET
 def ads(request):
@@ -451,7 +461,7 @@ def cerez(request):
     title = "Çerez Politikamız erkekbebekisimleri.net | Erkek isimleri"
     description = "erkekbebekisimleri.net çerez politikası Kişisel bilgilerinizin nasıl korunduğunu ve kullanıldığını öğrenin."
     keywords = "çerez Politikası, erkekbebekisimleri.net, Kişisel Bilgiler, Veri Koruma, Kullanıcı Gizliliği"
-    h1 = "erkekbebekisimleri.net Çeverez Politikası Kişisel Bilgileriniz Güvende"
+    h1 = "erkekbebekisimleri.net Çerez Politikası Kişisel Bilgileriniz Güvende"
     context = {
         'title': title,
         'description': description,
@@ -574,8 +584,7 @@ def indexing_var_mi(request):
     if post is not None:
         # post'un indexing durumunu False yapayı unutmamak lazımmm dimi.
         post.indexing = False
-        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
-                                 'pinterest', 'Trend'])
+        post.save(update_fields=['indexing'])
         return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/")
     else:
         return HttpResponse("post bulunamadı.")
@@ -585,7 +594,6 @@ def indexing_var_mi(request):
 def facebook_var_mi(request):
     post = Post.objects.filter(facebook=True, aktif=True, status="Yayinda").first()
     if post is not None:
-        # post'un indexing durumunu False yapayı unutmamak lazımmm dimi.
         post.facebook = False
         if post.isim:
             icerik = f"{post.isim} İsminin Gizli Anlamı Nedir? Öğrenince Şaşıracaksınız! İsminin Sırrı Nedir? #bebekisimleri"
@@ -593,8 +601,7 @@ def facebook_var_mi(request):
             icerik = f"{post.ozet}"
         if not icerik:
             icerik = f"{post.h1}"
-        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
-                                 'pinterest', 'Trend'])
+        post.save(update_fields=['facebook'])
         return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik}")
     else:
         return HttpResponse("post bulunamadı.")
@@ -604,7 +611,6 @@ def facebook_var_mi(request):
 def twitter_var_mi(request):
     post = Post.objects.filter(twitter=True, aktif=True, status="Yayinda").first()
     if post is not None:
-        # post'un indexing durumunu False yapayı unutmamak lazımmm dimi.
         post.twitter = False
         hashtag = "#bebekisimleri"
         if post.isim:
@@ -613,8 +619,7 @@ def twitter_var_mi(request):
             icerik = f"{post.h1}"
         if not icerik:
             icerik = f"{post.h1}"
-        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
-                                 'pinterest', 'Trend'])
+        post.save(update_fields=['twitter'])
         return HttpResponse(f"https://www.erkekbebekisimleri.net/{post.slug}/!={icerik} {hashtag}")
     else:
         return HttpResponse("Paylaşılacak Twitter içerik bulunamadı")
@@ -624,14 +629,95 @@ def twitter_var_mi(request):
 def pinterest_var_mi(request):
     post = Post.objects.filter(pinterest=True, aktif=True, status="Yayinda").first()
     if post is not None:
-        # post'un facebook durumunu False yapayı unutmamak lazımmm dimi.
         post.pinterest = False
         icerik = post.title
         if not icerik:
             icerik = "Bebek İsimleri"
-        post.save(update_fields=['okunma_sayisi', 'banner', 'editor', 'indexing', 'facebook', 'twitter',
-                                 'pinterest', 'Trend'])
+        post.save(update_fields=['pinterest'])
         return HttpResponse(
             f"https://www.erkekbebekisimleri.net/{post.slug}/!={post.kisaanlam} Anlamına gelmektedir. Daha fazla bebek ismi için bizi takip edin!={post.title}!={post.Post_Turu.short_title}!={post.resim.url}")
     else:
         return HttpResponse("post bulunamadı.")
+
+
+# ==========================================
+# HAYVAN İSİMLERİ
+# ==========================================
+
+def hayvan_kategori_liste(request, kategori_slug):
+    kat = get_object_or_404(HayvanKategori, slug=kategori_slug, aktif=True)
+    isimler_qs = HayvanIsim.objects.filter(kategoriler=kat, aktif=True)
+
+    cinsiyet = request.GET.get('cinsiyet')
+    if cinsiyet in ('erkek', 'disi', 'unisex'):
+        isimler_qs = isimler_qs.filter(cinsiyet=cinsiyet)
+
+    harf = request.GET.get('harf')
+    if harf:
+        isimler_qs = isimler_qs.filter(isim__istartswith=harf)
+
+    paginator = Paginator(isimler_qs, 12)
+    page_number = request.GET.get('sayfa')
+    page_obj = paginator.get_page(page_number)
+
+    title = kat.title
+    h1 = kat.h1 or kat.title
+    description = kat.description
+    keywords = kat.keywords
+
+    if page_number is not None:
+        title = f"{title} - Sayfa {page_number}"
+        description = f"{description} - Sayfa {page_number}"
+
+    tum_kategoriler = HayvanKategori.objects.filter(aktif=True)
+
+    context = {
+        'title': title,
+        'H1': h1,
+        'description': description,
+        'keywords': keywords,
+        'kategori': kat,
+        'isimler': page_obj,
+        'tum_kategoriler': tum_kategoriler,
+        'secili_cinsiyet': cinsiyet or '',
+        'secili_harf': harf or '',
+        'urlsi': f"https://www.erkekbebekisimleri.net/{kat.slug}/",
+    }
+    return render(request, 'hayvan/liste.html', context)
+
+
+def hayvan_isim_detay(request, isim_slug):
+    isim_obj = get_object_or_404(HayvanIsim, slug=isim_slug, aktif=True)
+    HayvanIsim.objects.filter(pk=isim_obj.pk).update(okunma_sayisi=F('okunma_sayisi') + 1)
+
+    kategoriler = isim_obj.kategoriler.filter(aktif=True)
+    benzer = HayvanIsim.objects.filter(
+        kategoriler__in=kategoriler, aktif=True
+    ).exclude(pk=isim_obj.pk).distinct()[:12]
+
+    context = {
+        'isim': isim_obj,
+        'kategoriler': kategoriler,
+        'benzer_isimler': benzer,
+        'title': isim_obj.title,
+        'description': isim_obj.description,
+        'keywords': isim_obj.keywords,
+    }
+    return render(request, 'hayvan/detay.html', context)
+
+
+def hayvan_ana_sayfa(request):
+    kategoriler = HayvanKategori.objects.filter(aktif=True)
+    son_eklenen = HayvanIsim.objects.filter(aktif=True).order_by('-olusturma_tarihi')[:6]
+    populer = HayvanIsim.objects.filter(aktif=True).order_by('-okunma_sayisi')[:6]
+
+    context = {
+        'title': 'Hayvan İsimleri - Evcil Hayvanınız İçin En Güzel İsimler',
+        'H1': 'Evcil Hayvanınız İçin En Güzel İsimler',
+        'description': 'Köpek, kedi, kuş, balık ve daha fazlası için en güzel hayvan isimleri.',
+        'keywords': 'hayvan isimleri, köpek isimleri, kedi isimleri, kuş isimleri, balık isimleri',
+        'kategoriler': kategoriler,
+        'son_eklenen': son_eklenen,
+        'populer': populer,
+    }
+    return render(request, 'hayvan/ana_sayfa.html', context)

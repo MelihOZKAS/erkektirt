@@ -4,7 +4,7 @@ from isimler.models import *
 
 class StaticViewSitemap(Sitemap):
     changefreq = "monthly"
-    priority = 0.5
+    priority = 0.6
     protocol = 'https'
 
     def items(self):
@@ -14,14 +14,45 @@ class StaticViewSitemap(Sitemap):
             'pei', 'pki', 'pui',
             'ecgei', 'ecgki', 'ecgui',
             'hakkimizda', 'gizlilik-politikasi', 'kullanim-sartlari', 'iletisim',
+            'hayvan-ana',
         ]
 
     def location(self, item):
         return reverse(item)
 
+
+class HayvanKategoriSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.8
+    protocol = 'https'
+
+    def items(self):
+        return HayvanKategori.objects.filter(aktif=True)
+
+    def lastmod(self, obj):
+        return obj.guncelleme_tarihi
+
+    def location(self, obj):
+        return reverse('post-getir', args=[obj.slug])
+
+
+class HayvanIsimSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.7
+    protocol = 'https'
+
+    def items(self):
+        return HayvanIsim.objects.filter(aktif=True)
+
+    def lastmod(self, obj):
+        return obj.guncelleme_tarihi
+
+    def location(self, obj):
+        return reverse('hayvan-detay', args=[obj.slug])
+
 class erkekisimleri(Sitemap):
     changefreq = "daily"
-    priority = 1.0
+    priority = 0.9
     protocol = 'https'
 
     def items(self):
@@ -36,7 +67,7 @@ class erkekisimleri(Sitemap):
 
 class kizisimleri(Sitemap):
     changefreq = "daily"
-    priority = 1.0
+    priority = 0.9
     protocol = 'https'
 
     def items(self):
@@ -52,7 +83,7 @@ class kizisimleri(Sitemap):
 
 class unisexisimleri(Sitemap):
     changefreq = "daily"
-    priority = 1.0
+    priority = 0.9
     protocol = 'https'
 
     def items(self):
@@ -67,7 +98,7 @@ class unisexisimleri(Sitemap):
 
 class kadin(Sitemap):
     changefreq = "daily"
-    priority = 1.0
+    priority = 0.8
     protocol = 'https'
 
     def items(self):
@@ -84,7 +115,7 @@ class kadin(Sitemap):
 
 class cocuk(Sitemap):
     changefreq = "daily"
-    priority = 1.0
+    priority = 0.8
     protocol = 'https'
 
     def items(self):
@@ -100,7 +131,7 @@ class cocuk(Sitemap):
 
 class saglik(Sitemap):
     changefreq = "daily"
-    priority = 1.0
+    priority = 0.8
     protocol = 'https'
 
     def items(self):

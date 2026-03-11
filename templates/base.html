@@ -5,113 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Meta Tag Başlangıç -->
+    <!-- Dark mode flash prevention -->
+    <script>
+        (function(){
+            if(localStorage.getItem('dark-mode')==='true'){
+                document.documentElement.classList.add('dark-mode');
+            }
+        })();
+    </script>
+
+    <!-- Meta Tag -->
     {% block MetaTag %}
     {% endblock MetaTag %}
-    <!-- Meta Tag Bitiş -->
 
-
+    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- Styles -->
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-
-    <style>
-        :root {
-            --bg: #ffffff;
-            --fg: #212529;
-            --muted: #6c757d;
-            --card-bg: #ffffff;
-            --border: #e9ecef;
-            --navbar-bg: #ffffff;
-            --footer-bg: #f8f9fa;
-            --footer-fg: #212529;
-            --accent: #0aa67a;
-        }
-        html { scroll-behavior: smooth; }
-        body {
-            background-color: var(--bg);
-            color: var(--fg);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-        }
-        .navbar { background-color: var(--navbar-bg); position: sticky; top: 0; z-index: 1030; }
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-        }
-        .card, .btn, .form-control, .pagination .page-link, .dropdown-menu { border-radius: 12px; }
-        .btn-success { background-color: var(--accent); border-color: var(--accent); }
-        .btn-success:hover { background-color: #08966e; border-color: #08966e; }
-        .form-control:focus { border-color: var(--accent); box-shadow: 0 0 0 .2rem rgba(10,166,122,.25); }
-        .nav-link.active { font-weight: 600; border-bottom: 2px solid var(--accent); }
-        .footer {
-            background-color: var(--footer-bg);
-            color: var(--footer-fg);
-            border-top: 1px solid var(--border);
-        }
-        .footer a { color: inherit; text-decoration: none; }
-        .footer a:hover { color: #0d6efd; }
-        .navbar.shadow-sm { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
-
-        /* Dark mode */
-        .dark-mode {
-            --bg: #121212;
-            --fg: #f1f1f1;
-            --muted: #b5b5b5;
-            --card-bg: #1e1e1e;
-            --border: #343a40;
-            --navbar-bg: #1a1a1a;
-            --footer-bg: #1f1f1f;
-            --footer-fg: #f1f1f1;
-        }
-        .dark-mode .navbar a,
-        .dark-mode .nav-link {
-            color: #f1f1f1 !important;
-        }
-        .dark-mode .footer a { color: var(--footer-fg); }
-        .dark-mode .footer a:hover { color: #ffc107; }
-
-        /* Back to top */
-        .back-to-top { position: fixed; right: 24px; bottom: 24px; width: 44px; height: 44px; display: none; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 10px 20px rgba(0,0,0,.15); }
-    </style>
-
 
     <!-- Extra CSS -->
     {% block extra_css %}
     {% endblock extra_css %}
 
-
-
-    <!--  Open Graph / Facebook Tag Başlangıç -->
+    <!-- Open Graph -->
     {% block OgTag %}
     {% endblock OgTag %}
-    <!--  Open Graph / Facebook Tag Bitiş -->
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
+    {% block og_type %}<meta property="og:type" content="website">{% endblock og_type %}
     <meta property="og:site_name" content="Erkek isimleri, Kız isimleri ve anlamları">
     <link rel="alternate" hreflang="tr" href="{{ request.build_absolute_uri }}" />
+    <link rel="alternate" hreflang="x-default" href="{{ request.build_absolute_uri }}" />
     <meta property="og:locale" content="tr_TR">
 
-    <!--  tt Tag Başlangıç -->
+    <!-- Twitter -->
     {% block ttTag %}
     {% endblock ttTag %}
-    <!--  tt Tag Bitiş -->
-
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@isimsec">
     <meta name="twitter:creator" content="@isimsec">
-
 
     <!-- Favicons -->
     <link rel="apple-touch-icon" sizes="180x180" href="{% static 'media/favicons/apple-touch-icon.png' %}">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'media/favicons/favicon-32x32.png' %}">
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'media/favicons/favicon-16x16.png' %}">
     <link rel="manifest" href="{% static 'media/favicons/site.webmanifest' %}">
-    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileColor" content="#0d9668">
     <meta name="theme-color" content="#ffffff">
 
     <!-- Robots -->
@@ -124,80 +67,52 @@
     <!-- Google ADS -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7065951693101615"
             crossorigin="anonymous"></script>
-    <!-- Google ADS -->
     <meta name="google-adsense-account" content="ca-pub-7065951693101615">
-    <!-- yandex doğrulama Başlangıç -->
     <meta name="yandex-verification" content="11fd06caf725471c"/>
 
-    <!-- Schema Article Başlangıç -->
-    {% block SchemaArticle %}
-    {% endblock SchemaArticle %}
-    <!-- Schema Article Bitiş -->
+    <!-- Schema -->
+    {% block SchemaArticle %}{% endblock SchemaArticle %}
+    {% block SchemaitemList %}{% endblock SchemaitemList %}
+    {% block SchemaFaq %}{% endblock SchemaFaq %}
+    {% block SchemaBreadcrumbList %}{% endblock SchemaBreadcrumbList %}
 
-
-    <!-- Schema BlogKategori itemList Başlangıç -->
-    {% block SchemaitemList %}
-    {% endblock SchemaitemList %}
-    <!-- Schema BlogKategori  itemList Bitiş -->
-
-    <!-- Schema FAQ Başlangıç -->
-    {% block SchemaFaq %}
-    {% endblock SchemaFaq %}
-    <!-- Schema FAQ SchemaFaq -->
-
-    <!-- Schema BreadcrumbList Başlangıç -->
-    {% block SchemaBreadcrumbList %}
-    {% endblock SchemaBreadcrumbList %}
-    <!-- Schema BreadcrumbList Bitiş -->
-
-
-    <!-- Google tag (gtag.js) Başlangıç -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11069278669">
-    </script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-11069278669"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-
-        function gtag() {
-            dataLayer.push(arguments);
-        }
-
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'AW-11069278669');
+        gtag('event', 'conversion', {'send_to': 'AW-11069278669/p8KCCKGEmYgYEM2Tn54p'});
     </script>
-
-    <!-- Google tag (gtag.js) Bitiş -->
-
-<!-- Event snippet for Diğer conversion page -->
-<script>
-  gtag('event', 'conversion', {'send_to': 'AW-11069278669/p8KCCKGEmYgYEM2Tn54p'});
-</script>
-<!-- Event snippet for Diğer conversion page Bitiş-->
-
-    
 </head>
 <body>
 {% include "parcalar/navbar.html" %}
-<!-- İçerik buraya gelecek -->
 
+<main>
 {% block icerik %}
 {% endblock icerik %}
+</main>
 
 {% include "parcalar/footer.html" %}
+
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
+
 {% block extra_js %}
 {% endblock extra_js %}
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-<script defer src="{% static 'js/scripts.js' %}"></script>
-<button id="backToTop" class="btn btn-success back-to-top" aria-label="Yukarı çık"><i class="bi bi-arrow-up"></i></button>
+
+<button id="backToTop" class="back-to-top" aria-label="Yukarı çık">
+    <i class="bi bi-arrow-up"></i>
+</button>
 <script>
-  const backToTop = document.getElementById('backToTop');
-  if (backToTop) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 300) backToTop.style.display = 'inline-flex';
-      else backToTop.style.display = 'none';
-    });
-    backToTop.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
-  }
+    const btt = document.getElementById('backToTop');
+    if (btt) {
+        window.addEventListener('scroll', () => {
+            btt.style.display = window.scrollY > 400 ? 'inline-flex' : 'none';
+        });
+        btt.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+    }
 </script>
 </body>
 </html>

@@ -1,51 +1,64 @@
-<footer class="footer mt-auto py-4">
+<footer class="footer mt-auto">
     <div class="container">
         <div class="row g-4">
-            <div class="col-md-3 col-sm-6 mb-3 text-center">
-                <h5 class="text-uppercase fw-bold">Site Bilgileri</h5>
+            <div class="col-lg-4 col-md-6 mb-3">
+                <h5><span style="color: var(--accent);">Bebek</span>İsimleri</h5>
+                <p style="font-size: 0.9rem; color: var(--footer-fg); line-height: 1.7; max-width: 320px;">
+                    Bebeğiniz için en anlamlı, en güzel ve en modern isimleri keşfedin. Kişilik analizleri, köken bilgileri ve daha fazlası.
+                </p>
+                <div class="d-flex gap-3 mt-3 {% if request %}justify-content-start{% endif %}">
+                    <a href="https://www.facebook.com/guzelbebekisimleri" target="_blank" rel="noopener" aria-label="Facebook" style="font-size: 1.2rem;">
+                        <i class="bi bi-facebook"></i>
+                    </a>
+                    <a href="https://www.x.com/isimsec" target="_blank" rel="noopener" aria-label="Twitter" style="font-size: 1.2rem;">
+                        <i class="bi bi-twitter-x"></i>
+                    </a>
+                    <a href="https://www.pinterest.com/erkekbebekisimleri/" target="_blank" rel="noopener" aria-label="Pinterest" style="font-size: 1.2rem;">
+                        <i class="bi bi-pinterest"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-6 mb-3">
+                <h5>Kategoriler</h5>
                 <ul class="list-unstyled">
-                    <li class="mt-2"><a href="{% url 'hakkimizda' %}">Hakkımızda</a></li>
-                    <li class="mt-2"><a href="{% url 'iletisim' %}">İletişim</a></li>
-                    <li class="mt-2"><a href="{% url 'gizlilik-politikasi' %}">Gizlilik Politikası</a></li>
-                    <li class="mt-2"><a href="{% url 'cerez' %}">Çerez Politikası</a></li>
-                    <li class="mt-2"><a href="{% url 'kullanim-sartlari' %}">Kullanım Şartları</a></li>
-
+                    <li><a href="{% url 'erkek' %}">Erkek İsimleri</a></li>
+                    <li><a href="{% url 'kiz' %}">Kız İsimleri</a></li>
+                    <li><a href="{% url 'unisex' %}">Unisex İsimler</a></li>
+                    <li><a href="{% url 'kadin' %}">Kadın</a></li>
+                    <li><a href="{% url 'saglik' %}">Sağlık</a></li>
+                    <li><a href="{% url 'cocuk' %}">Çocuk</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 col-sm-6 mb-3 text-center">
-                <h5 class="text-uppercase fw-bold">Kategoriler</h5>
-                <ul class="list-unstyled ">
-                    <li class="mt-2"><a href="{% url 'erkek' %}">Erkek İsimleri</a></li>
-                    <li class="mt-2"><a href="{% url 'kiz' %}">Kız İsimleri</a></li>
-                    <li class="mt-2"><a href="{% url 'unisex' %}">Unisex İsimler</a></li>
-                    <li class="mt-2"><a href="{% url 'kadin' %}">Kadin</a></li>
-                    <li class="mt-2"><a href="{% url 'saglik' %}">Sağlık</a></li>
-                    <li class="mt-2"><a href="{% url 'cocuk' %}">Çocuk</a></li>
-                </ul>
-            </div>
-            <div class="col-md-3 col-sm-6 mb-3 text-center">
-                <h5 class="text-uppercase fw-bold">Sosyal</h5>
+            <div class="col-lg-2 col-md-6 col-6 mb-3">
+                <h5>Popüler</h5>
                 <ul class="list-unstyled">
-                    <li class="mt-2"><a href="https://www.facebook.com/guzelbebekisimleri" target="_blank">Facebook</a></li>
-                    <li class="mt-2"><a href="https://www.x.com/isimsec" target="_blank">Twitter / X</a></li>
-                    <li class="mt-2"><a href="https://www.pinterest.com/erkekbebekisimleri/" target="_blank">Pinteres</a></li>
+                    <li><a href="{% url 'pei' %}">Popüler Erkek</a></li>
+                    <li><a href="{% url 'pki' %}">Popüler Kız</a></li>
+                    <li><a href="{% url 'pui' %}">Popüler Unisex</a></li>
+                    <li><a href="{% url 'ecgei' %}">En Çok Bakılan</a></li>
                 </ul>
             </div>
-            <div class="col-md-3 col-sm-6 mb-3 text-center">
-                <h5 class="text-uppercase fw-bold">Diğer Sitelerimiz</h5>
+            <div class="col-lg-2 col-md-6 col-6 mb-3">
+                <h5>Bilgi</h5>
                 <ul class="list-unstyled">
-                    <li class="mt-2"><a href="https://www.thestoryunfolds.com/" target="_blank">Bedtime Story</a></li>
-                    <li class="mt-2"><a href="https://www.cocukmasallarioku.com/" target="_blank">Masal Oku</a></li>
-                    <li class="mt-2"><a href="https://masaloku.com.tr/" target="_blank">Masal Oku</a></li>
+                    <li><a href="{% url 'hakkimizda' %}">Hakkımızda</a></li>
+                    <li><a href="{% url 'iletisim' %}">İletişim</a></li>
+                    <li><a href="{% url 'gizlilik-politikasi' %}">Gizlilik Politikası</a></li>
+                    <li><a href="{% url 'kullanim-sartlari' %}">Kullanım Şartları</a></li>
+                    <li><a href="{% url 'cerez' %}">Çerez Politikası</a></li>
                 </ul>
             </div>
-
-
+            <div class="col-lg-2 col-md-6 col-6 mb-3">
+                <h5>Diğer Siteler</h5>
+                <ul class="list-unstyled">
+                    <li><a href="https://www.thestoryunfolds.com/" target="_blank" rel="noopener">Bedtime Story</a></li>
+                    <li><a href="https://www.cocukmasallarioku.com/" target="_blank" rel="noopener">Masal Oku</a></li>
+                    <li><a href="https://masaloku.com.tr/" target="_blank" rel="noopener">Masal Oku</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="row mt-3">
-            <div class="col text-center">
-                <p class="m-0" style="color: inherit">&copy; 2024 Erkek Bebek İsimleri — Tüm hakları saklıdır. Melih ÖZKAŞ projesidir.</p>
-            </div>
+        <div class="copyright text-center">
+            <p class="m-0">&copy; 2024 Erkek Bebek İsimleri &mdash; Tüm hakları saklıdır. Melih ÖZKAŞ projesidir.</p>
         </div>
     </div>
 </footer>
