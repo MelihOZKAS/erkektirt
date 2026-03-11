@@ -6,6 +6,8 @@
     <meta name="description" content="{{ description }}">
     <meta name="keywords" content="{{ keywords }}">
     <link rel="canonical" href="{{ urlsi }}">
+    {% if isimler.has_previous %}<link rel="prev" href="{{ urlsi }}?sayfa={{ isimler.previous_page_number }}">{% endif %}
+    {% if isimler.has_next %}<link rel="next" href="{{ urlsi }}?sayfa={{ isimler.next_page_number }}">{% endif %}
 {% endblock MetaTag %}
 
 {% block OgTag %}

@@ -31,7 +31,7 @@
 {% block ttTag %}
     <meta name="twitter:title" content="{{ icerik.title }}">
     <meta name="twitter:description" content="{{ icerik.description }}">
-    <meta name="twitter:url" content="https://x.com/isimsec">
+    <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:image" content="{{ icerik_resim_abs }}">
 {% endblock ttTag %}
 <!--  tt Tag Bitiş -->
@@ -61,14 +61,15 @@
   ],
   "author": {
     "@type": "Person",
-    "name": "{{ icerik.yazar }}"
+    "name": "{{ icerik.yazar }}",
+    "url": "https://www.erkekbebekisimleri.net/hakkimizda/"
   },
   "publisher": {
     "@type": "Organization",
     "name": "Erkek Bebek İsimleri",
     "logo": {
       "@type": "ImageObject",
-      "url": "{% static 'images/logo.png' %}",
+      "url": "https://www.erkekbebekisimleri.net/static/media/favicons/favicon-32x32.png",
       "width": 600,
       "height": 60
     },

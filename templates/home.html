@@ -22,6 +22,18 @@
     </script>
 {% endblock MetaTag %}
 
+{% block SchemaBreadcrumbList %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://www.erkekbebekisimleri.net/"}
+  ]
+}
+</script>
+{% endblock SchemaBreadcrumbList %}
+
 {% block OgTag %}
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">

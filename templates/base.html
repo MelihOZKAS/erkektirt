@@ -39,7 +39,6 @@
     {% block og_type %}<meta property="og:type" content="website">{% endblock og_type %}
     <meta property="og:site_name" content="Erkek isimleri, Kız isimleri ve anlamları">
     <link rel="alternate" hreflang="tr" href="{{ request.build_absolute_uri }}" />
-    <link rel="alternate" hreflang="x-default" href="{{ request.build_absolute_uri }}" />
     <meta property="og:locale" content="tr_TR">
 
     <!-- Twitter -->
@@ -69,6 +68,28 @@
             crossorigin="anonymous"></script>
     <meta name="google-adsense-account" content="ca-pub-7065951693101615">
     <meta name="yandex-verification" content="11fd06caf725471c"/>
+
+    <!-- Organization Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Erkek Bebek İsimleri",
+      "url": "https://www.erkekbebekisimleri.net/",
+      "logo": "https://www.erkekbebekisimleri.net/static/media/favicons/favicon-32x32.png",
+      "sameAs": [
+        "https://www.facebook.com/guzelbebekisimleri",
+        "https://www.x.com/isimsec",
+        "https://www.pinterest.com/erkekbebekisimleri/"
+      ],
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer support",
+        "url": "https://www.erkekbebekisimleri.net/iletisim/",
+        "availableLanguage": "Turkish"
+      }
+    }
+    </script>
 
     <!-- Schema -->
     {% block SchemaArticle %}{% endblock SchemaArticle %}
