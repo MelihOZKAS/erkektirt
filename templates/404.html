@@ -4,23 +4,28 @@
 {% block MetaTag %}
     <title>404 - Sayfa Bulunamadı</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="canonical" href="{{ request.build_absolute_uri }}">
 {% endblock MetaTag %}
 
 {% block icerik %}
-    <div class="container py-5">
-        <div class="d-flex align-items-center justify-content-center" style="min-height:60vh;">
-            <div class="text-center">
-                <h1 class="display-1 fw-bold">404</h1>
-                <p class="fs-3"><span class="text-danger">Oops!</span> Sayfa Bulunamadı</p>
-                <p class="lead">Aradığınız sayfa mevcut değil.</p>
-                <div class="btn-group mt-3">
-                    <a href="{% url 'home' %}" class="btn btn-success me-2">Ana Sayfa</a>
-                    <a href="{% url 'erkek' %}" class="btn btn-primary me-2">Erkek Bebek İsimleri</a>
-                    <a href="{% url 'kiz' %}" class="btn btn-danger me-2">Kız Bebek İsimleri</a>
-                    <a href="{% url 'unisex' %}" class="btn btn-warning me-2">Unisex Bebek İsimleri</a>
-                </div>
+<div class="container py-5">
+    <div class="d-flex align-items-center justify-content-center" style="min-height: 60vh;">
+        <div class="text-center" style="max-width: 520px;">
+            <div style="font-size: 6rem; font-weight: 800; line-height: 1; background: linear-gradient(135deg, var(--accent) 0%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 1rem;">404</div>
+            <h1 style="font-size: 1.5rem; margin-bottom: 0.75rem;">Sayfa Bulunamadı</h1>
+            <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 2rem;">Aradığınız sayfa taşınmış, silinmiş veya hiç var olmamış olabilir.</p>
+
+            <form action="{% url 'ara' %}" method="get" class="d-flex gap-2 mb-4 justify-content-center">
+                <input class="form-control" type="search" name="q" placeholder="İsim ara..." style="max-width: 260px;">
+                <button class="btn btn-success" type="submit"><i class="bi bi-search"></i></button>
+            </form>
+
+            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                <a href="{% url 'home' %}" class="btn btn-success">Ana Sayfa</a>
+                <a href="{% url 'erkek' %}" class="btn btn-primary">Erkek İsimleri</a>
+                <a href="{% url 'kiz' %}" class="btn btn-warning">Kız İsimleri</a>
+                <a href="{% url 'unisex' %}" class="btn btn-secondary" style="border-color: var(--accent); color: var(--accent);">Unisex İsimler</a>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}
