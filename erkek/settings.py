@@ -216,7 +216,7 @@ else:
     AWS_LOCATION = 'static'
     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    STATIC_ROOT = STATIC_URL
 
     MEDIA_LOCATION = 'media'
     IMAGE_SETTING_LOCATION = MEDIA_LOCATION + '/image_settings'
