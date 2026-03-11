@@ -5,14 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Dark mode flash prevention -->
-    <script>
-        (function(){
-            if(localStorage.getItem('dark-mode')==='true'){
-                document.documentElement.classList.add('dark-mode');
-            }
-        })();
-    </script>
+    <!-- Dark mode always on -->
+    <script>document.documentElement.classList.add('dark-mode');</script>
 
     <!-- Meta Tag -->
     {% block MetaTag %}

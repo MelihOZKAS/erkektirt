@@ -729,6 +729,27 @@ def hayvan_ana_sayfa(request):
     return render(request, 'hayvan/ana_sayfa.html', context)
 
 
+@require_GET
+def hayvan_json(request):
+    """Tüm hayvan kategorileri ve isimleri JSON olarak döner."""
+    from django.http import JsonResponse
+    kategoriler = HayvanKategori.objects.filter(aktif=True).prefetch_related('isimler')
+    data = []
+    for kat in kategoriler:
+        isimler = kat.isimler.filter(aktif=True).values('isim', 'slug', 'anlam', 'cinsiyet', 'okunma_sayisi')
+        data.append({
+            'kategori': kat.title,
+            'slug': kat.slug,
+            'h1': kat.h1,
+            'description': kat.description,
+            'ikon': kat.ikon,
+            'url': f'https://www.erkekbebekisimleri.net/{kat.slug}/',
+            'isim_sayisi': kat.isimler.filter(aktif=True).count(),
+            'isimler': list(isimler),
+        })
+    return JsonResponse({'kategoriler': data, 'toplam_kategori': len(data)}, json_dumps_params={'ensure_ascii': False})
+
+
 def hepsini_ekle(request):
     """Hayvan kategorileri ve isimlerini toplu ekler."""
 
