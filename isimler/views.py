@@ -439,11 +439,6 @@ def robots_txt(request):
 
 robots_txt_content = """User-agent: *
 Allow: /
-Disallow: /admin/
-Disallow: /ara/
-Disallow: /hepsini-ekle/
-Disallow: /kisaisimekle/
-
 Sitemap: https://www.erkekbebekisimleri.net/sitemap.xml/
 """.lstrip()
 
