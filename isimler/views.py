@@ -222,11 +222,9 @@ def kategori(request):
     page_number = request.GET.get('sayfa')
     TumPost = paginator.get_page(page_number)
 
-    if page_number is not None:
+    if page_number is not None and str(page_number) != "1":
         title = f"{title} - Sayfa {page_number}"
         description = f"{description} - Sayfa {page_number}"
-        h1 = f"{h1} - Sayfa {page_number}"
-        urlsi = f"{urlsi}?sayfa={page_number}"
 
     context = {
         'title': title,

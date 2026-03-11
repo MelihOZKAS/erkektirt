@@ -2,19 +2,14 @@
 {% load static %}
 {% load custom_filters %}
 
-
-<!-- Meta Tag Başlangıç -->
 {% block MetaTag %}
     <title>{{ icerik.title }}</title>
     <meta name="description" content="{{ icerik.description }}">
     <meta name="keywords" content="{{ icerik.keywords }}">
     <meta name="author" content="{{ icerik.yazar }}">
-    <!-- Canonical Link -->
     <link rel="canonical" href="{{ request.build_absolute_uri }}">
 {% endblock MetaTag %}
-<!-- Meta Tag Bitiş -->
 
-<!--  Open Graph / Facebook Tag Başlangıç -->
 {% block og_type %}<meta property="og:type" content="article">{% endblock og_type %}
 {% block OgTag %}
     <meta property="og:title" content="{{ icerik.title }}">
@@ -24,22 +19,16 @@
     <meta property="og:image:width" content="960"/>
     <meta property="og:image:height" content="640"/>
 {% endblock OgTag %}
-<!--  Open Graph / Facebook Tag Bitiş -->
 
-
-<!--  tt Tag Başlangıç -->
 {% block ttTag %}
     <meta name="twitter:title" content="{{ icerik.title }}">
     <meta name="twitter:description" content="{{ icerik.description }}">
     <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
     <meta name="twitter:image" content="{{ icerik_resim_abs }}">
 {% endblock ttTag %}
-<!--  tt Tag Bitiş -->
 
-
-<!-- Schema Article Başlangıç -->
 {% block SchemaArticle %}
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "{{ icerik.Post_type }}",
@@ -81,7 +70,6 @@
       "https://www.youtube.com/channel/erkekbebekisimleri"
     ]
   },
-
   "datePublished": "{{ icerik.olusturma_tarihi.isoformat }}",
   "dateModified": "{{ icerik.guncelleme_tarihi.isoformat }}",
   "description": "{{ icerik.description }}",
@@ -97,47 +85,25 @@
   "isAccessibleForFree": true
 }
 </script>
-
 {% endblock SchemaArticle %}
-<!-- Schema Article Bitiş -->
 
-
-<!-- Schema BreadcrumbList Başlangıç -->
 {% block SchemaBreadcrumbList %}
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Erkek isimleri, Kadın isimleri ve unisex isimler ve anlamları",
-      "item": "https://www.erkekbebekisimleri.net/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "{{ icerik.Post_Turu.h1 }}",
-      "item": "https://www.erkekbebekisimleri.net/{{ icerik.Post_Turu.slug }}/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ icerik.title }}",
-      "item": "https://www.erkekbebekisimleri.net/{{ icerik.slug }}/"
-    }
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://www.erkekbebekisimleri.net/"},
+    {"@type": "ListItem", "position": 2, "name": "{{ icerik.Post_Turu.h1 }}", "item": "https://www.erkekbebekisimleri.net/{{ icerik.Post_Turu.slug }}/"},
+    {"@type": "ListItem", "position": 3, "name": "{{ icerik.title }}", "item": "https://www.erkekbebekisimleri.net/{{ icerik.slug }}/"}
   ]
-
 }
 </script>
 {% endblock SchemaBreadcrumbList %}
-<!-- Schema BreadcrumbList Bitiş -->
 
-<!-- Schema FAQ Başlangıç -->
 {% block SchemaFaq %}
 {% if soru_cevap %}
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -157,296 +123,354 @@
 </script>
 {% endif %}
 {% endblock SchemaFaq %}
-<!-- Schema FAQ SchemaFaq -->
-
 
 {% block extra_css %}
+<style>
+    .info-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: var(--radius-lg);
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .info-card-accent {
+        border-left: 3px solid var(--accent);
+    }
+    .info-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.4rem 0.9rem;
+        border-radius: var(--radius-xl);
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    .info-badge-green { background: rgba(16, 185, 129, 0.12); color: #34d399; }
+    .info-badge-red { background: rgba(239, 68, 68, 0.12); color: #f87171; }
+    .info-badge-blue { background: rgba(59, 130, 246, 0.12); color: #60a5fa; }
+    .info-badge-amber { background: rgba(245, 158, 11, 0.12); color: #fbbf24; }
+    .info-badge-purple { background: rgba(139, 92, 246, 0.12); color: #a78bfa; }
+
+    .stat-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid var(--card-border);
+    }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { color: var(--muted); font-size: 0.88rem; font-weight: 500; }
+    .stat-value { color: var(--fg); font-weight: 600; font-size: 0.92rem; }
+
+    .section-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--fg);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    .section-title i { color: var(--accent); font-size: 1.1rem; }
+
+    .hero-image-wrapper {
+        position: relative;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+    .hero-image-wrapper img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .hero-image-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 2rem 1.5rem 1.25rem;
+        background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    }
+    .hero-image-overlay .meta-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .content-section { margin-bottom: 2rem; }
+
+    .sign-lang-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+        padding: 1rem 0;
+    }
+    .sign-lang-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35rem;
+        background: var(--bg-secondary);
+        border-radius: var(--radius-md);
+        padding: 0.75rem 1rem;
+    }
+    .sign-lang-item span {
+        font-weight: 700;
+        font-size: 1rem;
+        color: var(--accent);
+    }
+
+    .article-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.75rem 0;
+        margin-bottom: 1.5rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+    }
+    .article-meta i { margin-right: 0.25rem; }
+</style>
 {% endblock %}
 
 {% block icerik %}
-    <div class="container my-5">
-        <div class="row">
-            <!-- İçerik Bölümü -->
-            <div class="col-lg-9">
-                <div class="post-content">
-                    <div class="d-flex align-items-center justify-content-center"
-                         style="height: 100%;">
-                        {% if icerik.resim %}<img src="{{ icerik.resim.url }}" class="img-fluid mb-4" alt="{{ icerik.title }}" width="960"
-                             height="640" loading="lazy" class="img-premium">{% endif %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-lg-9">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb" style="font-size: 0.88rem;">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'post-getir' post_slug=icerik.Post_Turu.slug %}">{{ icerik.Post_Turu.Title }}</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ icerik.isim|capfirst|default:icerik.h1 }}</li>
+                </ol>
+            </nav>
+
+            <div class="post-content">
+                <!-- Hero Image -->
+                {% if icerik.resim %}
+                <div class="hero-image-wrapper">
+                    <img src="{{ icerik.resim.url }}" alt="{{ icerik.title }}" width="960" height="640" loading="eager">
+                    <div class="hero-image-overlay">
+                        <div class="meta-pills">
+                            {% if icerik.Post_Turu.short_title == "erkek" %}
+                            <span class="info-badge info-badge-blue"><i class="bi bi-gender-male"></i> Erkek</span>
+                            {% elif icerik.Post_Turu.short_title == "kiz" %}
+                            <span class="info-badge info-badge-amber"><i class="bi bi-gender-female"></i> Kız</span>
+                            {% elif icerik.Post_Turu.short_title == "unisex" %}
+                            <span class="info-badge info-badge-green"><i class="bi bi-gender-ambiguous"></i> Unisex</span>
+                            {% endif %}
+                            <span class="info-badge info-badge-purple"><i class="bi bi-eye"></i> {{ icerik.okunma_sayisi }} kez okundu</span>
+                        </div>
                     </div>
-                    <h1>{{ icerik.h1 }}</h1>
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} isminin Kısa Anlamı</h2>
-                        <hr>
-                        <div class="text-center"><i class="bi bi-info-circle-fill"
-                                                    style="color: green"></i> {{ icerik.kisaanlam|capfirst }}
-                        </div>
-                        <hr>
+                </div>
+                {% endif %}
+
+                <!-- Title & Meta -->
+                <h1 style="margin-bottom: 0.5rem;">{{ icerik.h1 }}</h1>
+                <div class="article-meta">
+                    <span><i class="bi bi-person"></i> {{ icerik.yazar }}</span>
+                    <span><i class="bi bi-calendar3"></i> {{ icerik.olusturma_tarihi|date:"d M Y" }}</span>
+                    {% if icerik.guncelleme_tarihi != icerik.olusturma_tarihi %}
+                    <span><i class="bi bi-pencil-square"></i> {{ icerik.guncelleme_tarihi|date:"d M Y" }}</span>
                     {% endif %}
-
-
-
-                    <!-- İsmin Cinsiteyi Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} isminin Cinsiyeti Nedir ?</h2>
-                        <hr>
-                        <div class="text-center" style="font-size: large">
-                            <strong>
-                                <i class="bi bi-gender-male" style="color: blue; font-size: xx-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            isminin cinsiyeti <strong>Erkektir. <i class="bi bi-gender-male"
-                                                                   style="color: blue; font-size: xx-large;"></i></strong>
-                        </div>
-                        <hr>
-                    {% elif icerik.Post_Turu.short_title == "kiz" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} isminin Cinsiyeti Nedir ?</h2>
-                        <hr>
-                        <div class="text-center" style="font-size: large">
-                            <strong>
-                                <i class="bi bi-gender-female" style="color: red; font-size: xx-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            isminin cinsiyeti <strong>Kızdır. <i class="bi bi-gender-female"
-                                                                 style="color: red; font-size: xx-large;"></i></strong>
-                        </div>
-                        <hr>
-                    {% elif icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} isminin Cinsiyeti Nedir ?</h2>
-                        <hr>
-                        <div class="text-center" style="font-size: large">
-                            <strong>
-                                <i class="bi bi-gender-ambiguous" style="color: green; font-size: xx-large;"></i>
-                                {{ icerik.isim|capfirst }}
-                            </strong>
-                            isminin cinsiyeti <strong>Unisextir. <i class="bi bi-gender-ambiguous"
-                                                                    style="color: green; font-size: xx-large;"></i></strong>
-                        </div>
-                        <hr>
-                    {% endif %}
-                    <!-- İsmin Cinsiteyi Bitiş -->
-
-
-                    <!-- Kuranı Kerim de geçiyor mu ? Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Kuran-ı Kerim'de Geçiyor Mu?</h2>
-                        <hr>
-                        {% if icerik.Kuran %}
-                            <div class="text-center">
-                                <strong>
-                                    <i class="bi bi-check-square-fill" style="color: green; font-size: x-large;"></i>
-                                    {{ icerik.isim|capfirst }}
-                                </strong>
-                                ismi Kuran-ı Kerim’de <strong>geçmektedir. <i class="bi bi-check-square-fill"
-                                                                              style="color: green; font-size: x-large;"></i></strong>
-                            </div>
-                        {% elif icerik.Kuran == False %}
-                            <div class="text-center">
-                                <strong>
-                                    <i class="bi bi-x-circle-fill" style="color: red; font-size: x-large;"></i>
-                                    {{ icerik.isim|capfirst }}
-                                </strong>
-                                ismi Kuran-ı Kerim’de <strong>geçmemektedir. <i class="bi bi-x-circle-fill"
-                                                                                style="color: red; font-size: x-large;"></i></strong>
-                            </div>
-                        {% endif %}
-                        <hr>
-                    {% endif %}
-                    <!-- Kuranı Kerim de geçiyor mu ? Bitiş -->
-
-
-                    <!-- Caiz Mi? Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-5">{{ icerik.isim|capfirst }} ismi Dinimizce Caiz Mi?</h2>
-                        <hr>
-                        {% if icerik.Caiz %}
-                            <div class="text-center">
-                                <strong>
-                                    <i class="bi bi-check-square-fill" style="color: green; font-size: x-large;"></i>
-                                    {{ icerik.isim|capfirst }}
-                                </strong>
-                                ismi, güzel ve olumlu anlamından dolayı, islami açıdan <strong>caiz</strong> bir isim
-                                seçeneğidir. <i class="bi bi-check-square-fill"
-                                                style="color: green; font-size: x-large;"></i>
-                            </div>
-
-                        {% elif icerik.Caiz == False %}
-                            <div class="text-center">
-                                <strong>
-                                    <i class="bi bi-x-circle-fill" style="color: red; font-size: x-large;"></i>
-                                    {{ icerik.isim|capfirst }}
-                                </strong>
-                                ismi, ne yazık ki islami açıdan <strong>caiz olmayabilir! <i class="bi bi-x-circle-fill"
-                                                                                             style="color: red; font-size: x-large;"></i></strong>
-                            </div>
-                        {% endif %}
-                        <hr>
-                    {% endif %}
-                    <!-- Caiz Mi? Bitiş -->
-
-
-                    <!-- İsmin Detaylı Anlamı Başlangıç -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-4">{{ icerik.isim|capfirst }} isminin Anlamı ve Tüm Detayları</h2>
-                    {% endif %}
-
-
-
-                    <div class="mt-5"> {{ icerik.icerik1|safe }}</div>
-                    <!-- İsmin Detaylı Anlamı Bitiş -->
-
-
-                    <!-- Resim2 Başlangıç -->
-                    {% if icerik.resim2 %}
-                        <div class="d-flex align-items-center justify-content-center mt-4"
-                             style="height: 100%;">
-                            <img src="{{ icerik.resim2.url }}" class="img-fluid mb-4" alt="{{ icerik.title }} - 2"
-                                 width="960"
-                                 height="640" loading="lazy" class="img-premium">
-                        </div>
-                    {% endif %}
-                    <!-- Resim2 Bitiş -->
-
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-4">{{ icerik.isim|capfirst }} isminin Kişisel Özellikleri</h2>
-                    {% endif %}
-
-                    {% if icerik.icerik2 %}
-                        <div class="mt-4"> {{ icerik.icerik2|safe }}</div>
-                    {% endif %}
-
-
-                    {% if icerik.resim3 %}
-                        <div class="d-flex align-items-center justify-content-center mt-4"
-                             style="height: 100%;">
-                            <img src="{{ icerik.resim3.url }}" class="img-fluid mb-4" alt="{{ icerik.title }} - 3"
-                                 width="960"
-                                 height="640" loading="lazy" class="img-premium">
-                        </div>
-                    {% endif %}
-
-                    {% if isim_durumu %}
-                        {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <h2 class="mt-4">{{ icerik.isim|capfirst }} İsmine Benzer ve Uyumlu İsimler Nelerdir?</h2>
-                        <div class="btn-container">
-                            {% for isim in isim_durumu %}
-                                {% if isim.exists %}
-                                    <a href="{% url 'post-getir' post_slug=isim.slug %}">
-                                        <button type="button"
-                                                class="btn {% if isim.cinsiyet == 'kiz' %}btn-warning{% elif isim.cinsiyet == 'erkek' %}btn-primary{% else %}btn-success{% endif %} btn-custom">
-                                            {{ isim.isim|capfirst }}
-                                        </button>
-                                    </a>
-                                {% else %}
-                                    <button type="button" class="btn btn-secondary btn-custom"
-                                            disabled>{{ isim.isim|capfirst }}</button>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <hr>
-                        {% endif %}
-                    {% endif %}
-
-                    <!-- Ünlü isimler Başlangıç -->
-                    {% if icerik.icerik3 %}
-                        {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                            <h2 class="mt-4">{{ icerik.isim|capfirst }} isminde Ünlüler Kimlerdir?</h2>
-                        {% endif %}
-
-
-                        <div class="mt-4"> {{ icerik.icerik3|safe }}</div>
-                        <hr>
-                    {% endif %}
-                    <!-- Ünlü isimler Bitiş -->
-
-
-
-                    {% if icerik.resim4 %}
-                        <div class="d-flex align-items-center justify-content-center mt-4"
-                             style="height: 100%;">
-                            <img src="{{ icerik.resim4.url }}" class="img-fluid mb-4" alt="{{ icerik.title }} - 4"
-                                 width="960"
-                                 height="640" loading="lazy" class="img-premium">
-                        </div>
-                    {% endif %}
-                    <!-- icerik4 Başlangıç -->
-                    {% if icerik.icerik4 %}
-                        <div class="mt-4"> {{ icerik.icerik4|safe }}</div>
-                    {% endif %}
-                    <!-- icerik4 Bitiş -->
-
-                    <!-- işaret dili Başlangıcı -->
-                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
-                        <div class="col-md-12 mt-4">
-                            <h2 class="text-center mt-2">{{ icerik.isim|capfirst }} isminin İşaret Dilindeki Gösterimi
-                                Nasıldır?</h2>
-                            <p class="text-center">
-
-                                <small><i class="bi bi-info-square-fill" style="color: green"></i>
-                                    <strong>{{ icerik.isim|capfirst }}</strong> adının işaret dilindeki gösterimine
-                                    bakıyorsunuz.</small>
-                            </p>
-                            <hr>
-                            <div class="row py-2">
-                                <div class="col-md-12 text-center">
-                                    <p><strong>{{ icerik.isim|capfirst }} isminin İşaret Dilindeki Gösterimi</strong>
-                                    </p>
-                                    <div class="text-center">
-                                        <ul class="list-inline">
-                                            {% for harfi in icerik.isim %}
-                                                <li class="list-inline-item">
-                                                    {{ harfi|upper }}<img
-                                                        src="{% static 'media/isaret-dili/'|add:harfi|to_ascii|add:'.gif' %}"
-                                                        height="60" width="50" alt="{{ harfi }} işaret dilinde">
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                    {% endif %}
-
-                    <!-- işaret dili Bitişi -->
-
-
+                    <span><i class="bi bi-folder2"></i> {{ icerik.Post_Turu.Title }}</span>
                 </div>
 
-                <!-- Sosyal Medya Paylaşım Butonları -->
-                {% include "parcalar/paylas.html" %}
+                {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                <!-- Quick Info Card -->
+                {% if icerik.kisaanlam %}
+                <div class="info-card info-card-accent">
+                    <h2 class="section-title"><i class="bi bi-lightbulb"></i> {{ icerik.isim|capfirst }} isminin Kısa Anlamı</h2>
+                    <p style="font-size: 1.05rem; color: var(--fg); margin: 0;">{{ icerik.kisaanlam|capfirst }}</p>
+                </div>
+                {% endif %}
 
-                {% if icerik.sss %}
-                    <div class="accordion mt-4" id="accordionExample">
-                        {% for question,answer in soru_cevap %}
-                            <div class="accordion-item">
-                                <h2 class="accordion-header">
-                                    <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
-                                            type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#collapse{{ forloop.counter }}"
-                                            aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
-                                            aria-controls="collapse{{ forloop.counter }}">
-                                        {{ question|safe }}
+                <!-- Stats Card -->
+                <div class="info-card">
+                    <h2 class="section-title"><i class="bi bi-card-checklist"></i> Genel Bilgiler</h2>
+                    <div class="stat-row">
+                        <span class="stat-label">Cinsiyet</span>
+                        <span class="stat-value">
+                            {% if icerik.Post_Turu.short_title == "erkek" %}
+                            <span class="info-badge info-badge-blue"><i class="bi bi-gender-male"></i> Erkek</span>
+                            {% elif icerik.Post_Turu.short_title == "kiz" %}
+                            <span class="info-badge info-badge-amber"><i class="bi bi-gender-female"></i> Kız</span>
+                            {% elif icerik.Post_Turu.short_title == "unisex" %}
+                            <span class="info-badge info-badge-green"><i class="bi bi-gender-ambiguous"></i> Unisex</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Kuran-ı Kerim'de Geçiyor Mu?</span>
+                        <span class="stat-value">
+                            {% if icerik.Kuran %}
+                            <span class="info-badge info-badge-green"><i class="bi bi-check-circle"></i> Evet</span>
+                            {% elif icerik.Kuran == False %}
+                            <span class="info-badge info-badge-red"><i class="bi bi-x-circle"></i> Hayır</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Dinimizce Caiz Mi?</span>
+                        <span class="stat-value">
+                            {% if icerik.Caiz %}
+                            <span class="info-badge info-badge-green"><i class="bi bi-check-circle"></i> Caiz</span>
+                            {% elif icerik.Caiz == False %}
+                            <span class="info-badge info-badge-red"><i class="bi bi-x-circle"></i> Caiz Olmayabilir</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Harf Sayısı</span>
+                        <span class="stat-value">{{ icerik.isim|length }} harf</span>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Main Content -->
+                {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                <div class="content-section">
+                    <h2 class="section-title"><i class="bi bi-book"></i> {{ icerik.isim|capfirst }} isminin Anlamı ve Tüm Detayları</h2>
+                {% endif %}
+                    <div class="mt-3">{{ icerik.icerik1|safe }}</div>
+                {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                </div>
+                {% endif %}
+
+                <!-- Image 2 -->
+                {% if icerik.resim2 %}
+                <div class="hero-image-wrapper">
+                    <img src="{{ icerik.resim2.url }}" alt="{{ icerik.title }} - 2" width="960" height="640" loading="lazy">
+                </div>
+                {% endif %}
+
+                <!-- Personal Traits -->
+                {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                {% if icerik.icerik2 %}
+                <div class="content-section">
+                    <h2 class="section-title"><i class="bi bi-stars"></i> {{ icerik.isim|capfirst }} isminin Kişisel Özellikleri</h2>
+                    <div class="mt-3">{{ icerik.icerik2|safe }}</div>
+                </div>
+                {% endif %}
+                {% else %}
+                {% if icerik.icerik2 %}
+                <div class="content-section">
+                    <div class="mt-3">{{ icerik.icerik2|safe }}</div>
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <!-- Image 3 -->
+                {% if icerik.resim3 %}
+                <div class="hero-image-wrapper">
+                    <img src="{{ icerik.resim3.url }}" alt="{{ icerik.title }} - 3" width="960" height="640" loading="lazy">
+                </div>
+                {% endif %}
+
+                <!-- Similar Names -->
+                {% if isim_durumu %}
+                {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                <div class="content-section">
+                    <h2 class="section-title"><i class="bi bi-people"></i> {{ icerik.isim|capfirst }} İsmine Benzer ve Uyumlu İsimler</h2>
+                    <div class="btn-container">
+                        {% for isim in isim_durumu %}
+                            {% if isim.exists %}
+                                <a href="{% url 'post-getir' post_slug=isim.slug %}">
+                                    <button type="button" class="btn {% if isim.cinsiyet == 'kiz' %}btn-warning{% elif isim.cinsiyet == 'erkek' %}btn-primary{% else %}btn-success{% endif %} btn-custom">
+                                        {{ isim.isim|capfirst }}
                                     </button>
-                                </h2>
-                                <div id="collapse{{ forloop.counter }}"
-                                     class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
-                                     data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        {{ answer|safe }}
-                                    </div>
-                                </div>
-                            </div>
+                                </a>
+                            {% else %}
+                                <button type="button" class="btn btn-secondary btn-custom" disabled>{{ isim.isim|capfirst }}</button>
+                            {% endif %}
                         {% endfor %}
                     </div>
+                </div>
+                {% endif %}
+                {% endif %}
+
+                <!-- Famous People -->
+                {% if icerik.icerik3 %}
+                <div class="content-section">
+                    {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                    <h2 class="section-title"><i class="bi bi-trophy"></i> {{ icerik.isim|capfirst }} isminde Ünlüler Kimlerdir?</h2>
+                    {% endif %}
+                    <div class="mt-3">{{ icerik.icerik3|safe }}</div>
+                </div>
+                {% endif %}
+
+                <!-- Image 4 -->
+                {% if icerik.resim4 %}
+                <div class="hero-image-wrapper">
+                    <img src="{{ icerik.resim4.url }}" alt="{{ icerik.title }} - 4" width="960" height="640" loading="lazy">
+                </div>
+                {% endif %}
+
+                <!-- Content 4 -->
+                {% if icerik.icerik4 %}
+                <div class="content-section">
+                    <div class="mt-3">{{ icerik.icerik4|safe }}</div>
+                </div>
+                {% endif %}
+
+                <!-- Sign Language -->
+                {% if icerik.Post_Turu.short_title == "erkek" or icerik.Post_Turu.short_title == "kiz" or icerik.Post_Turu.short_title == "unisex" %}
+                <div class="info-card">
+                    <h2 class="section-title"><i class="bi bi-hand-index-thumb"></i> {{ icerik.isim|capfirst }} isminin İşaret Dilindeki Gösterimi</h2>
+                    <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 1rem;">
+                        <strong>{{ icerik.isim|capfirst }}</strong> adının işaret dilindeki gösterimine bakıyorsunuz.
+                    </p>
+                    <div class="sign-lang-grid">
+                        {% for harfi in icerik.isim %}
+                        <div class="sign-lang-item">
+                            <span>{{ harfi|upper }}</span>
+                            <img src="{% static 'media/isaret-dili/'|add:harfi|to_ascii|add:'.gif' %}" height="60" width="50" alt="{{ harfi }} işaret dilinde" loading="lazy">
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 {% endif %}
             </div>
 
+            <!-- Social Share -->
+            {% include "parcalar/paylas.html" %}
 
-            <!-- Sidebar -->
-            {% include "parcalar/sidebar.html" %}
+            <!-- FAQ Accordion -->
+            {% if icerik.sss %}
+            <div class="content-section mt-4">
+                <h2 class="section-title"><i class="bi bi-question-circle"></i> Sıkça Sorulan Sorular</h2>
+                <div class="accordion" id="accordionExample">
+                    {% for question,answer in soru_cevap %}
+                    <div class="accordion-item">
+                        <h3 class="accordion-header">
+                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}"
+                                    type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapse{{ forloop.counter }}"
+                                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                                    aria-controls="collapse{{ forloop.counter }}">
+                                {{ question|safe }}
+                            </button>
+                        </h3>
+                        <div id="collapse{{ forloop.counter }}"
+                             class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+                             data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                {{ answer|safe }}
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
         </div>
+
+        <!-- Sidebar -->
+        {% include "parcalar/sidebar.html" %}
     </div>
+</div>
 {% endblock %}
-
-

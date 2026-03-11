@@ -1,51 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
-<!-- Meta Tag Başlangıç -->
 {% block MetaTag %}
     <title>{{ title }}</title>
     <meta name="description" content="{{ description }}">
     <meta name="keywords" content="{{ keywords }}">
-    <meta name="author" content="Erkek Bebek isimleri">
-    <!-- Canonical Link -->
     <link rel="canonical" href="{{ urlsi }}">
     {% if TumPost.has_previous %}<link rel="prev" href="{{ urlsi }}?sayfa={{ TumPost.previous_page_number }}">{% endif %}
     {% if TumPost.has_next %}<link rel="next" href="{{ urlsi }}?sayfa={{ TumPost.next_page_number }}">{% endif %}
 {% endblock MetaTag %}
-<!-- Meta Tag Bitiş -->
 
-<!--  Open Graph / Facebook Tag Başlangıç -->
 {% block OgTag %}
     <meta property="og:title" content="{{ title }}">
     <meta property="og:description" content="{{ description }}">
-    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:url" content="{{ urlsi }}">
     {% if Post_Kategorisi.resim1 %}<meta property="og:image" content="{{ Post_Kategorisi.resim1.url }}">{% endif %}
-    <meta property="og:image:width" content="800"/>
-    <meta property="og:image:height" content="400"/>
 {% endblock OgTag %}
-<!--  Open Graph / Facebook Tag Bitiş -->
 
-<!--  tt Tag Başlangıç -->
 {% block ttTag %}
     <meta name="twitter:title" content="{{ title }}">
     <meta name="twitter:description" content="{{ description }}">
-    <meta name="twitter:url" content="{{ request.build_absolute_uri }}">
+    <meta name="twitter:url" content="{{ urlsi }}">
     {% if Post_Kategorisi.resim1 %}<meta name="twitter:image" content="{{ Post_Kategorisi.resim1.url }}">{% endif %}
 {% endblock ttTag %}
-<!--  tt Tag Bitiş -->
 
-<!-- Schema itemList Başlangıç -->
 {% block SchemaitemList %}
-
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "{{ Post_Kategorisi.h1 }}",
-  "description": "{{ Post_Kategorisi.description }}",
-  "keywords": "{{ Post_Kategorisi.keywords }}",
-  "url": "{{ request.build_absolute_uri }}",
+  "name": "{{ H1 }}",
+  "description": "{{ description }}",
+  "url": "{{ urlsi }}",
   "mainEntity": {
     "@type": "ItemList",
     "itemListElement": [
@@ -53,156 +39,114 @@
       {
         "@type": "ListItem",
         "position": {{ forloop.counter }},
-        "url": "https://www.erkekbebekisimleri.net{% url 'post-getir' post.slug %}",
-        "name": "{{ post.title }}",
-        "description": "{{ post.description }}",
-        "keywords": "{{ post.keywords }}",
-        "datePublished": "{{ post.olusturma_tarihi.isoformat }}",
-        "dateModified": "{{ post.guncelleme_tarihi.isoformat }}",
-        "author": {
-          "@type": "Person",
-          "name": "{{ post.yazar }}"
-        },
-        "image": "{% if post.resim %}{{ post.resim.url }}{% else %}https://teknolojibucket.s3.amazonaws.com/static/assets/logo/logo.webp{% endif %}"
+        "url": "https://www.erkekbebekisimleri.net/{{ post.slug }}/",
+        "name": "{{ post.title }}"
       }{% if not forloop.last %},{% endif %}
       {% endfor %}
     ]
   }
 }
 </script>
-
 {% endblock SchemaitemList %}
-<!-- Schema itemList Bitiş -->
 
-<!-- Schema BreadcrumbList Başlangıç -->
 {% block SchemaBreadcrumbList %}
-    <script type="application/ld+json">
+<script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Erkek isimleri, Kadın isimleri ve unisex isimler ve anlamları",
-      "item": "https://www.erkekbebekisimleri.net/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "{{ Post_Kategorisi.h1 }}",
-      "item": "https://www.erkekbebekisimleri.net/{{ Post_Kategorisi.slug }}/"
-    }
+    {"@type": "ListItem", "position": 1, "name": "Ana Sayfa", "item": "https://www.erkekbebekisimleri.net/"},
+    {"@type": "ListItem", "position": 2, "name": "{{ Post_Kategorisi.Title }}", "item": "https://www.erkekbebekisimleri.net/{{ Post_Kategorisi.slug }}/"}
   ]
-
 }
 </script>
 {% endblock SchemaBreadcrumbList %}
-<!-- Schema BreadcrumbList Bitiş -->
-
-
-
-{% block extra_css %}
-    <style>
-        .category-content .card img { height: 200px; object-fit: cover; }
-    </style>
-{% endblock %}
-
 
 {% block icerik %}
-    <div class="container my-5">
-        <div class="row">
-            <!-- Main Content -->
-            <div class="col-lg-9">
-                <section class="category-section" id="kadın">
-                    <h1>{{ H1 }}</h1>
-                    <div class="row category-content mt-5">
-                        {% for post in TumPost %}
-                            <div class="col-md-4">
-                                <div class="card mb-4">
-                                    {% if post.resim %}
-                                                                            <a href="{% url 'post-getir' post_slug=post.slug %}">
-                                        <img src="{{ post.resim.url }}" class="card-img-top" alt="{{ post.title }}"
-                                             width="960" height="640" loading="lazy">
-                                    {% endif %}
+<div class="container my-5">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-9">
+            <!-- Breadcrumb -->
+            <nav aria-label="breadcrumb" class="mb-3">
+                <ol class="breadcrumb" style="font-size: 0.88rem;">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}">Ana Sayfa</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ Post_Kategorisi.Title }}</li>
+                </ol>
+            </nav>
 
-                                    </a>
-                                    <div class="card-body">
-                                        <h2 class="card-title" style="font-size: 16px;"><a
-                                                href="{% url 'post-getir' post_slug=post.slug %}">{{ post.h1 }}</a>
-                                        </h2>
-                                        <p class="card-text">{{ post.kisaanlam|truncatechars:31|safe }}</p>
-                                        <a href="{% url 'post-getir' post_slug=post.slug %}" class="btn btn-warning">Devamını
-                                            Oku</a>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
+            <h1 style="margin-bottom: 0.5rem;">{{ H1 }}</h1>
+            {% if Post_Kategorisi.description %}
+            <p style="color: var(--muted); font-size: 0.92rem; margin-bottom: 1.5rem;">{{ Post_Kategorisi.description|truncatechars:160 }}</p>
+            {% endif %}
 
-
-                    </div>
-                </section>
-
+            <!-- Post Sayısı -->
+            <div class="d-flex align-items-center gap-2 mb-4" style="font-size: 0.85rem; color: var(--muted);">
+                <i class="bi bi-grid-3x3-gap"></i>
+                <span>{{ TumPost.paginator.count }} içerik</span>
                 {% if TumPost.paginator.num_pages > 1 %}
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination pagination-lg justify-content-center flex-wrap">
-                            {% if TumPost.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?sayfa={{ TumPost.previous_page_number }}"
-                                       aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                        <span>Önceki</span>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-        <span class="page-link">
-          <span aria-hidden="true">&laquo;</span>
-          <span>Önceki</span>
-        </span>
-                                </li>
-                            {% endif %}
-
-                            {% for i in TumPost.paginator.page_range %}
-                                {% if TumPost.number == i %}
-                                    <li class="page-item active d-none d-sm-inline" aria-current="page">
-                                        <span class="page-link">{{ i }}</span>
-                                    </li>
-                                {% elif i > TumPost.number|add:"-5" and i < TumPost.number|add:"5" %}
-                                    <li class="page-item d-none d-sm-inline">
-                                        <a class="page-link" href="?sayfa={{ i }}">{{ i }}</a>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if TumPost.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?sayfa={{ TumPost.next_page_number }}" aria-label="Next">
-                                        <span>Sonraki</span>
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li class="page-item disabled">
-        <span class="page-link">
-          <span>Sonraki</span>
-          <span aria-hidden="true">&raquo;</span>
-        </span>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    </nav>
+                <span>&middot; Sayfa {{ TumPost.number }}/{{ TumPost.paginator.num_pages }}</span>
                 {% endif %}
-
             </div>
 
+            <!-- Post Listesi -->
+            <div class="row g-3">
+                {% for post in TumPost %}
+                <div class="col-md-4 col-6">
+                    <a href="{% url 'post-getir' post_slug=post.slug %}" class="article-card">
+                        <div class="card">
+                            {% if post.resim %}
+                            <img src="{{ post.resim.url }}" class="card-img-top" alt="{{ post.title }}" width="960" height="640" loading="lazy" style="height: 180px; object-fit: cover;">
+                            {% endif %}
+                            <div class="card-body">
+                                <h2 style="font-size: 0.95rem; font-weight: 700; color: var(--fg); margin-bottom: 0.35rem; line-height: 1.4;">{{ post.h1 }}</h2>
+                                {% if post.kisaanlam %}
+                                <p style="font-size: 0.82rem; color: var(--muted); margin: 0;">{{ post.kisaanlam|truncatechars:50 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                {% empty %}
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-emoji-frown" style="font-size: 3rem; color: var(--muted);"></i>
+                    <p class="mt-3" style="color: var(--muted);">Bu kategoride henüz içerik bulunmuyor.</p>
+                </div>
+                {% endfor %}
+            </div>
 
-            <!-- Sidebar -->
-            {% include "parcalar/sidebar.html" %}
+            <!-- Pagination -->
+            {% if TumPost.paginator.num_pages > 1 %}
+            <nav aria-label="Sayfa navigasyonu" class="mt-4">
+                <ul class="pagination pagination-lg justify-content-center flex-wrap">
+                    {% if TumPost.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?sayfa={{ TumPost.previous_page_number }}">&laquo; Önceki</a>
+                    </li>
+                    {% endif %}
+
+                    {% for i in TumPost.paginator.page_range %}
+                        {% if TumPost.number == i %}
+                        <li class="page-item active" aria-current="page"><span class="page-link">{{ i }}</span></li>
+                        {% elif i > TumPost.number|add:"-4" and i < TumPost.number|add:"4" %}
+                        <li class="page-item">
+                            <a class="page-link" href="?sayfa={{ i }}">{{ i }}</a>
+                        </li>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% if TumPost.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?sayfa={{ TumPost.next_page_number }}">Sonraki &raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% endif %}
         </div>
+
+        <!-- Sidebar -->
+        {% include "parcalar/sidebar.html" %}
     </div>
-
-
+</div>
 {% endblock %}
-
-
